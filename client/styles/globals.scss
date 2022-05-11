@@ -1,0 +1,121 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+   .typo_main {
+      @apply font-normal text-primary text-black;
+   }
+
+   .typo_sm {
+      @apply font-normal text-sm text-black;
+   }
+
+   .typo_md {
+      @apply font-normal text-md text-black;
+   }
+
+   .typo_lg {
+      @apply font-normal text-lg text-black;
+   }
+
+   .typo_xl {
+      @apply font-normal text-xl text-black;
+   }
+
+   .btn {
+      @apply text-md text-white bg-red1 font-medium py-2 px-4 rounded-sm hover:bg-red-400 transition-colors duration-200;
+   }
+
+   .btn_second {
+      @apply text-md text-white bg-blue1 font-medium py-2 px-4 rounded-sm hover:bg-blue-400 transition-colors duration-200;
+   }
+}
+
+/*Обнуление*/
+* {
+   padding: 0;
+   margin: 0;
+   border: 0;
+}
+*,
+*:before,
+*:after {
+   -moz-box-sizing: border-box;
+   -webkit-box-sizing: border-box;
+   box-sizing: border-box;
+}
+:focus,
+:active {
+   outline: none;
+}
+a:focus,
+a:active {
+   outline: none;
+}
+
+nav,
+footer,
+header,
+aside {
+   display: block;
+}
+
+html,
+body {
+   height: 100%;
+   width: 100%;
+   font-family: "Noto Sans", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans,
+      Droid Sans, Helvetica Neue, sans-serif;
+}
+
+body {
+   @apply text-black text-primary;
+}
+
+input,
+button,
+textarea {
+   font-family: inherit;
+}
+
+input::-ms-clear {
+   display: none;
+}
+button {
+   cursor: pointer;
+}
+button::-moz-focus-inner {
+   padding: 0;
+   border: 0;
+}
+a,
+a:visited {
+   text-decoration: none;
+}
+a:hover {
+   text-decoration: none;
+}
+ul li {
+   list-style: none;
+}
+img {
+   max-width: 100%;
+   display: block;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+   font-size: inherit;
+   font-weight: 400;
+}
+
+#__next {
+   min-height: 100vh;
+   display: flex;
+   flex-direction: column;
+}
