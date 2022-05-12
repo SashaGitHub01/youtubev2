@@ -1,6 +1,6 @@
 import {
    MdThumbUp, MdThumbDown, MdSubscriptions, MdBarChart, MdOutlineNotificationsNone,
-   MdCheck, MdGetApp, MdHome, MdOutlineArrowBack, MdOutlineLogin
+   MdCheck, MdGetApp, MdHome, MdOutlineArrowBack, MdOutlineLogin, MdPerson, MdClose,
 } from 'react-icons/md'
 import { BsBroadcastPin } from 'react-icons/bs'
 
@@ -17,4 +17,6 @@ export {
    BsBroadcastPin as StreamIcon,
    MdOutlineArrowBack as ArrowLeftIcon,
    MdOutlineLogin as ExitIcon,
+   MdPerson as UserIcon,
+   MdClose as CloseIcon,
 }

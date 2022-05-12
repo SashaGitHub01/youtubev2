@@ -19,4 +19,10 @@ export class AuthApi {
 
       return data.data
    }
+
+   static logout = async (): Promise<boolean> => {
+      const { data } = await rootApi.get<boolean>('/user/logout')
+
+      return data
+   }
 }

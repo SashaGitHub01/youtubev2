@@ -1,0 +1,20 @@
+@mixin btn {
+   transition: box-shadow 0.25s ease, background-color 0.25s cubic-bezier(0.165, 0.84, 0.44, 1);
+   @apply flex items-center text-md active:shadow-md text-white font-medium py-2 px-4 rounded-sm;
+   .icon {
+      font-size: 1.2rem;
+   }
+}
+
+.btn_first {
+   @include btn;
+   @apply bg-red1 hover:bg-red-400;
+}
+
+.btn_second {
+   @include btn;
+   @apply bg-blue1 hover:bg-blue-400;
+   .icon {
+      font-size: 1.2rem;
+   }
+}
