@@ -4,12 +4,13 @@ export interface VideoModelI extends Document {
    name: string,
    isPublic: boolean,
    views: number,
-   like: number,
-   dislike: number,
+   likes?: number,
+   dislikes?: number,
    description: string,
-   video: string,
-   preview: string,
-   createdAt: string
+   video?: string,
+   preview?: string,
+   createdAt?: string,
+   user: Schema.Types.ObjectId
 }
 
 const videoModel = new Schema({
@@ -27,12 +28,12 @@ const videoModel = new Schema({
       default: 0
    },
 
-   like: {
+   likes: {
       type: Number,
       default: 0
    },
 
-   dislike: {
+   dislikes: {
       type: Number,
       default: 0
    },
@@ -50,6 +51,12 @@ const videoModel = new Schema({
       type: String,
       required: true
    },
+
+   user: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: true
+   }
 
 }, { timestamps: true })
 

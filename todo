@@ -4,3 +4,9 @@ Get user, get most popular channels by subscribers
 Get last videos, popular videos
 Upload videos
 Like, Dislike
+
+Users
+  most popular
+
+Videos
+   most popular, user's videos, sorted by views/date, search query, likes, views++

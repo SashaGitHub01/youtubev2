@@ -12,8 +12,8 @@ export class ApiError extends Error {
       return new ApiError(401, message)
    }
 
-   static badReq(message: string) {
-      return new ApiError(400, message)
+   static badReq(message: string, errors?: any[]) {
+      return new ApiError(400, message, errors)
    }
 
    static notFound(message: string) {

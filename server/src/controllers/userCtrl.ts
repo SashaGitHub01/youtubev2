@@ -2,8 +2,9 @@ import { ApiError } from "../utils/ApiError";
 import { validationResult } from "express-validator";
 import express from 'express'
 import bcrypt from 'bcryptjs'
-import { User } from "../models/User";
-import jwt from "jsonwebtoken";
+import { User, UserModelI } from "../models/User";
+
+const unusedFields = '-__v -createdAt -updatedAt -banner -location'
 
 class UserCtrl {
    register = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
@@ -58,7 +59,7 @@ class UserCtrl {
 
    auth = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
       try {
-         const user = await User.findById(req.user)
+         const user = await User.findById(req.user, '-createdAt -updatedAt -__v')
 
          return res.json({
             data: user
@@ -78,7 +79,7 @@ class UserCtrl {
       }
    }
 
-   user = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+   oneUser = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
       try {
          const user = await User.findById(req.params.id)
 
@@ -90,12 +91,49 @@ class UserCtrl {
       }
    }
 
-   users = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+   popularUsers = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
       try {
-         const users = await User.find()
+         const users = await User.find({},)
+            .sort({ subscribersCount: '-1' })
+            .limit(10)
 
          return res.json({
             data: users
+         })
+      } catch (err: any) {
+         return next(ApiError.internal(err.message))
+      }
+   }
+
+   allUsers = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+      try {
+         // make sort by, limit
+         const { loc, name }: { name?: string, loc?: string } = req.query
+         const users = await User.find({ $and: [loc ? { location: loc } : {}, name ? { name: new RegExp(name, 'i') } : {}] })
+         // .sort({ subscribersCount: '-1' })
+         // .limit(10)
+
+         return res.json({
+            data: users
+         })
+      } catch (err: any) {
+         return next(ApiError.internal(err.message))
+      }
+   }
+
+   updateUser = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+      try {
+         if (req.params.id !== req.user) {
+            return next(ApiError.badReq('You dont have an access to this user'));
+         }
+
+         const user = await User.findById(req.user).exec()
+         if (!user) return next(ApiError.notFound('User not found'))
+
+         const newUser = await User.findByIdAndUpdate(req.user, { $set: { ...req.body } }, { new: true })
+
+         return res.json({
+            data: newUser
          })
       } catch (err: any) {
          return next(ApiError.internal(err.message))

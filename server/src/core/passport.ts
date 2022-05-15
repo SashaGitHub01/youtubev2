@@ -8,7 +8,6 @@ import express from "express";
 import { ApiError } from "../utils/ApiError";
 
 const extractJwt = (req: express.Request) => {
-   console.log(req.session)
    const verify = jwt.verify((req.session as any)?.token, process.env.SECRET as string)
 
    if (verify) {

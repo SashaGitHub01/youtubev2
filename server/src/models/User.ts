@@ -1,4 +1,4 @@
-import { Schema, model, Document } from "mongoose";
+import { Schema, model, Document, SchemaTypes } from "mongoose";
 import jwt from 'jsonwebtoken'
 
 export interface UserModelI extends Document {
@@ -11,6 +11,7 @@ export interface UserModelI extends Document {
    subscribersCount: number,
    isVerified: boolean,
    createdAt: string,
+   views?: Schema.Types.ObjectId[]
    generateToken: (id: string) => string
 }
 
@@ -19,7 +20,6 @@ export interface UserModelI extends Document {
 const userSchema = new Schema({
    name: {
       type: String,
-      unique: true,
       required: true
    },
 
@@ -53,7 +53,12 @@ const userSchema = new Schema({
    isVerified: {
       type: Boolean,
       default: false
-   }
+   },
+
+   views: [{
+      type: SchemaTypes.ObjectId,
+      ref: "Video"
+   }]
 }, { timestamps: true })
 
 userSchema.set('toJSON', {
