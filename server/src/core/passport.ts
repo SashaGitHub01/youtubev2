@@ -5,12 +5,15 @@ import { Strategy as LocalStrategy } from 'passport-local'
 import { User } from "../models/User";
 import bcrypt from 'bcryptjs'
 import express from "express";
+import { ApiError } from "../utils/ApiError";
 
 const extractJwt = (req: express.Request) => {
    console.log(req.session)
    const verify = jwt.verify((req.session as any)?.token, process.env.SECRET as string)
 
-   if (verify) return (req.session as any).token;
+   if (verify) {
+      return (req.session as any).token;
+   }
 
    return null
 }
@@ -21,15 +24,14 @@ passport.use(new JwtStrategy({
 },
    async (payload, done) => {
       try {
-         console.log(payload)
          if (payload.id) {
             return done(null, payload.id);
          } else {
-            return done(null, false);
+            return done(ApiError.internal('Invalid token'), false);
          }
 
       } catch (err) {
-         return done(err, false);
+         return done(ApiError.internal(err.message), false);
       }
    }));
 
@@ -41,16 +43,16 @@ passport.use(new LocalStrategy({
          const user = await User.findOne({ email })
 
          if (!user) {
-            return done(null, false);
+            return done(ApiError.unauthorized('User not found'), false);
          } else {
             const check = await bcrypt.compare(password, user.password)
-            if (!check) return done('Error', false)
+            if (!check) return done(ApiError.unauthorized('Invalid email or password'), false)
 
             return done(null, user._id)
          }
 
       } catch (err) {
-         return done(err, false);
+         return done(err.message, false);
       }
    }));
 

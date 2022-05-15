@@ -18,7 +18,7 @@ const Modal: React.FC<PropsWithChildren<ModalProps>> = ({ children, title, onClo
             {title
                && <div className="px-3 py-5 border-b border-solid border-black">
                   <span className='font-medium text-lg'>
-                     Sign In
+                     {title}
                   </span>
                </div>}
             <div className="pt-7 pb-5 px-5">

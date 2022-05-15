@@ -11,16 +11,15 @@ export const useOutside = (initState: boolean): OutsideData => {
    const ref = useRef<any>()
 
    const handleClick = (e: MouseEvent) => {
-      if (ref.current && !(ref.current.contains(e.target))) {
-         console.log(ref.current, e.target)
+      if (e.which === 1 && ref.current && !(ref.current.contains(e.target))) {
          setIsVisible(false)
       }
    }
 
    useEffect(() => {
-      document.addEventListener('click', handleClick)
+      document.addEventListener('mousedown', handleClick)
 
-      return () => document.removeEventListener('click', handleClick)
+      return () => document.removeEventListener('mousedown', handleClick)
    }, [isVisible])
 
    return { isVisible, setIsVisible, ref }

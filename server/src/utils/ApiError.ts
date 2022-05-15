@@ -1,6 +1,6 @@
 export class ApiError extends Error {
-   status: number;
-   errors: string[];
+   status
+   errors
 
    constructor(status: number, message: string, errors: string[] = []) {
       super(message);

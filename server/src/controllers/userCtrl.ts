@@ -40,8 +40,10 @@ class UserCtrl {
 
    login = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
       try {
-         const user = await User.findById(req.user)
-         if (!user) return ApiError.unauthorized();
+         const user = await User.findById(req.user);
+         if (!user) {
+            return next(ApiError.unauthorized())
+         }
 
          (req.session as any).token = user.generateToken(user._id);
 

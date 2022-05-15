@@ -2,12 +2,12 @@ import '../styles/globals.scss'
 import type { AppProps } from 'next/app'
 import Layout from '../src/components/Layout'
 import { QueryClientProvider, QueryClient } from 'react-query'
+import AuthProvider from '../src/context/authCtx'
 
 const client = new QueryClient({
    defaultOptions: {
       queries: {
          refetchOnWindowFocus: false,
-         refetchOnReconnect: false,
          retry: 2
       },
 
@@ -19,11 +19,13 @@ const client = new QueryClient({
 
 function MyApp({ Component, pageProps }: AppProps) {
    return (
-      <QueryClientProvider client={client}>
-         <Layout>
-            <Component {...pageProps} />
-         </Layout>
-      </QueryClientProvider>
+      <AuthProvider>
+         <QueryClientProvider client={client}>
+            <Layout>
+               <Component {...pageProps} />
+            </Layout>
+         </QueryClientProvider>
+      </AuthProvider>
    )
 }
 

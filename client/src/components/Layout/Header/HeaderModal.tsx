@@ -19,11 +19,11 @@ const HeaderModal: React.FC<PropsWithChildren<HeaderModalProps>> = ({ handleClos
 
    return (
       <Modal
-         title='Sign Up'
+         title={type === 'login' ? 'Sign In' : 'Sign Up'}
          onClose={handleClose}
          refs={refs}
       >
-         {type === 'login'
+         {type === 'reg'
             ? <RegisterForm toggleType={toggleType} />
             : <LoginForm toggleType={toggleType} />}
       </Modal>

@@ -1,16 +1,25 @@
 import React, { PropsWithChildren } from 'react'
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup'
-import { RegisterInput } from '../../../API/types';
+import { IUser, RegisterInput } from '../../../API/types';
 import Button from '../../UI/Button/index';
 import Input from '../../UI/Input';
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useMutation } from 'react-query'
+import { AuthApi } from '../../../API/AuthApi';
+import { useAuth } from '../../../context/authCtx';
 
 interface RegisterFormProps {
    toggleType: (e: any) => void
 }
 
 const RegisterForm: React.FC<PropsWithChildren<RegisterFormProps>> = ({ toggleType }) => {
+   const { fetchRegFulfilled } = useAuth()
+   const { isLoading, error, mutate } = useMutation<IUser, Error, RegisterInput>(async (input: RegisterInput) => {
+      return await AuthApi.register(input)
+   }, {
+      onSuccess: (res) => fetchRegFulfilled(res)
+   })
 
    const schema = Yup.object().shape({
       name: Yup.string()
@@ -21,7 +30,7 @@ const RegisterForm: React.FC<PropsWithChildren<RegisterFormProps>> = ({ toggleTy
       email: Yup.string().email('Invalid email format').required('Required field'),
       password: Yup.string()
          .min(6, 'Min length is 6 and max is 30')
-         .max(6, 'Min length is 6 and max is 30')
+         .max(30, 'Min length is 6 and max is 30')
          .trim()
          .required('Required field'),
       password2: Yup.string().oneOf([Yup.ref('password'), null], 'Passwords dont match').required('Required field')
@@ -38,12 +47,16 @@ const RegisterForm: React.FC<PropsWithChildren<RegisterFormProps>> = ({ toggleTy
       resolver: yupResolver(schema)
    })
 
-   const onSubmit = (values: RegisterInput) => {
-      console.log(values);
+   const onSubmit = async (values: RegisterInput) => {
+      mutate(values)
    }
 
    return (
       <form className="block" onSubmit={handleSubmit(onSubmit)}>
+         {error
+            && <div className="typo_sm text-red1">
+               {error.name === 'Error' ? error.message : 'Something went wrong...'}
+            </div>}
          <div className="flex flex-col gap-5">
             <Input
                error={errors.email?.message}
@@ -71,7 +84,7 @@ const RegisterForm: React.FC<PropsWithChildren<RegisterFormProps>> = ({ toggleTy
             />
          </div>
          <div className="flex justify-center pt-7">
-            <Button type='submit'>
+            <Button type='submit' disabled={isLoading}>
                SIGN UP
             </Button>
          </div>

@@ -1,5 +1,6 @@
-import React, { PropsWithChildren, useEffect, useState } from 'react'
+import React, { PropsWithChildren } from 'react'
 import { UserIcon } from '../../../assets/icons';
+import { useAuth } from '../../../context/authCtx';
 import { useOutside } from '../../../hooks/useOutside';
 import Button from '../../UI/Button';
 import HeaderModal from './HeaderModal';
@@ -8,6 +9,7 @@ interface HeaderOptionsProps { }
 
 const HeaderOptions: React.FC<PropsWithChildren<HeaderOptionsProps>> = ({ }) => {
    const { isVisible, setIsVisible, ref } = useOutside(false)
+   const { user } = useAuth()
 
    const handleClick = (e: MouseEvent) => {
       e.stopPropagation()
@@ -18,10 +20,12 @@ const HeaderOptions: React.FC<PropsWithChildren<HeaderOptionsProps>> = ({ }) => 
 
    return (
       <div className="">
-         {false
+         {!!user
             ? <div className="">
                <div className="rounded-[50%] bg-pink-300 w-[36px] h-[36px] cursor-pointer" >
-
+               </div>
+               <div className="">
+                  <span>{user.name}</span>
                </div>
             </div>
             : <>

@@ -88,9 +88,7 @@ const authReducer = (state: IState, action: ActionTypes): IState => {
 }
 
 //hook
-
 export const useAuth = () => useContext(AuthContext)
-const { } = useAuth()
 
 //component
 interface AuthProviderProps {
