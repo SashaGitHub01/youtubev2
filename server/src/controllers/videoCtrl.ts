@@ -18,7 +18,7 @@ class VideoCtrl {
          }
 
          const videos = await Video.find(
-            { $and: [search ? { name: new RegExp(search, 'i') } : {}] },
+            { $and: [search ? { name: new RegExp(search, 'i') } : {}, { isPublic: true }] },
             {},
             { sort: sortOpt }
          )
@@ -33,7 +33,6 @@ class VideoCtrl {
 
    popularVideos = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
       try {
-         console.log(req.user)
          const videos = await Video.find({ isPublic: true }).sort({ views: '-1' }).limit(10)
 
          return res.json({
@@ -46,11 +45,22 @@ class VideoCtrl {
 
    oneVideo = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
       try {
-         const video = await Video.findById(req.params.id)
-         if (!video) return next(ApiError.notFound('Video not found'))
+         const authUser = req.user;
+         const { id } = req.params
+
+         let oneVideo = await Video.findById(id).populate('user')
+         if (!oneVideo) return next(ApiError.notFound('Video not found'))
+
+         if (!oneVideo.isPublic && oneVideo.user !== authUser) {
+            const { video, preview, ...rest } = oneVideo.toJSON()
+
+            return res.json({
+               data: rest
+            })
+         }
 
          return res.json({
-            data: video
+            data: oneVideo
          })
       } catch (err: any) {
          return next(ApiError.internal(err.message))
@@ -64,8 +74,10 @@ class VideoCtrl {
          const { limit } = req.query
 
          const options = {
-            isPublic: authUser === userId ? { $or: [{ isPublic: true }, { isPublic: false }] } : true,
-            user: userId
+            $and: [
+               { isPublic: authUser === userId ? { $or: [{ isPublic: true }, { isPublic: false }] } : true },
+               { user: userId }
+            ]
          }
 
          const videos = await Video.find(options).sort({ createdAt: '-1' }).limit((limit as unknown as number) || 10)
@@ -85,7 +97,7 @@ class VideoCtrl {
             description: '',
             video: '',
             preview: '',
-            user: req.user as unknown as Schema.Types.ObjectId
+            user: req.user as unknown as Schema.Types.ObjectId,
          }
 
          const video = await Video.create(defProps)
@@ -101,7 +113,7 @@ class VideoCtrl {
    update = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
       try {
          const video = await Video.findOneAndUpdate(
-            { id: req.params.id, user: req.user },
+            { $and: [{ _id: req.params.id }, { user: req.user }] },
             { $set: { ...req.body } },
             { new: true }
          )
@@ -119,7 +131,7 @@ class VideoCtrl {
    delete = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
       try {
          const video = await Video.findOneAndDelete(
-            { id: req.params.id, user: req.user },
+            { $and: [{ _id: req.params.id, }, { user: req.user }] },
          )
          if (!video) return next(ApiError.notFound('Video not found'))
 
@@ -136,7 +148,7 @@ class VideoCtrl {
    updateViews = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
       try {
          const video = await Video.findOneAndUpdate(
-            { id: req.params.id },
+            { _id: req.params.id },
             { $inc: { views: 1 } },
             { new: true }
          )

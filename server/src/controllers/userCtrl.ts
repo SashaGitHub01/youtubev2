@@ -123,14 +123,8 @@ class UserCtrl {
 
    updateUser = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
       try {
-         if (req.params.id !== req.user) {
-            return next(ApiError.badReq('You dont have an access to this user'));
-         }
-
-         const user = await User.findById(req.user).exec()
-         if (!user) return next(ApiError.notFound('User not found'))
-
          const newUser = await User.findByIdAndUpdate(req.user, { $set: { ...req.body } }, { new: true })
+         if (!newUser) return next(ApiError.notFound('User not found'))
 
          return res.json({
             data: newUser

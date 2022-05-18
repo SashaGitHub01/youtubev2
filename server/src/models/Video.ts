@@ -19,7 +19,9 @@ const videoModel = new Schema({
    },
 
    isPublic: {
-      type: Boolean
+      type: Boolean,
+      required: true,
+      default: true
    },
 
    views: {
