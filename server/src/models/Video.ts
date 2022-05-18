@@ -16,7 +16,6 @@ export interface VideoModelI extends Document {
 const videoModel = new Schema({
    name: {
       type: String,
-      required: true
    },
 
    isPublic: {
@@ -44,12 +43,10 @@ const videoModel = new Schema({
 
    video: {
       type: String,
-      required: true
    },
 
    preview: {
       type: String,
-      required: true
    },
 
    user: {

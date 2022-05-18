@@ -3,6 +3,7 @@ import express from 'express'
 import { User, UserModelI } from "../models/User";
 import { Video, VideoModelI } from "../models/Video";
 import { Schema } from "mongoose";
+import { Comment } from "../models/Comment";
 
 type SortTypes = 'date' | 'views'
 
@@ -122,6 +123,8 @@ class VideoCtrl {
          )
          if (!video) return next(ApiError.notFound('Video not found'))
 
+         Comment.deleteMany({ video: req.params.id })
+
          return res.json({
             data: video._id
          })
@@ -146,6 +149,74 @@ class VideoCtrl {
             user.views?.push(video._id)
             await user.save()
          }
+
+         return res.json({
+            data: video._id
+         })
+      } catch (err: any) {
+         return next(ApiError.internal(err.message))
+      }
+   }
+
+   like = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+      try {
+         const user = await User.findById(req.user);
+         if (!user) {
+            return next(ApiError.unauthorized('You are not authorized'))
+         }
+
+         const video = await Video.findById(req.params.id)
+         if (!video) {
+            return next(ApiError.notFound('Video not found'))
+         }
+
+         if (user.likes?.includes(video._id)) {
+            await user.update({ $pull: { likes: video._id } })
+            await video.update({ $inc: { likes: -1 } })
+         } else if (user.dislikes?.includes(video._id)) {
+            await user.update({ $push: { likes: video._id }, $pull: { dislikes: video._id } })
+            await video.update({ $inc: { likes: 1, dislikes: -1 } })
+         } else {
+            await user.update({ $push: { likes: video._id } })
+            await video.update({ $inc: { likes: 1 } })
+         }
+
+         await user.save()
+         await video.save()
+
+         return res.json({
+            data: video._id
+         })
+      } catch (err: any) {
+         return next(ApiError.internal(err.message))
+      }
+   }
+
+   dislike = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+      try {
+         const user = await User.findById(req.user);
+         if (!user) {
+            return next(ApiError.unauthorized('You are not authorized'))
+         }
+
+         const video = await Video.findById(req.params.id)
+         if (!video) {
+            return next(ApiError.notFound('Video not found'))
+         }
+
+         if (user.dislikes?.includes(video._id)) {
+            await user.update({ $pull: { dislikes: video._id } })
+            await video.update({ $inc: { dislikes: -1 } })
+         } else if (user.likes?.includes(video._id)) {
+            await user.update({ $push: { dislikes: video._id }, $pull: { likes: video._id } })
+            await video.update({ $inc: { likes: -1, dislikes: 1 } })
+         } else {
+            await user.update({ $push: { dislikes: video._id } })
+            await video.update({ $inc: { dislikes: 1 } })
+         }
+
+         await user.save()
+         await video.save()
 
          return res.json({
             data: video._id

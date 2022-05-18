@@ -12,10 +12,10 @@ import morgan from 'morgan'
 import cors from 'cors'
 import { router } from './routes';
 import { errorHandle } from './middlewares/errorHandle';
-
 const app = express()
 const redis = new Redis()
 const RedisStore = connectRedis(session)
+export const root = __dirname;
 
 const PORT = process.env.PORT || 3001;
 

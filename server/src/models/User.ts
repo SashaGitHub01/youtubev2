@@ -11,7 +11,9 @@ export interface UserModelI extends Document {
    subscribersCount: number,
    isVerified: boolean,
    createdAt: string,
-   views?: Schema.Types.ObjectId[]
+   views?: Schema.Types.ObjectId[],
+   likes?: Schema.Types.ObjectId[],
+   dislikes?: Schema.Types.ObjectId[],
    generateToken: (id: string) => string
 }
 
@@ -58,8 +60,19 @@ const userSchema = new Schema({
    views: [{
       type: SchemaTypes.ObjectId,
       ref: "Video"
-   }]
-}, { timestamps: true })
+   }],
+
+   likes: [{
+      type: SchemaTypes.ObjectId,
+      ref: "Video"
+   }],
+
+   dislikes: [{
+      type: SchemaTypes.ObjectId,
+      ref: "Video"
+   }],
+},
+   { timestamps: true })
 
 userSchema.set('toJSON', {
    transform: function (_, ret) {
