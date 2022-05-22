@@ -4,8 +4,6 @@ import express from 'express'
 import bcrypt from 'bcryptjs'
 import { User, UserModelI } from "../models/User";
 
-const unusedFields = '-__v -createdAt -updatedAt -banner -location'
-
 class UserCtrl {
    register = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
       try {
@@ -108,10 +106,20 @@ class UserCtrl {
    allUsers = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
       try {
          // make sort by, limit
-         const { loc, name }: { name?: string, loc?: string } = req.query
-         const users = await User.find({ $and: [loc ? { location: loc } : {}, name ? { name: new RegExp(name, 'i') } : {}] })
-         // .sort({ subscribersCount: '-1' })
-         // .limit(10)
+         const { name }: { name?: string, loc?: string } = req.query
+         // const users = await User.find({ $and: [name ? { name: new RegExp(name, 'i') } : {}] })
+
+         const users = await User.aggregate()
+            .match({ $and: [name ? { name: new RegExp(name, 'i') } : {}] })
+            .lookup({
+               from: 'videos',
+               localField: '_id',
+               foreignField: 'user',
+               as: 'videos'
+            }).addFields({
+               videosCount: { $size: '$videos' }
+            })
+            .project({ videos: 0, password: 0, updatedAt: 0 })
 
          return res.json({
             data: users

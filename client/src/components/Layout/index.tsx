@@ -1,4 +1,6 @@
-import React, { PropsWithChildren } from 'react'
+import React, { PropsWithChildren, useContext } from 'react'
+import { AuthContext } from '../../context/authCtx'
+import Loader from '../Loader'
 import Aside from './Aside'
 import Header from './Header'
 

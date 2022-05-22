@@ -17,9 +17,13 @@ export const useOutside = (initState: boolean): OutsideData => {
    }
 
    useEffect(() => {
-      document.addEventListener('mousedown', handleClick)
+      if (isVisible) {
+         document.body.addEventListener('mousedown', handleClick)
+      }
 
-      return () => document.removeEventListener('mousedown', handleClick)
+      return () => {
+         document.removeEventListener('mousedown', handleClick)
+      }
    }, [isVisible])
 
    return { isVisible, setIsVisible, ref }

@@ -9,6 +9,7 @@ import connectRedis from 'connect-redis'
 import cookieParser from 'cookie-parser'
 import mongoose from 'mongoose'
 import morgan from 'morgan'
+import path from 'path'
 import cors from 'cors'
 import { router } from './routes';
 import { errorHandle } from './middlewares/errorHandle';
@@ -44,6 +45,7 @@ app.use(session({
    })
 }))
 
+app.use(express.static(path.resolve(__dirname, 'uploads')))
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms'));
 app.use(express.json());
 app.use(cookieParser())

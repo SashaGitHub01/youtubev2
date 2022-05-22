@@ -1,4 +1,6 @@
+import 'swiper/scss';
 import '../styles/globals.scss'
+import 'swiper/scss/navigation'
 import type { AppProps } from 'next/app'
 import Layout from '../src/components/Layout'
 import { QueryClientProvider, QueryClient } from 'react-query'
@@ -18,14 +20,15 @@ const client = new QueryClient({
 })
 
 function MyApp({ Component, pageProps }: AppProps) {
+
    return (
-      <AuthProvider>
-         <QueryClientProvider client={client}>
+      <QueryClientProvider client={client}>
+         <AuthProvider>
             <Layout>
                <Component {...pageProps} />
             </Layout>
-         </QueryClientProvider>
-      </AuthProvider>
+         </AuthProvider>
+      </QueryClientProvider>
    )
 }
 

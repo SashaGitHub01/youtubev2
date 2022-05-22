@@ -10,8 +10,13 @@ interface ModalProps {
 
 const Modal: React.FC<PropsWithChildren<ModalProps>> = ({ children, title, onClose, refs }) => {
    return (
-      <div className="z-[1155] fixed left-0 top-0 w-screen h-screen bg-[#00000042] flex items-center justify-center">
-         <div className="max-w-[440px] w-full bg-white rounded-sm relative" ref={refs}>
+      <div className={`z-[100] bg-[#000000e8] fixed left-0 top-0 w-screen h-screen flex items-center 
+      justify-center`}
+      >
+         <div
+            className={`max-w-[440px] z-40 w-full rounded-sm relative bg-white animate-scale`}
+            ref={refs}
+         >
             <button className=' absolute right-2 top-2' onClick={onClose}>
                <CloseIcon className='text-[26px]' />
             </button>

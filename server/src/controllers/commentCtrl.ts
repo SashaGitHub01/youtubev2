@@ -43,7 +43,7 @@ class CommentCtrl {
 
    delete = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
       try {
-         const comm = await Comment.findByIdAndDelete(req.params.id)
+         const comm = await Comment.findOneAndDelete({ $and: [{ _id: req.params.id }, { _user: req.user }] })
          if (!comm) {
             return next(ApiError.notFound('Comment not found'))
          }

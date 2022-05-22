@@ -9,6 +9,7 @@ userRouter.post('/register', register, userCtrl.register)
 userRouter.post('/login', passport.authenticate('local'), userCtrl.login)
 userRouter.get('/auth', passport.authenticate('jwt'), userCtrl.auth)
 userRouter.get('/logout', userCtrl.logout)
+
 userRouter.get('/popular', userCtrl.popularUsers)
 userRouter.get('/:id', userCtrl.oneUser)
 userRouter.put('/', passport.authenticate('jwt'), userCtrl.updateUser)

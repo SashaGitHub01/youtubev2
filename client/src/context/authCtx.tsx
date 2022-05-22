@@ -1,6 +1,8 @@
-import React, { PropsWithChildren, useContext, useReducer } from 'react'
+import React, { PropsWithChildren, useContext, useEffect, useReducer } from 'react'
 import { createContext } from "react";
-import { IUser } from "../API/types";
+import { useQuery } from 'react-query';
+import { AuthApi } from '../API/AuthApi';
+import { IUser } from "../types/user.types";
 import { IState, ActionConsts, ActionTypes, ActionCreatorsI, AuthCtxType } from './authCtx.types';
 
 
@@ -92,12 +94,11 @@ export const useAuth = () => useContext(AuthContext)
 
 //component
 interface AuthProviderProps {
-
+   user?: IUser
 }
 
-const AuthProvider: React.FC<PropsWithChildren<AuthProviderProps>> = ({ children }) => {
+const AuthProvider: React.FC<PropsWithChildren<AuthProviderProps>> = ({ children, user }) => {
    const [state, dispatch] = useReducer(authReducer, initState)
-
    const actionCreators: ActionCreatorsI = {
       fetchAuthFulfilled: (user: IUser) => dispatch({
          type: ActionConsts.FETCH_AUTH_FULFILLED,
@@ -140,6 +141,19 @@ const AuthProvider: React.FC<PropsWithChildren<AuthProviderProps>> = ({ children
          type: ActionConsts.FETCH_REG_PENDING,
       }),
    }
+
+   const { data } = useQuery('auth', async () => {
+      return await AuthApi.auth()
+   }, {
+      retry: false,
+      onSuccess: (data) => {
+         actionCreators.fetchAuthFulfilled(data)
+      },
+
+      onError: () => {
+         actionCreators.fetchAuthErr()
+      }
+   })
 
    return (
       <AuthContext.Provider value={{

@@ -1,6 +1,6 @@
 import { rootApi } from ".";
-import { IUser, LoginInput, MyAxiosErr, RegisterInput, Res } from "./types";
-import { AxiosError } from "axios";
+import { IUser, LoginInput, RegisterInput, } from "../types/user.types";
+import { Res } from "./types";
 
 export class AuthApi {
    static login = async (input: LoginInput): Promise<IUser> => {

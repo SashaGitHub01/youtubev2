@@ -4,6 +4,7 @@ import { User, UserModelI } from "../models/User";
 import { Video, VideoModelI } from "../models/Video";
 import { Schema } from "mongoose";
 import { Comment } from "../models/Comment";
+import { getVideoDurationInSeconds } from 'get-video-duration'
 
 type SortTypes = 'date' | 'views'
 
@@ -20,7 +21,12 @@ class VideoCtrl {
          const videos = await Video.find(
             { $and: [search ? { name: new RegExp(search, 'i') } : {}, { isPublic: true }] },
             {},
-            { sort: sortOpt }
+            {
+               sort: sortOpt,
+               populate: {
+                  path: 'user', select: 'avatar _id name subscribersCount isVerified'
+               }
+            }
          )
 
          return res.json({
@@ -33,7 +39,14 @@ class VideoCtrl {
 
    popularVideos = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
       try {
-         const videos = await Video.find({ isPublic: true }).sort({ views: '-1' }).limit(10)
+         const videos = await Video.find({ isPublic: true }, {}, {
+            populate: {
+               path: 'user', select: 'avatar _id name subscribersCount isVerified'
+            }
+         })
+            .sort({ views: '-1' })
+            .limit(10)
+
 
          return res.json({
             data: videos
@@ -163,7 +176,7 @@ class VideoCtrl {
          }
 
          return res.json({
-            data: video._id
+            data: video.views
          })
       } catch (err: any) {
          return next(ApiError.internal(err.message))
