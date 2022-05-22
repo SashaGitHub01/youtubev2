@@ -1,7 +1,7 @@
 import React, { PropsWithChildren } from 'react'
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup'
-import { IUser, LoginInput, RegisterInput } from '../../../API/types';
+import { IUser, LoginInput, RegisterInput } from '../../../types/user.types';
 import Button from '../../UI/Button/index';
 import Input from '../../UI/Input';
 import { useMutation } from 'react-query'
@@ -10,16 +10,18 @@ import { AuthApi } from '../../../API/AuthApi';
 import { useAuth } from '../../../context/authCtx';
 
 interface LoginFormProps {
-   toggleType: (e: any) => void
+   toggleType: (e: any) => void,
+   onClose: () => void
 }
 
-const LoginForm: React.FC<PropsWithChildren<LoginFormProps>> = ({ toggleType }) => {
+const LoginForm: React.FC<PropsWithChildren<LoginFormProps>> = ({ toggleType, onClose }) => {
    const { fetchLoginFulfilled, ...other } = useAuth()
    const { error, isLoading, mutate } = useMutation<IUser, Error, LoginInput>(async (input: LoginInput) => {
       return await AuthApi.login(input)
    }, {
       onSuccess: (data) => {
          fetchLoginFulfilled(data)
+         onClose()
       }
    })
 

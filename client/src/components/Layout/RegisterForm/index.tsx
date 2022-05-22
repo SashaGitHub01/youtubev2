@@ -1,7 +1,7 @@
 import React, { PropsWithChildren } from 'react'
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup'
-import { IUser, RegisterInput } from '../../../API/types';
+import { IUser, RegisterInput } from '../../../types/user.types';
 import Button from '../../UI/Button/index';
 import Input from '../../UI/Input';
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -10,15 +10,19 @@ import { AuthApi } from '../../../API/AuthApi';
 import { useAuth } from '../../../context/authCtx';
 
 interface RegisterFormProps {
-   toggleType: (e: any) => void
+   toggleType: (e: any) => void,
+   onClose: () => void
 }
 
-const RegisterForm: React.FC<PropsWithChildren<RegisterFormProps>> = ({ toggleType }) => {
+const RegisterForm: React.FC<PropsWithChildren<RegisterFormProps>> = ({ toggleType, onClose }) => {
    const { fetchRegFulfilled } = useAuth()
    const { isLoading, error, mutate } = useMutation<IUser, Error, RegisterInput>(async (input: RegisterInput) => {
       return await AuthApi.register(input)
    }, {
-      onSuccess: (res) => fetchRegFulfilled(res)
+      onSuccess: (res) => {
+         fetchRegFulfilled(res)
+         onClose()
+      }
    })
 
    const schema = Yup.object().shape({

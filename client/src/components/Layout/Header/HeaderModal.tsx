@@ -1,14 +1,15 @@
 import React, { PropsWithChildren, useState } from 'react'
-import Modal from '../../UI/Modal'
 import LoginForm from '../LoginForm'
 import RegisterForm from '../RegisterForm'
+import Modal from '../../UI/Modal'
 
 interface HeaderModalProps {
    handleClose: () => void,
-   refs: any
+   refs?: any,
+   isOpen: boolean
 }
 
-const HeaderModal: React.FC<PropsWithChildren<HeaderModalProps>> = ({ handleClose, refs }) => {
+const HeaderModal: React.FC<PropsWithChildren<HeaderModalProps>> = ({ handleClose, refs, isOpen }) => {
    const [type, setType] = useState<'login' | 'reg'>('login')
 
    const toggleType = (e: MouseEvent) => {
@@ -19,13 +20,14 @@ const HeaderModal: React.FC<PropsWithChildren<HeaderModalProps>> = ({ handleClos
 
    return (
       <Modal
+         isOpen={isOpen}
          title={type === 'login' ? 'Sign In' : 'Sign Up'}
          onClose={handleClose}
          refs={refs}
       >
          {type === 'reg'
-            ? <RegisterForm toggleType={toggleType} />
-            : <LoginForm toggleType={toggleType} />}
+            ? <RegisterForm toggleType={toggleType} onClose={handleClose} />
+            : <LoginForm toggleType={toggleType} onClose={handleClose} />}
       </Modal>
    )
 }

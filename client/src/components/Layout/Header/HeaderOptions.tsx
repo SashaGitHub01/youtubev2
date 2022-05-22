@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from 'react'
+import React, { PropsWithChildren, useEffect, useState } from 'react'
 import { UserIcon } from '../../../assets/icons';
 import { useAuth } from '../../../context/authCtx';
 import { useOutside } from '../../../hooks/useOutside';
@@ -9,15 +9,20 @@ import HeaderModal from './HeaderModal';
 interface HeaderOptionsProps { }
 
 const HeaderOptions: React.FC<PropsWithChildren<HeaderOptionsProps>> = ({ }) => {
+   const [isOpen, setIsOpen] = useState<boolean>(false)
    const { isVisible, setIsVisible, ref } = useOutside(false)
    const { user, isAuthorizing } = useAuth()
 
    const handleClick = (e: MouseEvent) => {
       e.stopPropagation()
-      setIsVisible(true)
+      setIsOpen(true)
    }
 
-   const handleClose = () => setIsVisible(false)
+   const handleClose = () => setIsOpen(false)
+
+   useEffect(() => {
+      document.body.style.overflow = isOpen ? 'hidden' : 'auto'
+   }, [isOpen])
 
    return (
       <div className="">
@@ -37,8 +42,10 @@ const HeaderOptions: React.FC<PropsWithChildren<HeaderOptionsProps>> = ({ }) => 
                   <Button color='blue' Icon={UserIcon} onClick={handleClick}>
                      SIGN IN
                   </Button>
-                  {isVisible
-                     && <HeaderModal handleClose={handleClose} refs={ref} />}
+                  <HeaderModal
+                     handleClose={handleClose}
+                     isOpen={isOpen}
+                  />
                </>}
       </div>
    )
