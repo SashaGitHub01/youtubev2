@@ -1,42 +1,64 @@
 import React, { PropsWithChildren, useEffect, useState } from 'react'
-import { UserIcon } from '../../../assets/icons';
+import Popper from '../../UI/Popper';
+import { UserIcon, VideoIcon } from '../../../assets/icons';
 import { useAuth } from '../../../context/authCtx';
-import { useOutside } from '../../../hooks/useOutside';
 import AvatarSkelet from '../../Skeletons/AvatarSkelet';
 import Button from '../../UI/Button';
 import HeaderModal from './HeaderModal';
+import UploadModal from './UploadModal';
 
 interface HeaderOptionsProps { }
 
 const HeaderOptions: React.FC<PropsWithChildren<HeaderOptionsProps>> = ({ }) => {
    const [isOpen, setIsOpen] = useState<boolean>(false)
-   const { isVisible, setIsVisible, ref } = useOutside(false)
+   const [isOpen1, setIsOpen1] = useState<boolean>(false)
    const { user, isAuthorizing } = useAuth()
+
+   useEffect(() => {
+      document.body.style.overflow = isOpen ? 'hidden' : 'auto'
+   }, [isOpen])
 
    const handleClick = (e: MouseEvent) => {
       e.stopPropagation()
       setIsOpen(true)
    }
 
-   const handleClose = () => setIsOpen(false)
+   const handleClose = () => {
+      setIsOpen(false)
+   }
 
-   useEffect(() => {
-      document.body.style.overflow = isOpen ? 'hidden' : 'auto'
-   }, [isOpen])
+   const handleOpen1 = (e: React.MouseEvent) => {
+      e.stopPropagation()
+      setIsOpen1(true)
+   }
+
+   const handleClose1 = () => {
+      setIsOpen1(false)
+   }
 
    return (
       <div className="">
          {isAuthorizing
             ? <AvatarSkelet />
             : user
-               ? <div className="flex gap-2 items-center">
-                  <div className="rounded-[50%] bg-pink-300 w-[36px] h-[36px] cursor-pointer" >
+               ? <div className="flex items-center gap-3">
+                  <Popper
+                     message='New video'
+                  >
+                     <div className="" onClick={handleOpen1}>
+                        <VideoIcon className='text-icon text-gray1 cursor-pointer' />
+                     </div>
+                  </Popper>
+                  <div className="flex gap-2 items-center">
+                     <div className="rounded-[50%] bg-pink-300 w-[36px] h-[36px] cursor-pointer" >
+                     </div>
+                     <div className="">
+                        <span>
+                           {user.name}
+                        </span>
+                     </div>
                   </div>
-                  <div className="">
-                     <span>
-                        {user.name}
-                     </span>
-                  </div>
+                  <UploadModal onClose={handleClose1} isOpen={isOpen1} />
                </div>
                : <>
                   <Button color='blue' Icon={UserIcon} onClick={handleClick}>

@@ -1,13 +1,13 @@
 import React, { PropsWithChildren } from 'react'
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup'
-import { IUser, RegisterInput } from '../../../types/user.types';
-import Button from '../../UI/Button/index';
-import Input from '../../UI/Input';
+import { IUser, RegisterInput } from '../../../../../types/user.types';
+import Button from '../../../../UI/Button/index';
+import Input from '../../../../UI/Input';
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation } from 'react-query'
-import { AuthApi } from '../../../API/AuthApi';
-import { useAuth } from '../../../context/authCtx';
+import { AuthApi } from '../../../../../API/AuthApi';
+import { useAuth } from '../../../../../context/authCtx';
 
 interface RegisterFormProps {
    toggleType: (e: any) => void,

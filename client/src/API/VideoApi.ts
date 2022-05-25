@@ -21,6 +21,11 @@ export class VideoApi {
       return data.data
    }
 
+   static createVideo = async (input: VideoInput): Promise<IVideo> => {
+      const { data } = await rootApi.post<Res<IVideo>>(`/video/`, input)
+      return data.data
+   }
+
    static updateVideo = async (id: string, input: VideoInput): Promise<IVideo> => {
       const { data } = await rootApi.put<Res<IVideo>>(`/video/${id}`, input)
       return data.data

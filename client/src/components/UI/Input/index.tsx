@@ -11,7 +11,7 @@ const Input: React.FC<PropsWithChildren<InputProps>> = React.forwardRef(({ error
    return (
       <div className="w-full relative">
          <input
-            className={`border-b bg-transparent border-solid border-gray1 text-primary w-full p-1 focus:border-black ${cn({
+            className={`input ${cn({
                'border-red-500': !!error
             })}`}
             {...props}

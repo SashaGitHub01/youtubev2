@@ -1,6 +1,6 @@
 import React, { PropsWithChildren } from 'react'
-import { IUser } from '../../types/user.types';
-import ChannelItem from '../ChannelItem';
+import { IUser } from '../../../types/user.types';
+import ChannelItem from '../../ChannelItem';
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation } from 'swiper';
 

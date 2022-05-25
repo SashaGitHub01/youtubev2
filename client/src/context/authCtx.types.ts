@@ -1,4 +1,4 @@
-import { IUser } from "../API/types";
+import { IUser } from "../types/user.types";
 
 export enum ActionConsts {
    FETCH_LOGIN_PENDING = 'FETCH_LOGIN_PENDING',

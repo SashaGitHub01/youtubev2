@@ -12,8 +12,8 @@ class MediaCtrl {
          const file = req.file
 
          if (!file) return next(ApiError.badReq('File is empty'))
-
-         const ext = file.originalname.split('.')[1]
+         console.log(file.originalname)
+         const ext = file.originalname.split('.')[file.originalname.split('.').length - 1]
          const uid = md(file.originalname) + Date.now() + `.${ext}`;
          const path = `${root}/uploads/${folder}`
 

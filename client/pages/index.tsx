@@ -1,6 +1,6 @@
 import type { NextPage, GetStaticProps } from 'next'
 import { VideoApi } from '../src/API/VideoApi';
-import RecomendSlider from '../src/components/RecomendSlider';
+import RecomendSlider from '../src/components/Home/RecomendSlider';
 import VideosList from '../src/components/VideosList';
 import { IVideo } from '../src/types/video.types'
 import { IUser } from '../src/types/user.types'

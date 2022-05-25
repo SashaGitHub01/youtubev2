@@ -7,3 +7,7 @@ export interface Res<T> {
    data: T
 }
 
+export interface IMediaRes {
+   url: string,
+   name: string
+}

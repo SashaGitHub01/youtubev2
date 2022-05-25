@@ -1,7 +1,7 @@
 import React, { PropsWithChildren, useRef, useState } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { IVideo } from '../../types/video.types'
-import VideoItem from '../VideoItem'
+import { IVideo } from '../../../types/video.types'
+import VideoItem from '../../VideoItem'
 import { Navigation } from "swiper";
 import SwiperCore from 'swiper';
 SwiperCore.use([Navigation]);

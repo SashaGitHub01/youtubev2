@@ -27,16 +27,29 @@
       @apply border-b border-solid border-b-gray_light pb-1;
    }
 
-   // .btn-prev {
-   //    @apply border-solid border-blue1 border-r-4 border-t-4 h-4 w-4 rotate-[-135deg] hover:border-blue-600 cursor-pointer;
-   // }
-   // .btn-next {
-   //    @apply border-solid border-blue1 border-r-4 border-t-4 h-4 w-4 rotate-[45deg] hover:border-blue-600 cursor-pointer;
-   // }
+   .input {
+      @apply border-b bg-transparent border-solid border-gray1 text-primary w-full p-2 focus:border-blue1;
+   }
 
-   // .btn_disabled {
-   //    @apply opacity-40 pointer-events-none;
-   // }
+   .input-fill {
+      @apply border bg-white rounded-sm resize-none border-solid border-gray1 text-primary w-full p-2 focus:border-blue1;
+   }
+
+   .btn {
+      transition: box-shadow 0.25s ease, background-color 0.25s cubic-bezier(0.165, 0.84, 0.44, 1);
+      @apply gap-1 flex items-center cursor-pointer text-md active:shadow-md text-white font-medium py-2 px-4 rounded-sm disabled:opacity-50 disabled:pointer-events-none;
+      .icon {
+         font-size: 1.2rem;
+      }
+   }
+
+   .btn_first {
+      @apply bg-red1 btn hover:bg-red-400;
+   }
+
+   .btn_second {
+      @apply bg-blue1  hover:bg-blue-400 btn;
+   }
 }
 
 /*Обнуление*/

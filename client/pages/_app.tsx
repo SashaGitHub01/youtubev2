@@ -10,13 +10,15 @@ const client = new QueryClient({
    defaultOptions: {
       queries: {
          refetchOnWindowFocus: false,
-         retry: 2
+         retry: 2,
+         onError: (err) => console.log(err)
       },
 
       mutations: {
          retry: 2
       }
-   }
+   },
+
 })
 
 function MyApp({ Component, pageProps }: AppProps) {

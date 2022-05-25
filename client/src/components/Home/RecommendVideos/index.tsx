@@ -1,6 +1,6 @@
 import React, { PropsWithChildren } from 'react'
 import { IVideo } from '../../../types/video.types';
-import RecomendSlider from '../../RecomendSlider';
+import RecomendSlider from '../RecomendSlider';
 import s from './RecommendVideos.module.scss'
 
 interface RecommendVideosProps {

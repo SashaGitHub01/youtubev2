@@ -14,7 +14,4 @@
 .btn_second {
    @include btn;
    @apply bg-blue1 hover:bg-blue-400;
-   .icon {
-      font-size: 1.2rem;
-   }
 }

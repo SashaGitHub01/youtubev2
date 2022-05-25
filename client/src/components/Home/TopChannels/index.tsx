@@ -1,6 +1,6 @@
 import React, { PropsWithChildren } from 'react'
 import { IUser } from '../../../types/user.types';
-import ChannelsSlider from '../../ChannelsSlider';
+import ChannelsSlider from '../ChannelsSlider';
 import s from './TopChannels.module.scss'
 
 interface TopChannelsProps {

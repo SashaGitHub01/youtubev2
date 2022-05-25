@@ -1,0 +1,13 @@
+.toggler {
+   &:hover .circle {
+      @apply scale-105;
+   }
+
+   &:disabled {
+      @apply pointer-events-none opacity-30 bg-gray-300;
+
+      & .circle {
+         @apply bg-gray-200;
+      }
+   }
+}

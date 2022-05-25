@@ -64,11 +64,22 @@ module.exports = {
                   'opacity': '1'
                }
             },
+
+            fade: {
+               '0%': {
+                  'opacity': '0.1'
+               },
+
+               '100%': {
+                  'opacity': '1'
+               }
+            },
          },
 
          animation: {
             skeleton: 'skeleton 0.9s linear infinite alternate',
-            scale: 'scale 0.3s ease'
+            scale: 'scale 0.3s ease',
+            fade: 'fade 0.3s ease-in'
          }
       },
    },

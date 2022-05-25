@@ -1,0 +1,10 @@
+.ref {
+   &:hover + .popper[role] {
+      visibility: visible;
+      @apply animate-fade;
+   }
+}
+
+.popper {
+   visibility: hidden;
+}

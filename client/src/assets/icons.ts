@@ -1,6 +1,7 @@
 import {
    MdThumbUp, MdThumbDown, MdSubscriptions, MdBarChart, MdOutlineNotificationsNone,
-   MdCheck, MdGetApp, MdHome, MdOutlineArrowBack, MdOutlineLogin, MdPerson, MdClose, MdMoreVert, MdOutlineSearch
+   MdCheck, MdGetApp, MdHome, MdOutlineArrowBack, MdOutlineLogin, MdPerson, MdClose, MdMoreVert, MdOutlineSearch,
+   MdOutlineVideoCall, MdFileUpload
 } from 'react-icons/md'
 import { BsBroadcastPin } from 'react-icons/bs'
 
@@ -20,5 +21,6 @@ export {
    MdPerson as UserIcon,
    MdClose as CloseIcon,
    MdMoreVert as DotsIcon,
-   MdOutlineSearch as SearchIcon
+   MdOutlineSearch as SearchIcon,
+   MdOutlineVideoCall as VideoIcon,
 }
