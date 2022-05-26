@@ -1,8 +1,6 @@
 import React, { PropsWithChildren, useState } from 'react'
-import * as Yup from 'yup'
-import { Controller, useForm } from 'react-hook-form'
-import { VideoInput, IVideo } from '../../../../types/video.types'
-import { yupResolver } from '@hookform/resolvers/yup'
+import { Controller } from 'react-hook-form'
+import { IVideo } from '../../../../types/video.types'
 import TextArea from '../../../UI/TextArea'
 import Toggler from '../../../UI/Toggler'
 import UploadFIle from './UploadFIle'
@@ -21,19 +19,14 @@ const UploadForm: React.FC<PropsWithChildren<UploadFormProps>> = ({ video, setVi
    const [isActive, setIsActive] = useState(video?.isPublic || false)
    const [progress, setProgress] = useState(0)
 
-   const schema = Yup.object().shape({
-      name: Yup.string()
-         .max(120, 'Max length is 120')
-         .required('Required field'),
-      description: Yup.string()
-         .max(2000, 'Min length is 6 and max is 30')
-         .trim()
-   })
-
-   const { handleSubmit, formState: { errors }, setValue, setError, control } = useForm<VideoInput>({
-      mode: 'onChange',
-      resolver: yupResolver(schema)
-   })
+   const { update, onChange, onImageChange,
+      form: { setValue, control, handleSubmit, formState, onSubmit }
+   } = useVideoMutations(
+      setProgress,
+      setVideo,
+      setPreview,
+      video
+   );
 
    const togglePublic = () => {
       setIsActive(prev => {
@@ -41,23 +34,6 @@ const UploadForm: React.FC<PropsWithChildren<UploadFormProps>> = ({ video, setVi
          return !prev
       })
    }
-
-   const onUploadError = (err: Error) => {
-      setError('video', { message: err.message })
-   }
-
-   const { update, onChange, onImageChange } = useVideoMutations(onUploadError, setProgress, setVideo, setPreview, video)
-
-   const onSubmit = async (values: VideoInput) => {
-      try {
-         if (!video?._id) return;
-         await update.mutateAsync({ id: video?._id, input: values })
-      } catch (err) {
-         console.log(err);
-      }
-   }
-
-
 
    return (
       <>
@@ -75,7 +51,7 @@ const UploadForm: React.FC<PropsWithChildren<UploadFormProps>> = ({ video, setVi
                               {...field}
                               minRows={1}
                               maxRows={3}
-                              error={errors.name?.message}
+                              error={formState.errors.name?.message}
                               label='Title'
                               placeholder='Add title to your video'
                            />
@@ -90,7 +66,7 @@ const UploadForm: React.FC<PropsWithChildren<UploadFormProps>> = ({ video, setVi
                               {...field}
                               minRows={3}
                               maxRows={8}
-                              error={errors.description?.message}
+                              error={formState.errors.description?.message}
                               label='Description'
                               placeholder='Describe your video'
                            />

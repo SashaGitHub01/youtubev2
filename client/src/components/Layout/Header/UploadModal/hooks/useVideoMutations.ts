@@ -5,9 +5,9 @@ import { IMediaRes } from "../../../../../API/types";
 import { VideoApi } from "../../../../../API/VideoApi";
 import { useRouterQuery } from "../../../../../hooks/useRouterQuery";
 import { IVideo, VideoInput } from "../../../../../types/video.types";
+import { useUploadForm } from "./useUploadForm";
 
 export const useVideoMutations = (
-   onUploadError: (err: Error) => void,
    setProgress: (num: number) => void,
    setVideo: any,
    setPreview: (url: string) => void,
@@ -42,21 +42,6 @@ export const useVideoMutations = (
       }
    )
 
-   const upload = useMutation<IMediaRes, Error, FormData>(
-      'upload video',
-      async (data: FormData) => await MediaApi.uploadVideo(data, setProgress), {
-      onError: onUploadError,
-
-      onMutate: async (formdata) => {
-         const data = Object.fromEntries(formdata)
-         create.mutate({ name: data.name as string })
-      },
-
-      onSuccess: async (data) => {
-         changeQuery({ video: data.url })
-      },
-   }
-   );
 
    const uploadImage = useMutation<IMediaRes, Error, FormData>(
       'upload img',
@@ -100,5 +85,24 @@ export const useVideoMutations = (
       await uploadImage.mutateAsync(formdata)
    }
 
-   return { update, create, upload, onChange, onImageChange, uploadImage }
+   const form = useUploadForm({ video, update, })
+
+   const upload = useMutation<IMediaRes, Error, FormData>(
+      'upload video',
+      async (data: FormData) => await MediaApi.uploadVideo(data, setProgress), {
+
+      onError: form.onUploadError,
+
+      onMutate: async (formdata) => {
+         const data = Object.fromEntries(formdata)
+         create.mutate({ name: data.name as string })
+      },
+
+      onSuccess: async (data) => {
+         changeQuery({ video: data.url })
+      },
+   }
+   );
+
+   return { update, create, upload, onChange, onImageChange, uploadImage, form }
 }
