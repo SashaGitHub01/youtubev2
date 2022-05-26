@@ -17,6 +17,15 @@ const UploadModal: React.FC<PropsWithChildren<UploadModalProps>> = ({ onClose, i
    const { query } = useRouter()
    const [video, setVideo] = useState<IVideo>()
 
+   const { isLoading } = useQuery(['video secure', query?.id], async () => {
+      return await VideoApi.fetchSecureVideo(query?.id as string)
+   }, {
+      enabled: !!query?.id && !video?._id,
+      initialData: video,
+
+      onSuccess: (v) => setVideo(v)
+   })
+
    return (
       <Modal
          onClose={onClose}
@@ -27,12 +36,16 @@ const UploadModal: React.FC<PropsWithChildren<UploadModalProps>> = ({ onClose, i
       >
          <div className="relative h-full flex-col flex">
             <div className="flex-auto flex gap-5">
-               <UploadForm
-                  video={video}
-                  setVideo={setVideo}
-               />
-               {!!video?._id
-                  && <VideoCol video={video} />}
+               {isLoading
+                  ? <Loader />
+                  : <>
+                     <UploadForm
+                        video={video}
+                        setVideo={setVideo}
+                     />
+                     {!!video?._id && <VideoCol video={video} />}
+                  </>
+               }
             </div>
          </div>
       </Modal>

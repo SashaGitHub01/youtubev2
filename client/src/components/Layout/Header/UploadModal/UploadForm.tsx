@@ -8,7 +8,6 @@ import Toggler from '../../../UI/Toggler'
 import UploadFIle from './UploadFIle'
 import UploadFooter from './UploadFooter'
 import { useVideoMutations } from './hooks/useVideoMutations'
-import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from 'react-query'
 
 interface UploadFormProps {
    video?: IVideo,
@@ -16,7 +15,7 @@ interface UploadFormProps {
 }
 
 const UploadForm: React.FC<PropsWithChildren<UploadFormProps>> = ({ video, setVideo }) => {
-   const [isActive, setIsActive] = useState(false)
+   const [isActive, setIsActive] = useState(video?.isPublic || false)
    const [progress, setProgress] = useState(0)
 
    const schema = Yup.object().shape({
@@ -30,13 +29,6 @@ const UploadForm: React.FC<PropsWithChildren<UploadFormProps>> = ({ video, setVi
 
    const { handleSubmit, formState: { errors }, setValue, setError, control } = useForm<VideoInput>({
       mode: 'onChange',
-      defaultValues: {
-         description: '',
-         name: video?.name || '',
-         isPublic: false,
-         preview: '',
-         video: ''
-      },
       resolver: yupResolver(schema)
    })
 
@@ -51,7 +43,7 @@ const UploadForm: React.FC<PropsWithChildren<UploadFormProps>> = ({ video, setVi
       setError('video', { message: err.message })
    }
 
-   const { create, upload, update, onChange } = useVideoMutations(onUploadError, setProgress, setVideo)
+   const { update, onChange } = useVideoMutations(onUploadError, setProgress, setVideo, video)
 
    const onSubmit = async (values: VideoInput) => {
       if (!video?._id) return;
@@ -81,7 +73,7 @@ const UploadForm: React.FC<PropsWithChildren<UploadFormProps>> = ({ video, setVi
                         }}
                         name="name"
                         control={control}
-                        defaultValue=""
+                        defaultValue={video.name || ""}
                      />
                      <Controller
                         render={({ field }) => {
@@ -96,7 +88,7 @@ const UploadForm: React.FC<PropsWithChildren<UploadFormProps>> = ({ video, setVi
                         }}
                         name="description"
                         control={control}
-                        defaultValue=""
+                        defaultValue={video.description || ""}
                      />
                   </div>
                   <div className="flex items-center gap-3 py-4">
