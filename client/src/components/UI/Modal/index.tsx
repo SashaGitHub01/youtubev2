@@ -1,4 +1,4 @@
-import React, { MutableRefObject, PropsWithChildren } from 'react'
+import React, { MutableRefObject, PropsWithChildren, useEffect } from 'react'
 import { CloseIcon } from '../../../assets/icons';
 import ReactModal from 'react-modal'
 import cn from 'classnames';
@@ -14,6 +14,10 @@ interface ModalProps {
 }
 
 const Modal: React.FC<PropsWithChildren<ModalProps>> = ({ children, title, height, onClose, isOpen, width }) => {
+
+   useEffect(() => {
+      document.body.style.overflow = isOpen ? 'hidden' : 'auto'
+   }, [isOpen])
 
    return (
       <ReactModal

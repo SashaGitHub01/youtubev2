@@ -12,7 +12,7 @@ const RecommendVideos: React.FC<PropsWithChildren<RecommendVideosProps>> = ({ po
       <section className="">
          <div className="line flex justify-between align-center">
             <span className="typo_xl font-medium">
-               Popular channels on YouTube
+               Recommended videos on YouTube
             </span>
             <div className="flex flex-center gap-4 px-2">
                <div className={`${s.btn_prev}`} />

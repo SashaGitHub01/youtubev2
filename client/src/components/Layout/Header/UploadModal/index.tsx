@@ -16,6 +16,7 @@ interface UploadModalProps {
 const UploadModal: React.FC<PropsWithChildren<UploadModalProps>> = ({ onClose, isOpen }) => {
    const { query } = useRouter()
    const [video, setVideo] = useState<IVideo>()
+   const [preview, setPreview] = useState(video?.preview || '')
 
    const { isLoading } = useQuery(['video secure', query?.id], async () => {
       return await VideoApi.fetchSecureVideo(query?.id as string)
@@ -26,10 +27,14 @@ const UploadModal: React.FC<PropsWithChildren<UploadModalProps>> = ({ onClose, i
       onSuccess: (v) => setVideo(v)
    })
 
+   const changePreview = (url: string) => {
+      setPreview(url)
+   }
+
    return (
       <Modal
          onClose={onClose}
-         isOpen={true}
+         isOpen={isOpen}
          title={video?.name || 'Video upload'}
          width='lg'
          height='full'
@@ -40,10 +45,16 @@ const UploadModal: React.FC<PropsWithChildren<UploadModalProps>> = ({ onClose, i
                   ? <Loader />
                   : <>
                      <UploadForm
+                        setPreview={changePreview}
                         video={video}
                         setVideo={setVideo}
+                        onClose={onClose}
                      />
-                     {!!video?._id && <VideoCol video={video} />}
+                     {!!video?._id
+                        && <VideoCol
+                           video={video}
+                           preview={preview}
+                        />}
                   </>
                }
             </div>

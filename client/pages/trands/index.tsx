@@ -1,13 +1,19 @@
+import { Head } from 'next/document';
 import React, { PropsWithChildren } from 'react'
 
-interface indexProps { }
+interface TrandsProps { }
 
-const index: React.FC<PropsWithChildren<indexProps>> = ({ }) => {
+const Trands: React.FC<PropsWithChildren<TrandsProps>> = ({ }) => {
    return (
-      <div>
-         trands
-      </div>
+      <>
+         <Head>
+            <title>YouTube 2022</title>
+         </Head>
+         <div>
+            trands
+         </div>
+      </>
    )
 }
 
-export default index;
+export default Trands;

@@ -7,6 +7,7 @@ import { IUser } from '../src/types/user.types'
 import { UserApi } from '../src/API/UserApi';
 import TopChannels from '../src/components/Home/TopChannels';
 import RecommendVideos from '../src/components/Home/RecommendVideos';
+import Head from 'next/head';
 
 interface HomeProps {
    popVideos: IVideo[],
@@ -17,20 +18,25 @@ interface HomeProps {
 const Home: NextPage<HomeProps> = ({ popVideos, latestVideos, topChannels }) => {
 
    return (
-      <div className="">
-         <RecommendVideos popVideos={popVideos} />
+      <>
+         <Head>
+            <title>YouTube 2022</title>
+         </Head>
          <div className="">
-            <div className="line">
-               <span className="typo_xl font-medium">
-                  Latest videos
-               </span>
+            <RecommendVideos popVideos={popVideos} />
+            <div className="">
+               <div className="line">
+                  <span className="typo_xl font-medium">
+                     Latest videos
+                  </span>
+               </div>
+               <VideosList videos={latestVideos} />
             </div>
-            <VideosList videos={latestVideos} />
+            <div className="">
+               <TopChannels topChannels={topChannels} />
+            </div>
          </div>
-         <div className="">
-            <TopChannels topChannels={topChannels} />
-         </div>
-      </div>
+      </>
    )
 }
 

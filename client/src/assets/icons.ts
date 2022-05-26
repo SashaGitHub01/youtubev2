@@ -4,6 +4,7 @@ import {
    MdOutlineVideoCall, MdFileUpload
 } from 'react-icons/md'
 import { BsBroadcastPin } from 'react-icons/bs'
+import { ImImage } from 'react-icons/im'
 
 
 export {
@@ -23,4 +24,5 @@ export {
    MdMoreVert as DotsIcon,
    MdOutlineSearch as SearchIcon,
    MdOutlineVideoCall as VideoIcon,
+   ImImage as ImageIcon
 }

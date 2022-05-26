@@ -6,17 +6,20 @@ import AvatarSkelet from '../../Skeletons/AvatarSkelet';
 import Button from '../../UI/Button';
 import HeaderModal from './HeaderModal';
 import UploadModal from './UploadModal';
+import { useRouter } from 'next/router';
+import { useRouterQuery } from '../../../hooks/useRouterQuery';
 
 interface HeaderOptionsProps { }
 
 const HeaderOptions: React.FC<PropsWithChildren<HeaderOptionsProps>> = ({ }) => {
+   const { removeQueryFields } = useRouterQuery()
    const [isOpen, setIsOpen] = useState<boolean>(false)
    const [isOpen1, setIsOpen1] = useState<boolean>(false)
    const { user, isAuthorizing } = useAuth()
 
    useEffect(() => {
-      document.body.style.overflow = isOpen ? 'hidden' : 'auto'
-   }, [isOpen])
+      document.body.style.overflow = isOpen || isOpen1 ? 'hidden' : 'auto'
+   }, [isOpen, isOpen1])
 
    const handleClick = (e: MouseEvent) => {
       e.stopPropagation()
@@ -33,6 +36,7 @@ const HeaderOptions: React.FC<PropsWithChildren<HeaderOptionsProps>> = ({ }) => 
    }
 
    const handleClose1 = () => {
+      removeQueryFields(['id', 'video'])
       setIsOpen1(false)
    }
 
@@ -58,7 +62,10 @@ const HeaderOptions: React.FC<PropsWithChildren<HeaderOptionsProps>> = ({ }) => 
                         </span>
                      </div>
                   </div>
-                  <UploadModal onClose={handleClose1} isOpen={isOpen1} />
+                  <UploadModal
+                     onClose={handleClose1}
+                     isOpen={isOpen1}
+                  />
                </div>
                : <>
                   <Button color='blue' Icon={UserIcon} onClick={handleClick}>

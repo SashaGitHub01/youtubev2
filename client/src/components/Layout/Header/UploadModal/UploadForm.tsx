@@ -8,13 +8,16 @@ import Toggler from '../../../UI/Toggler'
 import UploadFIle from './UploadFIle'
 import UploadFooter from './UploadFooter'
 import { useVideoMutations } from './hooks/useVideoMutations'
+import UploadImage from './UploadImage'
 
 interface UploadFormProps {
    video?: IVideo,
-   setVideo: React.Dispatch<React.SetStateAction<IVideo | undefined>>
+   onClose: () => void,
+   setVideo: React.Dispatch<React.SetStateAction<IVideo | undefined>>,
+   setPreview: (url: string) => void
 }
 
-const UploadForm: React.FC<PropsWithChildren<UploadFormProps>> = ({ video, setVideo }) => {
+const UploadForm: React.FC<PropsWithChildren<UploadFormProps>> = ({ video, setVideo, onClose, setPreview }) => {
    const [isActive, setIsActive] = useState(video?.isPublic || false)
    const [progress, setProgress] = useState(0)
 
@@ -43,12 +46,18 @@ const UploadForm: React.FC<PropsWithChildren<UploadFormProps>> = ({ video, setVi
       setError('video', { message: err.message })
    }
 
-   const { update, onChange } = useVideoMutations(onUploadError, setProgress, setVideo, video)
+   const { update, onChange, onImageChange } = useVideoMutations(onUploadError, setProgress, setVideo, setPreview, video)
 
    const onSubmit = async (values: VideoInput) => {
-      if (!video?._id) return;
-      await update.mutateAsync({ id: video?._id, input: values })
+      try {
+         if (!video?._id) return;
+         await update.mutateAsync({ id: video?._id, input: values })
+      } catch (err) {
+         console.log(err);
+      }
    }
+
+
 
    return (
       <>
@@ -84,6 +93,16 @@ const UploadForm: React.FC<PropsWithChildren<UploadFormProps>> = ({ video, setVi
                               error={errors.description?.message}
                               label='Description'
                               placeholder='Describe your video'
+                           />
+                        }}
+                        name="description"
+                        control={control}
+                        defaultValue={video.description || ""}
+                     />
+                     <Controller
+                        render={() => {
+                           return <UploadImage
+                              onChange={onImageChange}
                            />
                         }}
                         name="description"

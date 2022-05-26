@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 
 
 export const useRouterQuery = () => {
-   const { pathname, query, push } = useRouter()
+   const { pathname, query, push, replace } = useRouter()
    const [q, setQ] = useState<{ [q: string]: any }>(query)
 
    useEffect(() => {
@@ -11,14 +11,22 @@ export const useRouterQuery = () => {
       push({ pathname, query: q, }, undefined, { shallow: true })
    }, [q])
 
-   const changeQuery = (query: { [q: string]: string }) => {
+   const changeQuery = (qr: { [q: string]: string }) => {
       setQ(prev => {
          return {
             ...prev,
-            ...query
+            ...qr
          }
       })
    }
 
-   return { query, changeQuery }
+   const removeQueryFields = (arr: string[]) => {
+      const newQuery = { ...query }
+
+      arr.forEach(str => delete newQuery[str])
+      console.log(newQuery)
+      replace({ pathname: pathname, query: newQuery }, undefined, { shallow: true })
+   }
+
+   return { query, changeQuery, removeQueryFields }
 }

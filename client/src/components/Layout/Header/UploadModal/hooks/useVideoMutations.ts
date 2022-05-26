@@ -6,7 +6,13 @@ import { VideoApi } from "../../../../../API/VideoApi";
 import { useRouterQuery } from "../../../../../hooks/useRouterQuery";
 import { IVideo, VideoInput } from "../../../../../types/video.types";
 
-export const useVideoMutations = (onUploadError: (err: Error) => void, setProgress: (num: number) => void, setVideo: any, video?: IVideo) => {
+export const useVideoMutations = (
+   onUploadError: (err: Error) => void,
+   setProgress: (num: number) => void,
+   setVideo: any,
+   setPreview: (url: string) => void,
+   video?: IVideo,
+) => {
    const { query, changeQuery } = useRouterQuery()
 
    const create = useMutation<IVideo, Error, VideoInput>(
@@ -52,6 +58,16 @@ export const useVideoMutations = (onUploadError: (err: Error) => void, setProgre
    }
    );
 
+   const uploadImage = useMutation<IMediaRes, Error, FormData>(
+      'upload img',
+      async (data: FormData) => await MediaApi.uploadPreview(data), {
+
+      onSuccess: async (data) => {
+         await update.mutateAsync({ input: { preview: data.url }, id: video?._id as string })
+      },
+   }
+   );
+
    useEffect(() => {
       if (!video) return
       if (!!query?.id && !!query?.video && !video?.video) {
@@ -68,8 +84,21 @@ export const useVideoMutations = (onUploadError: (err: Error) => void, setProgre
       formdata.append('media', file)
       formdata.append('name', name)
       e.target.value = '';
-      upload.mutateAsync(formdata)
+
+      await upload.mutateAsync(formdata)
    }
 
-   return { update, create, upload, onChange }
+   const onImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0]
+      if (!file) return;
+      e.target.value = ''
+      const formdata = new FormData()
+      formdata.append('media', file)
+      const blob = new Blob([file])
+      setPreview(URL.createObjectURL(blob))
+
+      await uploadImage.mutateAsync(formdata)
+   }
+
+   return { update, create, upload, onChange, onImageChange, uploadImage }
 }
