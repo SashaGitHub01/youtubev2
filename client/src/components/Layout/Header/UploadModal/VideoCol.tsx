@@ -1,11 +1,14 @@
 import Link from 'next/link';
 import React, { PropsWithChildren } from 'react'
+import { IVideo } from '../../../../types/video.types';
 
-interface VideoColProps { }
+interface VideoColProps {
+   video: IVideo
+}
 
-const VideoCol: React.FC<PropsWithChildren<VideoColProps>> = ({ }) => {
+const VideoCol: React.FC<PropsWithChildren<VideoColProps>> = ({ video }) => {
    return (
-      <div className="basis-[225px] shrink">
+      <div className="max-w-[225px] shrink w-full overflow-clip">
          <div className="bg-gray_lighter">
             <div className="bg-gray_light h-[115px]">
                <img src="" alt="" />
@@ -15,9 +18,9 @@ const VideoCol: React.FC<PropsWithChildren<VideoColProps>> = ({ }) => {
                   <div className="typo_sm">
                      Video link:
                   </div>
-                  <Link href={`/video/${0}`}>
-                     <div className='text-blue1  truncate cursor-pointer'>
-                        https://youtube
+                  <Link href={`/video/${video._id}`}>
+                     <div className='text-blue1  cursor-pointer truncate'>
+                        {process.env.SERVER}/video/{video._id}
                      </div>
                   </Link>
                </div>
@@ -25,11 +28,9 @@ const VideoCol: React.FC<PropsWithChildren<VideoColProps>> = ({ }) => {
                   <div className="typo_sm">
                      Video name:
                   </div>
-                  <Link href={`/video/${0}`}>
-                     <div className='font-medium truncate cursor-pointer'>
-                        Video 125164
-                     </div>
-                  </Link>
+                  <div className='font-medium truncate'>
+                     {video.name}
+                  </div>
                </div>
             </div>
          </div>

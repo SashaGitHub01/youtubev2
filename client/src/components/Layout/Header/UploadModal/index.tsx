@@ -1,5 +1,9 @@
 import Router, { useRouter } from 'next/router';
-import React, { PropsWithChildren } from 'react'
+import React, { PropsWithChildren, useState } from 'react'
+import { useQuery, } from 'react-query';
+import { VideoApi } from '../../../../API/VideoApi';
+import { IVideo } from '../../../../types/video.types';
+import Loader from '../../../Loader';
 import Modal from '../../../UI/Modal';
 import UploadForm from './UploadForm';
 import VideoCol from './VideoCol';
@@ -10,20 +14,25 @@ interface UploadModalProps {
 }
 
 const UploadModal: React.FC<PropsWithChildren<UploadModalProps>> = ({ onClose, isOpen }) => {
-   const router = useRouter()
-   console.log(router.query);
+   const { query } = useRouter()
+   const [video, setVideo] = useState<IVideo>()
+
    return (
       <Modal
          onClose={onClose}
          isOpen={true}
-         title='Video upload'
+         title={video?.name || 'Video upload'}
          width='lg'
          height='full'
       >
          <div className="relative h-full flex-col flex">
             <div className="flex-auto flex gap-5">
-               <UploadForm />
-               {!!1 && <VideoCol />}
+               <UploadForm
+                  video={video}
+                  setVideo={setVideo}
+               />
+               {!!video?._id
+                  && <VideoCol video={video} />}
             </div>
          </div>
       </Modal>

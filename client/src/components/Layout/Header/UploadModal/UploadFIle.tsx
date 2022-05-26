@@ -2,7 +2,7 @@ import React, { PropsWithChildren } from 'react'
 import { UploadIcon } from '../../../../assets/icons';
 
 interface UploadFIleProps {
-   onSelect: (e: React.ChangeEvent<HTMLInputElement>) => void
+   onSelect: (e: React.ChangeEvent<HTMLInputElement>) => void,
 }
 
 const UploadFIle: React.FC<PropsWithChildren<UploadFIleProps>> = ({ onSelect }) => {

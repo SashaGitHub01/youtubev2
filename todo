@@ -15,3 +15,5 @@ Media
    make upload to cloud
 
 
+upload video -> if upload is completed -> create empty video -> set id in URL query params ->
+ if video from ?id exist -> show update form

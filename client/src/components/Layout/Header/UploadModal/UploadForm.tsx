@@ -1,48 +1,23 @@
 import React, { PropsWithChildren, useState } from 'react'
-import { useMutation } from 'react-query'
-import { useAuth } from '../../../../context/authCtx'
 import * as Yup from 'yup'
 import { Controller, useForm } from 'react-hook-form'
 import { VideoInput, IVideo } from '../../../../types/video.types'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { VideoApi } from '../../../../API/VideoApi'
 import TextArea from '../../../UI/TextArea'
 import Toggler from '../../../UI/Toggler'
 import UploadFIle from './UploadFIle'
 import UploadFooter from './UploadFooter'
-import { MediaApi } from '../../../../API/MediaApi'
-import { IMediaRes } from '../../../../API/types'
+import { useVideoMutations } from './hooks/useVideoMutations'
+import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from 'react-query'
 
-interface UploadFormProps { }
+interface UploadFormProps {
+   video?: IVideo,
+   setVideo: React.Dispatch<React.SetStateAction<IVideo | undefined>>
+}
 
-const UploadForm: React.FC<PropsWithChildren<UploadFormProps>> = ({ }) => {
-   const { error, data, isLoading, mutate } = useMutation<IVideo, Error, VideoInput>(
-      'create video',
-      async (input: VideoInput) => {
-         return await VideoApi.createVideo(input)
-      },
-   );
-
-   const { mutate: uploadMutate } = useMutation<IMediaRes, Error, FormData>(
-      'upload video',
-      async (data: FormData) => await MediaApi.uploadVideo(data), {
-      onError: (err) => {
-         setError('video', { message: err.message })
-      },
-
-      onSuccess: async (data: IMediaRes) => {
-         mutate({ video: data.url })
-      },
-   }
-   );
-
-   const { error: updError, isLoading: updIsLoading, mutate: updMutate } = useMutation<IVideo, Error, { input: VideoInput, id: string }>(
-      'update video',
-      async ({ id, input }) => {
-         return await VideoApi.updateVideo(id, input)
-      },
-   )
+const UploadForm: React.FC<PropsWithChildren<UploadFormProps>> = ({ video, setVideo }) => {
    const [isActive, setIsActive] = useState(false)
+   const [progress, setProgress] = useState(0)
 
    const schema = Yup.object().shape({
       name: Yup.string()
@@ -57,7 +32,7 @@ const UploadForm: React.FC<PropsWithChildren<UploadFormProps>> = ({ }) => {
       mode: 'onChange',
       defaultValues: {
          description: '',
-         name: '',
+         name: video?.name || '',
          isPublic: false,
          preview: '',
          video: ''
@@ -72,28 +47,25 @@ const UploadForm: React.FC<PropsWithChildren<UploadFormProps>> = ({ }) => {
       })
    }
 
-   const onSelectFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (!e.target.files?.[0]) return;
-      const file = e.target.files?.[0];
-
-      const formdata = new FormData()
-      formdata.append('media', file)
-
-      uploadMutate(formdata)
+   const onUploadError = (err: Error) => {
+      setError('video', { message: err.message })
    }
 
-   const onSubmit = (values: VideoInput) => {
-      console.log(values);
+   const { create, upload, update, onChange } = useVideoMutations(onUploadError, setProgress, setVideo)
+
+   const onSubmit = async (values: VideoInput) => {
+      if (!video?._id) return;
+      await update.mutateAsync({ id: video?._id, input: values })
    }
 
    return (
       <>
          <form className="shrink-0 flex-auto" onSubmit={handleSubmit(onSubmit)}>
-            {!!data?._id
+            {!!video?._id
                ? <>
-                  {!!updError
+                  {!!update.error
                      && <div className="typo_sm text-red1 py-2">
-                        {updError.name === 'Error' ? updError.message : 'Something went wrong...'}
+                        {update.error.name === 'Error' ? update.error.message : 'Something went wrong...'}
                      </div>}
                   <div className="flex flex-col gap-7">
                      <Controller
@@ -136,10 +108,16 @@ const UploadForm: React.FC<PropsWithChildren<UploadFormProps>> = ({ }) => {
                         toggle={togglePublic}
                      />
                   </div>
-                  <UploadFooter disabled={updIsLoading} />
+                  <UploadFooter
+                     haveVideo={!!video.video}
+                     progress={progress}
+                     disabled={update.isLoading || !video?.video}
+                  />
                </>
                : <>
-                  <UploadFIle onSelect={onSelectFile} />
+                  <UploadFIle
+                     onSelect={onChange}
+                  />
                </>}
          </form>
       </>

@@ -10,6 +10,11 @@ export class VideoApi {
       return data.data
    }
 
+   static fetchSecureVideo = async (id: string): Promise<IVideo> => {
+      const { data } = await rootApi.get<Res<IVideo>>(`/video/secure/${id}`)
+      return data.data
+   }
+
    static fetchVideos = async (search?: string, sort: SortTypes = 'date'): Promise<IVideo[]> => {
       const url = `/video?sort=${sort}${search ? `&search=${search}` : ''}`
       const { data } = await rootApi.get<Res<IVideo[]>>(url)

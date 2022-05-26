@@ -80,6 +80,22 @@ class VideoCtrl {
       }
    }
 
+   secureVideo = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+      try {
+         const authUser = req.user;
+         const { id } = req.params
+
+         let oneVideo = await Video.findOne({ $and: [{ _id: id }, { user: authUser }] }).populate('user')
+         if (!oneVideo) return next(ApiError.notFound('Video not found'))
+
+         return res.json({
+            data: oneVideo
+         })
+      } catch (err: any) {
+         return next(ApiError.internal(err.message))
+      }
+   }
+
    videosByUserId = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
       try {
          const authUser = req.user
@@ -110,13 +126,14 @@ class VideoCtrl {
             description: '',
             video: '',
             preview: '',
+            ...req.body,
             user: req.user as unknown as Schema.Types.ObjectId,
          }
 
          const video = await Video.create(defProps)
 
          return res.json({
-            data: video._id
+            data: video
          })
       } catch (err: any) {
          return next(ApiError.internal(err.message))
