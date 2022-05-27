@@ -5,8 +5,7 @@ import { useAuth } from '../../../context/authCtx';
 import AvatarSkelet from '../../Skeletons/AvatarSkelet';
 import Button from '../../UI/Button';
 import HeaderModal from './HeaderModal';
-import UploadModal from './UploadModal';
-import { useRouter } from 'next/router';
+import UploadModal from '../../UploadModal';
 import { useRouterQuery } from '../../../hooks/useRouterQuery';
 
 interface HeaderOptionsProps { }

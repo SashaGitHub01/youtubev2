@@ -3,6 +3,7 @@ import { validationResult } from "express-validator";
 import express from 'express'
 import bcrypt from 'bcryptjs'
 import { User, UserModelI } from "../models/User";
+import mongoose from "mongoose";
 
 class UserCtrl {
    register = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
@@ -79,7 +80,22 @@ class UserCtrl {
 
    oneUser = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
       try {
-         const user = await User.findById(req.params.id)
+         const id = new mongoose.Types.ObjectId(req.params.id)
+
+         const user = await User.aggregate()
+            .match({ _id: id })
+            .lookup({
+               from: 'videos',
+               localField: '_id',
+               foreignField: 'user',
+               as: 'videos'
+            })
+            .addFields({
+               videosCount: { $size: '$videos' },
+               viewsCount: { $sum: '$videos.views' }
+            })
+            .project({ videos: 0, password: 0, updatedAt: 0 })
+
 
          return res.json({
             data: user
