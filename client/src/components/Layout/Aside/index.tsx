@@ -6,7 +6,7 @@ interface AsideProps { }
 const Aside: React.FC<PropsWithChildren<AsideProps>> = ({ }) => {
 
    return (
-      <aside className="fixed z-40 left-0 top-0 bg-gray_lighter min-h-screen w-aside pt-header flex flex-col">
+      <aside className="fixed z-40 left-0 top-0 bg-gray_lighter min-h-screen w-aside pt-header flex flex-col border-r border-solid border-r-gray-200 border-opacity-40">
          <div className="flex-auto">
             <NavList />
          </div>

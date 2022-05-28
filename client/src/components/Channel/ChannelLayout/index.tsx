@@ -1,7 +1,8 @@
 import React, { PropsWithChildren, ReactNode } from 'react'
 import { GetLayoutType } from '../../../../pages/_app';
 import { IUser } from '../../../types/user.types';
-import ChannelHead from '../ChannelHead';
+import ChannelHead from './ChannelHead';
+import ChannelNav from './ChannelNav';
 
 interface ChannelLayoutProps {
    channel: IUser
@@ -9,9 +10,10 @@ interface ChannelLayoutProps {
 
 const ChannelLayout: React.FC<PropsWithChildren<ChannelLayoutProps>> = ({ channel, children }) => {
    return (
-      <section className="">
+      <section className="bg-gray_light flex-auto">
          <ChannelHead {...channel} />
-         <div className="p-content container_center">
+         <div className="">
+            <ChannelNav _id={channel._id} />
             {children}
          </div>
       </section>
@@ -19,6 +21,7 @@ const ChannelLayout: React.FC<PropsWithChildren<ChannelLayoutProps>> = ({ channe
 }
 
 export const getLayout: GetLayoutType<ChannelLayoutProps> = function (page) {
+
    return (
       <ChannelLayout channel={page.props.channel}>
          {page}

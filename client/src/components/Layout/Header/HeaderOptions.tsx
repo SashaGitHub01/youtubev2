@@ -6,12 +6,12 @@ import AvatarSkelet from '../../Skeletons/AvatarSkelet';
 import Button from '../../UI/Button';
 import HeaderModal from './HeaderModal';
 import UploadModal from '../../UploadModal';
-import { useRouterQuery } from '../../../hooks/useRouterQuery';
+import { useRouter } from 'next/router';
 
 interface HeaderOptionsProps { }
 
 const HeaderOptions: React.FC<PropsWithChildren<HeaderOptionsProps>> = ({ }) => {
-   const { removeQueryFields } = useRouterQuery()
+   const { push, pathname, query } = useRouter()
    const [isOpen, setIsOpen] = useState<boolean>(false)
    const [isOpen1, setIsOpen1] = useState<boolean>(false)
    const { user, isAuthorizing } = useAuth()
@@ -35,7 +35,11 @@ const HeaderOptions: React.FC<PropsWithChildren<HeaderOptionsProps>> = ({ }) => 
    }
 
    const handleClose1 = () => {
-      removeQueryFields(['id', 'video'])
+      const newQuery = { ...query };
+      delete newQuery?.id;
+      delete newQuery?.video;
+      push({ pathname, query: newQuery }) //fix
+
       setIsOpen1(false)
    }
 

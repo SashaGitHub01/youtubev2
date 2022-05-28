@@ -1,10 +1,8 @@
-import Link from 'next/link';
 import React, { PropsWithChildren } from 'react'
-import { CheckIcon } from '../../../assets/icons';
-import { IUser } from '../../../types/user.types';
-import { formatSubs } from '../../../utils/formatSubs';
-import Button from '../../UI/Button';
-import HeadNav from './HeadNav';
+import { CheckIcon } from '../../../../assets/icons';
+import { IUser } from '../../../../types/user.types';
+import { formatSubs } from '../../../../utils/formatSubs';
+import Button from '../../../UI/Button';
 
 interface ChannelHeadProps extends IUser {
 }
@@ -12,7 +10,7 @@ interface ChannelHeadProps extends IUser {
 const ChannelHead: React.FC<PropsWithChildren<ChannelHeadProps>> = ({ avatar, _id, name, isVerified, subscribersCount, viewsCount, videosCount }) => {
 
    return (
-      <header className="bg-gray_light mb-5 p-content pb-0">
+      <header className="bg-gray_lighter p-content pb-4">
          <div className="container_center">
             <div className="flex justify-between items-center">
                <div className="flex gap-3">
@@ -42,7 +40,6 @@ const ChannelHead: React.FC<PropsWithChildren<ChannelHeadProps>> = ({ avatar, _i
                   </Button>
                </div>
             </div>
-            <HeadNav _id={_id} />
          </div>
       </header>
    )

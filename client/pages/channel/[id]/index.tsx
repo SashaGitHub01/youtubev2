@@ -1,8 +1,11 @@
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext, NextPage } from 'next';
+import { useRouter } from 'next/router';
 import React from 'react'
+import { useQuery } from 'react-query';
 import { UserApi } from '../../../src/API/UserApi';
 import { VideoApi } from '../../../src/API/VideoApi';
-import ChannelLayout from '../../../src/components/Channel/ChannelLayout';
+import { getLayout } from '../../../src/components/Channel/ChannelLayout';
+import PopularVideos from '../../../src/components/Channel/PopularVideos';
 import { IUser } from '../../../src/types/user.types';
 import { IVideo } from '../../../src/types/video.types';
 import { NextPageWithLayout } from '../../_app';
@@ -13,23 +16,19 @@ interface ChannelProps {
 }
 
 const Channel: NextPageWithLayout<ChannelProps> = ({ channel, popVideos, }) => {
-
+   const { query } = useRouter()
+   
    return (
-      <div className="g">
-         haaha
+      <div className="container_center px-content">
+         <PopularVideos popVideos={popVideos} />
       </div>
    )
 }
 
 export default Channel;
 
-Channel.getLayout = function (page) {
-   return (
-      <ChannelLayout channel={page.props.channel}>
-         {page}
-      </ChannelLayout>
-   )
-}
+Channel.getLayout = getLayout
+
 
 export const getStaticPaths: GetStaticPaths = async () => {
    try {
