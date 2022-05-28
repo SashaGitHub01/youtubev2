@@ -5,6 +5,17 @@ import type { AppProps } from 'next/app'
 import Layout from '../src/components/Layout'
 import { QueryClientProvider, QueryClient } from 'react-query'
 import AuthProvider from '../src/context/authCtx'
+import { NextPage } from 'next';
+import React from 'react';
+
+export type GetLayoutType<T> = (page: React.ReactElement<T>) => React.ReactNode
+
+
+export type NextPageWithLayout<T> = NextPage<T> & { getLayout: GetLayoutType<T> }
+
+type AppPropsWithLayout = AppProps & {
+   Component: NextPageWithLayout<any>
+}
 
 const client = new QueryClient({
    defaultOptions: {
@@ -20,13 +31,15 @@ const client = new QueryClient({
 
 })
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps }: AppPropsWithLayout) {
+
+   const getLayout = Component.getLayout ?? ((page) => page)
 
    return (
       <QueryClientProvider client={client}>
          <AuthProvider>
             <Layout>
-               <Component {...pageProps} />
+               {getLayout(<Component {...pageProps} />)}
             </Layout>
          </AuthProvider>
       </QueryClientProvider>

@@ -13,7 +13,7 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({ children }) => {
          <Header />
          <Aside />
          <main className="pt-header pl-aside bg-white flex-auto flex flex-col">
-            <div className="p-3 flex-auto flex flex-col">
+            <div className="flex-auto flex flex-col">
                {children}
             </div>
          </main>

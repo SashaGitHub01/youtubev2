@@ -4,9 +4,10 @@ import { User, UserModelI } from "../models/User";
 import { Video, VideoModelI } from "../models/Video";
 import { Schema } from "mongoose";
 import { Comment } from "../models/Comment";
-import { getVideoDurationInSeconds } from 'get-video-duration'
 
 type SortTypes = 'date' | 'views'
+
+const userSelect = 'avatar _id name subscribersCount isVerified'
 
 class VideoCtrl {
    allVideos = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
@@ -24,7 +25,7 @@ class VideoCtrl {
             {
                sort: sortOpt,
                populate: {
-                  path: 'user', select: 'avatar _id name subscribersCount isVerified'
+                  path: 'user', select: userSelect
                }
             }
          )
@@ -41,7 +42,7 @@ class VideoCtrl {
       try {
          const videos = await Video.find({ isPublic: true }, {}, {
             populate: {
-               path: 'user', select: 'avatar _id name subscribersCount isVerified'
+               path: 'user', select: userSelect
             }
          })
             .sort({ views: '-1' })
@@ -100,7 +101,12 @@ class VideoCtrl {
       try {
          const authUser = req.user
          const { userId } = req.params
-         const { limit } = req.query
+         const { limit, sort } = req.query
+
+         const sortOptions = {
+            createdAt: { createdAt: '-1' },
+            views: { views: '-1' }
+         }
 
          const options = {
             $and: [
@@ -109,7 +115,12 @@ class VideoCtrl {
             ]
          }
 
-         const videos = await Video.find(options).sort({ createdAt: '-1' }).limit((limit as unknown as number) || 10)
+         const videos = await Video.find(options)
+            .sort((sort === 'views' ? sortOptions.views : sortOptions.createdAt))
+            .limit((limit as unknown as number) || 10)
+            .populate({
+               path: 'user', select: userSelect
+            })
 
          return res.json({
             data: videos

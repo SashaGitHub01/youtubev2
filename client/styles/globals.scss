@@ -50,6 +50,10 @@
    .btn_second {
       @apply bg-blue1  hover:bg-blue-400 btn;
    }
+
+   .container_center {
+      @apply container xl:max-w-[1280px] mx-auto;
+   }
 }
 
 /*Обнуление*/

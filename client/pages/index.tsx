@@ -1,6 +1,5 @@
 import type { NextPage, GetStaticProps } from 'next'
 import { VideoApi } from '../src/API/VideoApi';
-import RecomendSlider from '../src/components/Home/RecomendSlider';
 import VideosList from '../src/components/VideosList';
 import { IVideo } from '../src/types/video.types'
 import { IUser } from '../src/types/user.types'
@@ -22,7 +21,7 @@ const Home: NextPage<HomeProps> = ({ popVideos, latestVideos, topChannels }) => 
          <Head>
             <title>YouTube 2022</title>
          </Head>
-         <div className="">
+         <div className="p-content">
             <RecommendVideos popVideos={popVideos} />
             <div className="">
                <div className="line">

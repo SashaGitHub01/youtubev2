@@ -1,6 +1,6 @@
 import React, { PropsWithChildren } from 'react'
 import { IVideo } from '../../../types/video.types';
-import RecomendSlider from '../RecomendSlider';
+import VideosSlider from '../../VideosSlider';
 import s from './RecommendVideos.module.scss'
 
 interface RecommendVideosProps {
@@ -19,7 +19,7 @@ const RecommendVideos: React.FC<PropsWithChildren<RecommendVideosProps>> = ({ po
                <div className={`${s.btn_next}`} />
             </div>
          </div>
-         <RecomendSlider
+         <VideosSlider
             videos={popVideos}
             next={s.btn_next}
             prev={s.btn_prev}

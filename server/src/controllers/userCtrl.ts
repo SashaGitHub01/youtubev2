@@ -5,6 +5,17 @@ import bcrypt from 'bcryptjs'
 import { User, UserModelI } from "../models/User";
 import mongoose from "mongoose";
 
+const userProj = {
+   email: 0,
+   views: 0,
+   likes: 0,
+   dislikes: 0,
+   createdAt: 0,
+   updatedAt: 0,
+   status: 0,
+   password: 0,
+}
+
 class UserCtrl {
    register = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
       try {
@@ -97,8 +108,10 @@ class UserCtrl {
             .project({ videos: 0, password: 0, updatedAt: 0 })
 
 
+         if (!user?.[0]) return next(ApiError.notFound('User not found'))
+
          return res.json({
-            data: user
+            data: user[0]
          })
       } catch (err: any) {
          return next(ApiError.internal(err.message))
@@ -107,7 +120,7 @@ class UserCtrl {
 
    popularUsers = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
       try {
-         const users = await User.find({},)
+         const users = await User.find({}, userProj)
             .sort({ subscribersCount: '-1' })
             .limit(10)
 
@@ -135,7 +148,7 @@ class UserCtrl {
             }).addFields({
                videosCount: { $size: '$videos' }
             })
-            .project({ videos: 0, password: 0, updatedAt: 0 })
+            .project({ videos: 0, ...userProj })
 
          return res.json({
             data: users

@@ -21,7 +21,8 @@ export interface IUser {
    subscribersCount: number,
    isVerified: boolean,
    createdAt: string,
-   videosCount?: number
+   videosCount?: number,
+   viewsCount?: number
 }
 
 export interface IUserInput {

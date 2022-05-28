@@ -51,8 +51,9 @@ export class VideoApi {
       return data.data
    }
 
-   static fetchVideosByUser = async (id: string): Promise<IVideo[]> => {
-      const { data } = await rootApi.get<Res<IVideo[]>>(`/video/user/${id}`)
+   static fetchVideosByUser = async (id: string, sort: SortTypes = 'date'): Promise<IVideo[]> => {
+      const url = `/video/user/${id}?sort=${sort}`
+      const { data } = await rootApi.get<Res<IVideo[]>>(url)
       return data.data
    }
 

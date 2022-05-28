@@ -12,6 +12,14 @@ module.exports = {
             aside: '190px',
          },
 
+         padding: {
+            'content': '0.75rem',
+         },
+
+         container: {
+            center: true,
+         },
+
          colors: {
             red1: '#f53131',
             gray1: '#909090',
