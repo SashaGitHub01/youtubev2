@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, ReactNode } from 'react'
+import React, { PropsWithChildren } from 'react'
 import { GetLayoutType } from '../../../../pages/_app';
 import { IUser } from '../../../types/user.types';
 import ChannelHead from './ChannelHead';

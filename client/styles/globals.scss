@@ -54,6 +54,28 @@
    .container_center {
       @apply container xl:max-w-[1280px] mx-auto;
    }
+
+   .skeleton {
+      @apply overflow-hidden relative rounded-sm bg-gray-200;
+
+      &::after {
+         position: absolute;
+         top: 0;
+         right: 0;
+         bottom: 0;
+         left: 0;
+         transform: translateX(-100%);
+         background: linear-gradient(to right, transparent 0%, #e8e8e8 60%, transparent 100%);
+         animation: shimmer 0.6s linear infinite;
+         content: "";
+      }
+
+      @keyframes shimmer {
+         100% {
+            transform: translateX(100%);
+         }
+      }
+   }
 }
 
 /*Обнуление*/

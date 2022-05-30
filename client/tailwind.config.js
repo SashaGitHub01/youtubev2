@@ -43,7 +43,8 @@ module.exports = {
          },
 
          boxShadow: {
-            video: '0 0 0 4px rgb(243, 244, 246)'
+            video: '0 0 0 4px rgb(243, 244, 246)',
+            shine: '0 0 20px 30px #f1f1f1a6'
          },
 
          gridTemplateColumns: {
@@ -61,14 +62,26 @@ module.exports = {
                }
             },
 
-            scale: {
+            line: {
                '0%': {
-                  'transform': 'scale(0)',
+                  'transform': 'scaleX(0)',
                   'opacity': '0.3'
                },
 
                '100%': {
-                  'transform': 'scale(1)',
+                  'transform': 'scaleX(1)',
+                  'opacity': '1'
+               }
+            },
+
+            scale: {
+               '0%': {
+                  'width': '0',
+                  'opacity': '0.3'
+               },
+
+               '100%': {
+                  'width': '100%',
                   'opacity': '1'
                }
             },
@@ -82,12 +95,28 @@ module.exports = {
                   'opacity': '1'
                }
             },
+
+            shine: {
+               '0%': {
+                  'transform': 'translateX(-45px)'
+               },
+
+               '50%': {
+                  'transform': 'translateX(150px)'
+               },
+
+               '100%': {
+                  'transform': 'translateX(300px)'
+               }
+            },
          },
 
          animation: {
             skeleton: 'skeleton 0.9s linear infinite alternate',
             scale: 'scale 0.3s ease',
-            fade: 'fade 0.3s ease-in'
+            fade: 'fade 0.3s ease-in',
+            line: 'line 0.3s ease',
+            shine: 'shine 0.8s linear infinite',
          }
       },
    },

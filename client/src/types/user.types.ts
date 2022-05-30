@@ -22,7 +22,8 @@ export interface IUser {
    isVerified: boolean,
    createdAt: string,
    videosCount?: number,
-   viewsCount?: number
+   viewsCount?: number,
+   status?: string
 }
 
 export interface IUserInput {
