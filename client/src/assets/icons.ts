@@ -1,5 +1,5 @@
 import {
-   MdThumbUp, MdThumbDown, MdSubscriptions, MdBarChart, MdOutlineNotificationsNone,
+   MdThumbUp, MdThumbDown, MdOutlineThumbDown, MdOutlineThumbUp, MdSubscriptions, MdBarChart, MdOutlineNotificationsNone,
    MdCheck, MdGetApp, MdHome, MdOutlineArrowBack, MdOutlineLogin, MdPerson, MdClose, MdMoreVert, MdOutlineSearch,
    MdOutlineVideoCall, MdFileUpload, MdPlayArrow, MdPause, MdFullscreen
 } from 'react-icons/md'
@@ -11,6 +11,8 @@ export {
    MdThumbUp as LikeIcon,
    MdThumbDown as DislikeIcon,
    MdSubscriptions as SubsIcon,
+   MdOutlineThumbDown as DislikeOutlineIcon,
+   MdOutlineThumbUp as LikeOutlineIcon,
    MdBarChart as ChartIcon,
    MdOutlineNotificationsNone as NotificationIcon,
    MdCheck as CheckIcon,

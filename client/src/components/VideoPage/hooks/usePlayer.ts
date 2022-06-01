@@ -116,6 +116,9 @@ export const usePlayer = () => {
 
    useEffect(() => {
       const handleKeyDown = (e: KeyboardEvent) => {
+         const tag = (e.target as any)?.tagName;
+         if (tag === 'TEXTAREA' || tag === 'INPUT') return false;
+
          switch (e.key) {
             case ' ': {
                e.preventDefault()

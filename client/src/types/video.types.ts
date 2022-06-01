@@ -11,7 +11,8 @@ export interface IVideo {
    video: string,
    preview: string,
    createdAt: string,
-   user: IUser
+   user: IUser,
+   commentsCount?: number
 }
 
 export interface VideoInput {

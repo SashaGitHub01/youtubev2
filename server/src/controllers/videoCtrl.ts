@@ -2,7 +2,7 @@ import { ApiError } from "../utils/ApiError";
 import express from 'express'
 import { User, UserModelI } from "../models/User";
 import { Video, VideoModelI } from "../models/Video";
-import { Schema } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import { Comment } from "../models/Comment";
 
 type SortTypes = 'date' | 'views'
@@ -60,13 +60,44 @@ class VideoCtrl {
    oneVideo = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
       try {
          const authUser = req.user;
-         const { id } = req.params
+         const id = new mongoose.Types.ObjectId(req.params.id)
 
-         let oneVideo = await Video.findById(id).populate('user')
-         if (!oneVideo) return next(ApiError.notFound('Video not found'))
+         const oneVid = await Video.aggregate()
+            .match({ _id: id })
+            .lookup({
+               from: 'comments',
+               localField: '_id',
+               foreignField: 'video',
+               as: 'comments',
+            })
+            .addFields({
+               commentsCount: { $size: '$comments' },
+            })
+            .lookup({
+               from: 'users',
+               localField: 'user',
+               foreignField: '_id',
+               as: 'user'
+            })
+            .unwind({ path: '$user' })
+            .project({
+               comments: 0,
+               updatedAt: 0,
+               __v: 0,
+               'user.name': 0,
+               'user.status': 0,
+               'user.views': 0,
+               'user.likes': 0,
+               'user.dislikes': 0,
+               'user.createdAt': 0,
+               'user.updatedAt': 0,
+               'user.__v': 0
+            })
 
-         if (!oneVideo.isPublic && oneVideo.user !== authUser) {
-            const { video, preview, ...rest } = oneVideo.toJSON()
+         if (!oneVid[0]) return next(ApiError.notFound('Video not found'))
+
+         if (!oneVid[0].isPublic && oneVid[0].user !== authUser) {
+            const { video, preview, ...rest } = oneVid[0]
 
             return res.json({
                data: rest
@@ -74,7 +105,7 @@ class VideoCtrl {
          }
 
          return res.json({
-            data: oneVideo
+            data: oneVid[0]
          })
       } catch (err: any) {
          return next(ApiError.internal(err.message))

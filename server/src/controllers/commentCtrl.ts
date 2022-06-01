@@ -31,6 +31,8 @@ class CommentCtrl {
    getByVideo = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
       try {
          const comms = await Comment.find({ video: req.params.id })
+            .sort({ createdAt: '-1' })
+            .populate({ path: 'user', select: 'name avatar _id' })
 
          return res.json({
             data: comms

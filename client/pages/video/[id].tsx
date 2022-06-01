@@ -1,6 +1,9 @@
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from 'next'
 import React, { PropsWithChildren } from 'react'
 import { VideoApi } from '../../src/API/VideoApi'
+import Loader from '../../src/components/Loader'
+import Comments from '../../src/components/VideoPage/Comments'
+import VideoInfo from '../../src/components/VideoPage/VideoInfo'
 import VideoPlayer from '../../src/components/VideoPage/VideoPlayer'
 import { IVideo } from '../../src/types/video.types'
 
@@ -9,11 +12,20 @@ interface VideoPageProps {
 }
 
 const VideoPage: React.FC<PropsWithChildren<VideoPageProps>> = ({ video }) => {
+
    return (
       <div className="">
-         <div className="">
-            <VideoPlayer video={video} />
-         </div>
+         {video._id
+            ? <>
+               <div className="">
+                  <VideoPlayer video={video} />
+               </div>
+               <div className="px-content pb-5">
+                  <VideoInfo video={video} channel={video.user} />
+                  <Comments video={video} />
+               </div>
+            </>
+            : <Loader />}
       </div>
    )
 }

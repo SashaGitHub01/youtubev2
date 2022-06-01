@@ -28,11 +28,11 @@
    }
 
    .input {
-      @apply border-b bg-transparent border-solid border-gray1 text-primary w-full p-2 focus:border-blue1;
+      @apply border-b bg-transparent border-solid border-gray1 text-primary w-full p-2 focus-within:border-blue1;
    }
 
    .input-fill {
-      @apply border bg-white rounded-sm resize-none border-solid border-gray1 text-primary w-full p-2 focus:border-blue1;
+      @apply border bg-white rounded-sm resize-none border-solid border-gray1 text-primary w-full p-2 focus-within:border-blue1;
    }
 
    .btn {
@@ -118,6 +118,11 @@ body {
 
 body {
    @apply text-black text-primary;
+}
+
+pre {
+   font-family: inherit;
+   white-space: pre-wrap;
 }
 
 input,

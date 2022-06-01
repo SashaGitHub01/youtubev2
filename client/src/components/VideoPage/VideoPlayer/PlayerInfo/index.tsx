@@ -31,7 +31,7 @@ const PlayerInfo: React.FC<PropsWithChildren<PlayerInfoProps>> = ({
                </button>
             }
          </div>
-         <div className={`${s.bar} z-50 relative bg-transparent -translate-y-full px-2 pt-2`}>
+         <div className={`${s.bar} z-50 absolute bg-transparent w-full -translate-y-full px-2 pt-2`}>
             <Range
                min={0}
                max={time}
