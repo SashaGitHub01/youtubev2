@@ -19,6 +19,14 @@ export const usePlayer = () => {
    const [progress, setProgress] = useState(0)
    const [isShowButton, setIsShowButton] = useState(true)
 
+   const handleProgress = () => {
+      const video = videoRef.current;
+      if (!video) return;
+
+      setCurrentTime(video.currentTime)
+      setProgress(Math.ceil((video.currentTime / video.duration) * 100))
+   }
+
    useEffect(() => {
       if (!videoRef.current?.duration) return;
       videoRef.current.currentTime = 0;
@@ -29,14 +37,9 @@ export const usePlayer = () => {
       const video = videoRef.current;
       if (!video || !time) return;
 
-      const handleProgress = () => {
-         setCurrentTime(video.currentTime)
-         setProgress(Math.ceil((video.currentTime / video.duration) * 100))
-      }
-
       video.addEventListener('timeupdate', handleProgress)
       return () => video.removeEventListener('timeupdate', handleProgress)
-   }, [time, videoRef.current?.currentTime])
+   }, [time, videoRef.current])
 
    useEffect(() => {
       if (isPlaying) {
@@ -67,6 +70,13 @@ export const usePlayer = () => {
    const back = () => {
       if (!videoRef.current?.currentTime) return;
       videoRef.current.currentTime -= 10
+   }
+
+   const changeCurrentime = (val: number) => {
+      const video = videoRef.current;
+      if (!video) return;
+
+      video.currentTime = val;
    }
 
    const toFullScreen = () => {
@@ -151,6 +161,7 @@ export const usePlayer = () => {
          back,
          toFullScreen,
          exitFullscreen,
+         changeCurrentime
       }
    }
 }

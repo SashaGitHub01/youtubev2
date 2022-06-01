@@ -1,5 +1,6 @@
 import 'swiper/scss';
 import '../styles/globals.scss'
+import '../styles/range.scss';
 import 'swiper/scss/navigation'
 import type { AppProps } from 'next/app'
 import Layout from '../src/components/Layout'
