@@ -1,0 +1,63 @@
+.btn_cont {
+   @apply absolute left-0 top-0 w-full h-full z-10 flex items-center justify-center;
+
+   &:hover {
+      & ~ .bar {
+         & .bar_bottom {
+            @apply flex;
+         }
+      }
+   }
+}
+
+.bar {
+   &:hover {
+      & .bar_bottom {
+         @apply flex;
+      }
+   }
+}
+
+.bar_bottom {
+   @apply flex items-center justify-between;
+   &.hide {
+      @apply hidden;
+   }
+}
+
+.control_btn {
+   @apply text-[4rem] text-white;
+
+   &.pause {
+      opacity: 0;
+      animation: fadeBtn 0.5s ease-in-out;
+   }
+
+   &.btn_static {
+      animation: none;
+      opacity: 1;
+   }
+}
+
+.progressBar {
+   cursor: pointer;
+   & .thumb {
+      opacity: 0;
+   }
+
+   &:hover {
+      & .thumb {
+         opacity: 1;
+      }
+   }
+}
+
+@keyframes fadeBtn {
+   0% {
+      opacity: 1;
+   }
+
+   100% {
+      opacity: 0;
+   }
+}

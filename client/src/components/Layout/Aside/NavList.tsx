@@ -12,10 +12,10 @@ const NavList: React.FC<PropsWithChildren<NavListProps>> = ({ }) => {
    return (
       <nav className="pt-4">
          <ul className="pb-4 relative">
-            <li className="hover:bg-gray_hover py-2 px-3 cursor-pointer">
+            <li className="hover:bg-gray_hover cursor-pointer">
                <Link href='/'>
                   <a
-                     className={`flex items-center gap-2 text-gray1 ${cn({
+                     className={`flex items-center py-2 px-3 h-full gap-2 text-gray1 ${cn({
                         'text-red1': asPath === '/'
                      })}`}
                   >
@@ -26,10 +26,10 @@ const NavList: React.FC<PropsWithChildren<NavListProps>> = ({ }) => {
                   </a>
                </Link>
             </li>
-            <li className="hover:bg-gray_hover py-2 px-3 cursor-pointer">
+            <li className="hover:bg-gray_hover cursor-pointer">
                <Link href='/trands'>
                   <a
-                     className={`flex items-center gap-2 text-gray1 ${cn({
+                     className={`flex items-center py-2 px-3  gap-2 text-gray1 ${cn({
                         'text-red1': asPath === '/trands'
                      })}`}
                   >
@@ -40,10 +40,10 @@ const NavList: React.FC<PropsWithChildren<NavListProps>> = ({ }) => {
                   </a>
                </Link>
             </li>
-            <li className="hover:bg-gray_hover py-2 px-3 cursor-pointer">
+            <li className="hover:bg-gray_hover  cursor-pointer">
                <Link href='/subscriptions'>
                   <a
-                     className={`flex items-center gap-2 text-gray1 ${cn({
+                     className={`flex items-center py-2 px-3 gap-2 text-gray1 ${cn({
                         'text-red1': asPath === '/subscriptions'
                      })}`}
                   >
