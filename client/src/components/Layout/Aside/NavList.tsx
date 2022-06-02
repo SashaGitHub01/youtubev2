@@ -1,13 +1,15 @@
 import Link from 'next/link';
 import React, { PropsWithChildren } from 'react'
-import { ChartIcon, HomeIcon, SubsIcon } from '../../../assets/icons'
+import { ChartIcon, HomeIcon, StudioIcon, SubsIcon } from '../../../assets/icons'
 import cn from 'classnames';
 import { useRouter } from 'next/router';
+import { useAuth } from '../../../context/authCtx';
 
 interface NavListProps { }
 
 const NavList: React.FC<PropsWithChildren<NavListProps>> = ({ }) => {
-   const { asPath } = useRouter()
+   const { user } = useAuth()
+   const { asPath, pathname } = useRouter()
 
    return (
       <nav className="pt-4">
@@ -56,6 +58,23 @@ const NavList: React.FC<PropsWithChildren<NavListProps>> = ({ }) => {
             </li>
             <div className="h-[1px] bg-gray-300 w-[86%] absolute bottom-0 left-[50%] -translate-x-1/2" />
          </ul>
+         {user?._id
+            && <ul className="pt-2">
+               <li className="hover:bg-gray_hover  cursor-pointer">
+                  <Link href={`/studio/${user._id}`}>
+                     <a
+                        className={`flex items-center py-2 px-3 gap-2 text-gray1 ${cn({
+                           'text-red1': pathname === '/studio/[userId]'
+                        })}`}
+                     >
+                        <StudioIcon className='text-icon' />
+                        <span className='text-md'>
+                           My Studio
+                        </span>
+                     </a>
+                  </Link>
+               </li>
+            </ul>}
       </nav>
    )
 }

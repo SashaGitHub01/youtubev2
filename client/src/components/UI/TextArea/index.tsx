@@ -1,6 +1,7 @@
 import React, { PropsWithChildren, useEffect, useState } from 'react'
 import TextareaAutosize from 'react-textarea-autosize'
 import cn from 'classnames'
+import s from './TextArea.module.scss'
 
 interface TextAreaProps {
    error?: string,
@@ -17,9 +18,10 @@ const TextArea: React.FC<PropsWithChildren<TextAreaProps>> = React.forwardRef(({
    return (
       <div className="relative flex">
          <div className={`${cn({
-            'border-red-500': !!error,
             'input-fill': !type || type === 'contained',
             'input': type === 'outlined',
+            [s.withErr]: !!error,
+            [s.withErr2]: !!error
          })} p-0`}
          >
             {!!label

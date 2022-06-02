@@ -1,4 +1,5 @@
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext, NextPage } from 'next';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react'
 import { UserApi } from '../../../src/API/UserApi';
@@ -36,17 +37,24 @@ const Channel: NextPage<ChannelProps> = ({ channel, popVideos, }) => {
    }, [router.query, router.isReady])
 
    return (
-      <ChannelLayout channel={channel}>
-         <div className="container_center px-content">
-            {active === 'home'
-               ? <Home popVideos={popVideos} />
-               : active === 'about'
-                  ? <About channel={channel} />
-                  : active === 'videos'
-                     ? <Videos id={channel._id} />
-                     : null}
-         </div>
-      </ChannelLayout>
+      <>
+         <Head>
+            <title>
+               {channel.name}
+            </title>
+         </Head>
+         <ChannelLayout channel={channel}>
+            <div className="container_center px-content">
+               {active === 'home'
+                  ? <Home popVideos={popVideos} />
+                  : active === 'about'
+                     ? <About channel={channel} />
+                     : active === 'videos'
+                        ? <Videos id={channel._id} />
+                        : null}
+            </div>
+         </ChannelLayout>
+      </>
    )
 }
 

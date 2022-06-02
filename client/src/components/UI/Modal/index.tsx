@@ -27,7 +27,7 @@ const Modal: React.FC<PropsWithChildren<ModalProps>> = ({ children, title, heigh
             'max-w-[440px]': width === 'sm' || !width,
             'max-w-[640px]': width === 'md',
             'max-w-[840px]': width === 'lg',
-            'max-h-[85%] h-full': height === 'full'
+            'max-h-[75%] h-full': height === 'full'
          })}`}
          overlayClassName={`z-[100] bg-[#00000089] fixed left-0 top-0 w-screen h-screen flex items-center
       justify-center`}

@@ -10,21 +10,25 @@ import VideoCol from './VideoCol';
 
 interface UploadModalProps {
    onClose: () => void,
-   isOpen: boolean
+   isOpen: boolean,
 }
 
 const UploadModal: React.FC<PropsWithChildren<UploadModalProps>> = ({ onClose, isOpen }) => {
    const { query } = useRouter()
-   const [video, setVideo] = useState<IVideo>()
+   const [video, setVideo] = useState<IVideo | undefined>()
    const [preview, setPreview] = useState(video?.preview || '')
 
-   const { isLoading } = useQuery(['video secure', query?.id], async () => {
+   const { isFetching } = useQuery(['video secure', query?.id], async () => {
       return await VideoApi.fetchSecureVideo(query?.id as string)
    }, {
-      enabled: !!query?.id && !video?._id && isOpen,
+      enabled: !!query?.id && isOpen && (video?._id !== query.id || !video?._id),
       initialData: video,
 
-      onSuccess: (v) => setVideo(v)
+      onSuccess: (v) => {
+         setVideo(v)
+         console.log(v.preview);
+         setPreview(v.preview)
+      }
    })
 
    const changePreview = (url: string) => {
@@ -41,7 +45,7 @@ const UploadModal: React.FC<PropsWithChildren<UploadModalProps>> = ({ onClose, i
       >
          <div className="relative h-full flex-col flex">
             <div className="flex-auto flex gap-5">
-               {isLoading
+               {isFetching
                   ? <Loader />
                   : <>
                      <UploadForm

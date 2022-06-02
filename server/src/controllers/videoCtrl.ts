@@ -38,6 +38,19 @@ class VideoCtrl {
       }
    }
 
+   studioVideos = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+      try {
+         const user = req.user
+         const videos = await Video.find({ user }).sort({ 'createdAt': '-1' })
+
+         return res.json({
+            data: videos
+         })
+      } catch (err: any) {
+         return next(ApiError.internal(err.message))
+      }
+   }
+
    popularVideos = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
       try {
          const videos = await Video.find({ isPublic: true }, {}, {

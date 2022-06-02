@@ -18,7 +18,7 @@ export const useUploadForm = ({ video, update }: IUseUploadForm) => {
          .max(120, 'Max length is 120')
          .required('Required field'),
       description: Yup.string()
-         .max(2000, 'Min length is 6 and max is 30')
+         .max(2000, 'Min length is 6 and max is 2000')
          .trim()
    })
 

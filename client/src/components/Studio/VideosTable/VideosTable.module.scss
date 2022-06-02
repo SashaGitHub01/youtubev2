@@ -1,0 +1,18 @@
+.table {
+   display: grid;
+   grid-template-columns: minmax(280px, 40%) 1fr;
+   background: #fff;
+
+   & .table_head_vid {
+      @apply pl-2;
+   }
+
+   & .table_right {
+      @apply pl-2 grid gap-2 border-l border-solid border-gray1;
+      grid-template-columns: repeat(3, minmax(40px, 1fr));
+   }
+
+   & .table_head {
+      @apply py-2 overflow-hidden truncate text-gray-400 font-semibold;
+   }
+}

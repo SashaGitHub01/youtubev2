@@ -19,14 +19,10 @@ const UploadForm: React.FC<PropsWithChildren<UploadFormProps>> = ({ video, setVi
    const [isActive, setIsActive] = useState(video?.isPublic || false)
    const [progress, setProgress] = useState(0)
 
-   const { update, onChange, onImageChange,
+   const {
+      update, onChange, onImageChange,
       form: { setValue, control, handleSubmit, formState, onSubmit }
-   } = useVideoMutations(
-      setProgress,
-      setVideo,
-      setPreview,
-      video
-   );
+   } = useVideoMutations(setProgress, setVideo, setPreview, video);
 
    const togglePublic = () => {
       setIsActive(prev => {

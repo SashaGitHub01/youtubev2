@@ -6,8 +6,9 @@ export const videoRouter = express.Router()
 
 videoRouter.get('/popular', videoCtrl.popularVideos)
 videoRouter.get('/user/:userId', videoCtrl.videosByUserId)
-videoRouter.get('/:id', videoCtrl.oneVideo)
 videoRouter.get('/secure/:id', passport.authenticate('jwt'), videoCtrl.secureVideo)
+videoRouter.get('/studio', passport.authenticate('jwt'), videoCtrl.studioVideos)
+videoRouter.get('/:id', videoCtrl.oneVideo)
 videoRouter.get('/', videoCtrl.allVideos)
 
 videoRouter.post('/', passport.authenticate('jwt'), videoCtrl.create)

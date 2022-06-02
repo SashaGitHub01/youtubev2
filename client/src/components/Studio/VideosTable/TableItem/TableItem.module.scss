@@ -1,0 +1,27 @@
+.item {
+   @apply border-t grid border-solid border-gray1 overflow-hidden;
+   grid-template-columns: minmax(280px, 40%) 1fr;
+
+   &:hover {
+      @apply bg-gray_lighter;
+      & .overlay[data-overlay] {
+         display: flex;
+      }
+   }
+
+   & .item_main {
+      @apply px-2 py-3;
+
+      & .overlay {
+         @apply hidden gap-5 absolute w-full h-full left-0 top-0 items-center justify-center bg-gray_lighter;
+      }
+   }
+   & .item_right {
+      @apply pl-2 py-3 grid gap-2 border-l border-solid border-gray1;
+      grid-template-columns: repeat(3, minmax(40px, 1fr));
+
+      & .param {
+         @apply font-light text-sm;
+      }
+   }
+}

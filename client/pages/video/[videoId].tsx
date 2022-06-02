@@ -1,4 +1,5 @@
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from 'next'
+import Head from 'next/head'
 import React, { PropsWithChildren, useEffect } from 'react'
 import { useMutation } from 'react-query'
 import { VideoApi } from '../../src/API/VideoApi'
@@ -23,19 +24,26 @@ const VideoPage: React.FC<PropsWithChildren<VideoPageProps>> = ({ video }) => {
    }, [])
 
    return (
-      <div className="">
-         {video._id
-            ? <>
-               <div className="">
-                  <VideoPlayer video={video} />
-               </div>
-               <div className="px-content pb-5">
-                  <VideoInfo video={video} channel={video.user} />
-                  <Comments video={video} />
-               </div>
-            </>
-            : <Loader />}
-      </div>
+      <>
+         <Head>
+            <title>
+               {video.name}
+            </title>
+         </Head>
+         <div className="">
+            {video._id
+               ? <>
+                  <div className="">
+                     <VideoPlayer video={video} />
+                  </div>
+                  <div className="px-content pb-5">
+                     <VideoInfo video={video} channel={video.user} />
+                     <Comments video={video} />
+                  </div>
+               </>
+               : <Loader />}
+         </div>
+      </>
    )
 }
 

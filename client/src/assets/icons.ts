@@ -1,7 +1,7 @@
 import {
    MdThumbUp, MdThumbDown, MdOutlineThumbDown, MdOutlineThumbUp, MdSubscriptions, MdBarChart, MdOutlineNotificationsNone,
    MdCheck, MdGetApp, MdHome, MdOutlineArrowBack, MdOutlineLogin, MdPerson, MdClose, MdMoreVert, MdOutlineSearch,
-   MdOutlineVideoCall, MdFileUpload, MdPlayArrow, MdPause, MdFullscreen
+   MdOutlineVideoCall, MdFileUpload, MdPlayArrow, MdPause, MdFullscreen, MdVideoLibrary, MdDelete, MdCreate
 } from 'react-icons/md'
 import { BsBroadcastPin } from 'react-icons/bs'
 import { ImImage } from 'react-icons/im'
@@ -29,5 +29,8 @@ export {
    ImImage as ImageIcon,
    MdPlayArrow as PlayIcon,
    MdPause as PauseIcon,
-   MdFullscreen as FullScreenIcon
+   MdFullscreen as FullScreenIcon,
+   MdVideoLibrary as StudioIcon,
+   MdDelete as DeleteIcon,
+   MdCreate as PenIcon,
 }

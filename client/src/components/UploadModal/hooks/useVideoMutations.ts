@@ -85,7 +85,7 @@ export const useVideoMutations = (
       await uploadImage.mutateAsync(formdata)
    }
 
-   const form = useUploadForm({ video, update, })
+   const form = useUploadForm({ video, update })
 
    const upload = useMutation<IMediaRes, Error, FormData>(
       'upload video',

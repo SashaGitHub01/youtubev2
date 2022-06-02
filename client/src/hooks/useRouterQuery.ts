@@ -7,7 +7,7 @@ export const useRouterQuery = () => {
    const [q, setQ] = useState<{ [q: string]: any }>(query)
 
    useEffect(() => {
-      if (!q || !isReady) return;
+      if (Object.keys(q).length === 0 || !isReady) return;
       push({ pathname, query: q, }, undefined, { shallow: true })
    }, [q, isReady])
 
