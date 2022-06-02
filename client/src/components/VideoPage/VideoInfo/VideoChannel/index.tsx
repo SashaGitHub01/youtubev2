@@ -10,6 +10,7 @@ interface VideoChannelProps {
 }
 
 const VideoChannel: React.FC<PropsWithChildren<VideoChannelProps>> = ({ channel }) => {
+
    return (
       <div className="py-3 flex items-center justify-between line">
          <div className="">

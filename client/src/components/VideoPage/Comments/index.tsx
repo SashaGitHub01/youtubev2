@@ -1,6 +1,7 @@
 import React, { PropsWithChildren, useState } from 'react'
 import { useQuery } from 'react-query';
 import { CommentApi } from '../../../API/CommentApi';
+import { useAuth } from '../../../context/authCtx';
 import { IVideo } from '../../../types/video.types';
 import Loader from '../../Loader';
 import CommentItem from './CommentItem';
@@ -11,6 +12,7 @@ interface CommentsProps {
 }
 
 const Comments: React.FC<PropsWithChildren<CommentsProps>> = ({ video }) => {
+   const { user } = useAuth()
    const [commentsCount, setCommentsCount] = useState<number>(video.commentsCount || 0)
    const { data, isLoading, refetch } = useQuery(['comments', video._id], async () => {
       return await CommentApi.fetchByVideo(video._id)
@@ -35,7 +37,11 @@ const Comments: React.FC<PropsWithChildren<CommentsProps>> = ({ video }) => {
             ? <Loader />
             : data && data?.length > 0
             && <div className="flex flex-col gap-5">
-               {data.map(com => <CommentItem {...com} key={com._id} />)}
+               {data.map(com => <CommentItem
+                  {...com}
+                  key={com._id}
+                  auth={user}
+               />)}
             </div>}
       </div>
    )

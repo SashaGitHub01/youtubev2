@@ -26,10 +26,10 @@ const CommentsForm: React.FC<PropsWithChildren<CommentsFormProps>> = ({ id, refe
    })
 
    const schema = Yup.object().shape({
-      text: Yup.string().max(1000).trim().required()
+      text: Yup.string().max(1000).trim('').required(true as any)
    })
 
-   const { reset, formState: { errors, isValid, isDirty }, handleSubmit, control } = useForm<CommentInput>({
+   const { reset, formState: { errors, isValid }, handleSubmit, control } = useForm<CommentInput>({
       resolver: yupResolver(schema),
       mode: 'onChange'
    })

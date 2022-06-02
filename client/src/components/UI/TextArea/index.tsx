@@ -20,17 +20,16 @@ const TextArea: React.FC<PropsWithChildren<TextAreaProps>> = React.forwardRef(({
             'border-red-500': !!error,
             'input-fill': !type || type === 'contained',
             'input': type === 'outlined',
-         })}`}
-            tabIndex={1}
+         })} p-0`}
          >
             {!!label
-               && <div className={`text-gray1 text-[12px] absolute top-0 -translate-y-[50%] z-10 bg-white ${cn({
+               && <div className={`text-gray1 left-2 text-[12px] absolute top-0 -translate-y-[50%] z-10 bg-white ${cn({
                   'text-red-500': !!error
                })}`}>
                   {label}
                </div>}
             <TextareaAutosize
-               className={`resize-none border h-full w-full`}
+               className={`resize-none border h-full w-full p-2`}
                maxRows={maxRows}
                minRows={minRows}
                placeholder={placeholder}

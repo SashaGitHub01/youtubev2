@@ -1,13 +1,14 @@
 import React, { PropsWithChildren } from 'react'
 import { DotsIcon } from '../../../../assets/icons';
 import { IComment } from '../../../../types/comment.types';
+import { IUser } from '../../../../types/user.types';
 import { timeAgo } from '../../../../utils/moment'
 
 interface CommentItemProps extends IComment {
-
+   auth?: IUser | null
 }
 
-const CommentItem: React.FC<PropsWithChildren<CommentItemProps>> = ({ user, _id, text, createdAt }) => {
+const CommentItem: React.FC<PropsWithChildren<CommentItemProps>> = ({ user, auth, _id, text, createdAt }) => {
 
    return (
       <div className="flex gap-3">
@@ -29,8 +30,9 @@ const CommentItem: React.FC<PropsWithChildren<CommentItemProps>> = ({ user, _id,
                </pre>
             </div>
          </div>
-         <div className="">
-            <DotsIcon className='text-xl cursor-pointer' />
+         <div className="px-2 pt-1">
+            {!!auth && auth?._id === user._id
+               && <DotsIcon className='text-xl cursor-pointer' />}
          </div>
       </div>
    )

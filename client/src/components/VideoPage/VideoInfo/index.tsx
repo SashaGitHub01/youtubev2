@@ -27,11 +27,19 @@ const VideoInfo: React.FC<PropsWithChildren<VideoInfoProps>> = ({ channel, video
             </div>
             <div className="pt-4 pb-2 line flex items-center justify-between">
                <div className="typo_main text-gray1">
-                  {formatViewsWithSpace(video.views)}
+                  {formatViewsWithSpace(video.views)} views
                </div>
                <VideoReactions video={video} />
             </div>
             <VideoChannel channel={channel} />
+            <div className="py-3 line">
+               <b className="font-medium block typo_md pb-3">
+                  Description
+               </b>
+               <pre className='typo_main leading-5'>
+                  {video.description}
+               </pre>
+            </div>
          </div>
       </div>
    )

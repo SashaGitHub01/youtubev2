@@ -84,7 +84,7 @@ class VideoCtrl {
                comments: 0,
                updatedAt: 0,
                __v: 0,
-               'user.name': 0,
+               'user.password': 0,
                'user.status': 0,
                'user.views': 0,
                'user.likes': 0,

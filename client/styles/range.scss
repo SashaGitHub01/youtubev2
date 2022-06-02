@@ -35,8 +35,6 @@ $height: 0.5rem;
    border: solid 1px #a2a2a3;
    border-radius: 50%;
    cursor: pointer;
-   cursor: -webkit-grab;
-   cursor: grab;
    touch-action: pan-x;
    flex-shrink: 0;
 }
@@ -62,8 +60,6 @@ $height: 0.5rem;
 .rc-slider-handle:active {
    border-color: #7376827d;
    box-shadow: 0 0 5px #7376827d;
-   cursor: -webkit-grabbing;
-   cursor: grabbing;
 }
 .rc-slider-mark {
    position: absolute;

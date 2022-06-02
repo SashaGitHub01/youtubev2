@@ -23,7 +23,9 @@ export interface IUser {
    createdAt: string,
    videosCount?: number,
    viewsCount?: number,
-   status?: string
+   status?: string,
+   likes: string[],
+   dislikes: string[]
 }
 
 export interface IUserInput {
