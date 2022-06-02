@@ -142,7 +142,7 @@ const AuthProvider: React.FC<PropsWithChildren<AuthProviderProps>> = ({ children
       }),
    }
 
-   const { data } = useQuery('auth', async () => {
+   const { refetch } = useQuery('auth', async () => {
       return await AuthApi.auth()
    }, {
       retry: false,
@@ -159,6 +159,7 @@ const AuthProvider: React.FC<PropsWithChildren<AuthProviderProps>> = ({ children
       <AuthContext.Provider value={{
          ...state,
          ...actionCreators,
+         refetchUser: refetch
       }
       }>
          {children}

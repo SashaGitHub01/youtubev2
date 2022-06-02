@@ -22,7 +22,7 @@ export interface IState {
    error: string | null,
 }
 
-export type AuthCtxType = IState & ActionCreatorsI
+export type AuthCtxType = IState & ActionCreatorsI & { refetchUser: any }
 
 export interface FetchLoginPending {
    type: ActionConsts.FETCH_LOGIN_PENDING

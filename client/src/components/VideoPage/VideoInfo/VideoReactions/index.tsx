@@ -14,7 +14,7 @@ const VideoReactions: React.FC<PropsWithChildren<VideoReactionsProps>> = ({ vide
    const [likesCount, setLikesCount] = useState<number>(video.likes)
    const [dislikesCount, setDislikesCount] = useState<number>(video.dislikes)
 
-   const { user } = useAuth()
+   const { user, refetchUser } = useAuth()
    const { mutateAsync: mutateLike, isLoading: likeProcessing } = useMutation(async () => {
       if (!user?._id) return;
       return await VideoApi.updateLike(video._id)
@@ -29,6 +29,7 @@ const VideoReactions: React.FC<PropsWithChildren<VideoReactionsProps>> = ({ vide
                return 'like'
             }
          })
+         refetchUser()
       }
    })
 
@@ -46,6 +47,7 @@ const VideoReactions: React.FC<PropsWithChildren<VideoReactionsProps>> = ({ vide
                return 'dislike'
             }
          })
+         refetchUser()
       }
    })
 
