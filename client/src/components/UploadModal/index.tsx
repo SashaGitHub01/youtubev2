@@ -26,7 +26,6 @@ const UploadModal: React.FC<PropsWithChildren<UploadModalProps>> = ({ onClose, i
 
       onSuccess: (v) => {
          setVideo(v)
-         console.log(v.preview);
          setPreview(v.preview)
       }
    })

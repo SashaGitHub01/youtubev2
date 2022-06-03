@@ -23,4 +23,9 @@ export class UserApi {
       const { data } = await rootApi.put<Res<IUser>>(`/user/`, input)
       return data.data
    }
+
+   static logout = async (): Promise<any> => {
+      const { data } = await rootApi.get<Res<any>>(`/user/logout`)
+      return data.data
+   }
 }

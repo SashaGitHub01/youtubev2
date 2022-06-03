@@ -1,8 +1,6 @@
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import React, { PropsWithChildren, useEffect } from 'react'
-import { useMutation, useQuery } from 'react-query'
-import { VideoApi } from '../../src/API/VideoApi'
 import VideosTable from '../../src/components/Studio/VideosTable'
 import { useAuth } from '../../src/context/authCtx'
 

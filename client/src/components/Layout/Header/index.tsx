@@ -2,8 +2,8 @@ import Link from 'next/link';
 import React, { PropsWithChildren } from 'react'
 import logo from '../../../assets/logo.svg'
 import Image from 'next/image'
-import HeaderOptions from './HeaderOptions';
 import HeaderInput from './HeaderInput';
+import HeaderOptions from './HeaderOptions';
 
 interface HeaderProps {
 

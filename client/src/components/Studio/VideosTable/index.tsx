@@ -3,8 +3,6 @@ import React, { PropsWithChildren, useState } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { VideoApi } from '../../../API/VideoApi'
 import { IUser } from '../../../types/user.types'
-import { IVideo } from '../../../types/video.types'
-import Modal from '../../UI/Modal'
 import UploadModal from '../../UploadModal'
 import TableItem from './TableItem'
 import s from './VideosTable.module.scss'
@@ -16,7 +14,7 @@ interface VideosTableProps {
 const VideosTable: React.FC<PropsWithChildren<VideosTableProps>> = ({ user }) => {
    const { push, pathname, query } = useRouter()
    const [isOpen, setIsOpen] = useState(false)
-   const { data, isLoading, refetch } = useQuery(['studio videos', user?._id], async () => {
+   const { data, refetch } = useQuery(['studio videos', user?._id], async () => {
       return await VideoApi.fetchStudioVideos()
    }, {
       enabled: !!user?._id

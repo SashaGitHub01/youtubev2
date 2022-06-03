@@ -1,12 +1,13 @@
 import React, { PropsWithChildren, useEffect, useState } from 'react'
-import Popper from '../../UI/Popper';
-import { UserIcon, VideoIcon } from '../../../assets/icons';
-import { useAuth } from '../../../context/authCtx';
-import AvatarSkelet from '../../Skeletons/AvatarSkelet';
-import Button from '../../UI/Button';
-import HeaderModal from './HeaderModal';
-import UploadModal from '../../UploadModal';
+import Popper from '../../../UI/Popper';
+import { UserIcon, VideoIcon } from '../../../../assets/icons';
+import { useAuth } from '../../../../context/authCtx';
+import AvatarSkelet from '../../../Skeletons/AvatarSkelet';
+import Button from '../../../UI/Button';
+import HeaderModal from '../HeaderModal';
+import UploadModal from '../../../UploadModal';
 import { useRouter } from 'next/router';
+import UserData from './UserData';
 
 interface HeaderOptionsProps { }
 
@@ -48,7 +49,7 @@ const HeaderOptions: React.FC<PropsWithChildren<HeaderOptionsProps>> = ({ }) => 
          {isAuthorizing
             ? <AvatarSkelet />
             : user
-               ? <div className="flex items-center gap-3">
+               ? <div className="flex items-center gap-5">
                   <Popper
                      message='New video'
                   >
@@ -56,15 +57,7 @@ const HeaderOptions: React.FC<PropsWithChildren<HeaderOptionsProps>> = ({ }) => 
                         <VideoIcon className='text-icon text-gray1 cursor-pointer' />
                      </div>
                   </Popper>
-                  <div className="flex gap-2 items-center">
-                     <div className="rounded-[50%] bg-pink-300 w-[36px] h-[36px] cursor-pointer" >
-                     </div>
-                     <div className="">
-                        <span>
-                           {user.name}
-                        </span>
-                     </div>
-                  </div>
+                  <UserData user={user} />
                   <UploadModal
                      onClose={handleClose1}
                      isOpen={isOpen1}
