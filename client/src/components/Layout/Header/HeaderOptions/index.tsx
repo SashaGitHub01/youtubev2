@@ -7,7 +7,7 @@ import Button from '../../../UI/Button';
 import HeaderModal from '../HeaderModal';
 import UploadModal from '../../../UploadModal';
 import { useRouter } from 'next/router';
-import UserData from './UserData';
+import UserData from './UserData/UserData';
 
 interface HeaderOptionsProps { }
 

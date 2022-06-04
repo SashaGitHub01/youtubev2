@@ -52,7 +52,7 @@ const VideoReactions: React.FC<PropsWithChildren<VideoReactionsProps>> = ({ vide
    })
 
    useEffect(() => {
-      if (!user) return;
+      if (!user) return setIsReacted(null);
 
       const like = user.likes?.find((l) => {
          return l === video._id
