@@ -1,5 +1,4 @@
 import React, { PropsWithChildren } from 'react'
-import { UseMutateAsyncFunction } from 'react-query';
 import { DotsIcon } from '../../../../assets/icons';
 import { IComment } from '../../../../types/comment.types';
 import { IUser } from '../../../../types/user.types';

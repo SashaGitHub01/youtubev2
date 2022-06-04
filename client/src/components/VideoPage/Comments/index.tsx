@@ -4,7 +4,6 @@ import { CommentApi } from '../../../API/CommentApi';
 import { useAuth } from '../../../context/authCtx';
 import { IVideo } from '../../../types/video.types';
 import Loader from '../../Loader';
-import CommentItem from './CommentItem';
 import CommentsForm from './CommentsForm';
 import CommentsList from './CommentsList';
 

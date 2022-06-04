@@ -3,11 +3,15 @@ import { CheckIcon } from '../../../../assets/icons';
 import { IUser } from '../../../../types/user.types';
 import { formatSubs } from '../../../../utils/formatSubs';
 import Button from '../../../UI/Button';
+import ChannelButtons from './ChannelButtons';
 
-interface ChannelHeadProps extends IUser {
+interface ChannelHeadProps {
+   channel: IUser
+   auth: IUser | null
 }
 
-const ChannelHead: React.FC<PropsWithChildren<ChannelHeadProps>> = ({ avatar, _id, name, isVerified, subscribersCount, viewsCount, videosCount }) => {
+const ChannelHead: React.FC<PropsWithChildren<ChannelHeadProps>> = ({ auth, channel }) => {
+   const { avatar, _id, name, isVerified, subscribersCount, viewsCount, videosCount, } = channel;
 
    return (
       <header className="bg-gray_lighter p-content pb-4">
@@ -27,18 +31,17 @@ const ChannelHead: React.FC<PropsWithChildren<ChannelHeadProps>> = ({ avatar, _i
                               <CheckIcon className="text-white text-md" />
                            </div>}
                      </div>
-                     <div className="g">
+                     <div className="">
                         <p className="text-gray-500 leading-6">
                            {formatSubs(subscribersCount)} subscribers
                         </p>
                      </div>
                   </div>
                </div>
-               <div className="g">
-                  <Button color='red'>
-                     SUBSCRIBE
-                  </Button>
-               </div>
+               <ChannelButtons
+                  auth={auth}
+                  channel={channel}
+               />
             </div>
          </div>
       </header>

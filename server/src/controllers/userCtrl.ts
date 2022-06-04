@@ -105,7 +105,9 @@ class UserCtrl {
                videosCount: { $size: '$videos' },
                viewsCount: { $sum: '$videos.views' }
             })
-            .project({ videos: 0, password: 0, updatedAt: 0 })
+            .project({
+               videos: 0, password: 0, updatedAt: 0, likes: 0, dislikes: 0, views: 0
+            })
 
 
          if (!user?.[0]) return next(ApiError.notFound('User not found'))

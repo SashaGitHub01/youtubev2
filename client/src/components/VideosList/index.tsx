@@ -4,7 +4,7 @@ import VideoSkelet from '../Skeletons/VideoSkelet';
 import VideoItem from '../VideoItem';
 
 interface VideosListProps {
-   videos: IVideo[],
+   videos?: IVideo[],
    isFetching?: boolean
 }
 
@@ -13,7 +13,7 @@ const VideosList: React.FC<PropsWithChildren<VideosListProps>> = ({ videos, isFe
       <div className="py-4 grid grid-cols-auto gap-2">
          {isFetching
             ? new Array(12).fill('str', 0, 12).map((s, i) => <VideoSkelet key={i} />)
-            : videos
+            : videos && videos?.length > 0
                ? videos.map((video) => <VideoItem key={video._id} {...video} />)
                : null}
       </div>

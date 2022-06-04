@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import React, { PropsWithChildren } from 'react'
-import { ChartIcon, HomeIcon, StudioIcon, SubsIcon } from '../../../assets/icons'
+import { ChartIcon, HomeIcon, StudioIcon, SubsIcon, UserIcon } from '../../../assets/icons'
 import cn from 'classnames';
 import { useRouter } from 'next/router';
 import { useAuth } from '../../../context/authCtx';
@@ -60,6 +60,18 @@ const NavList: React.FC<PropsWithChildren<NavListProps>> = ({ }) => {
          </ul>
          {user?._id
             && <ul className="pt-2">
+               <li className="hover:bg-gray_hover  cursor-pointer">
+                  <Link href={`/channel/${user._id}`}>
+                     <a
+                        className={`flex items-center py-2 px-3 gap-2 text-gray1`}
+                     >
+                        <UserIcon className='text-icon' />
+                        <span className='text-md'>
+                           My Channel
+                        </span>
+                     </a>
+                  </Link>
+               </li>
                <li className="hover:bg-gray_hover  cursor-pointer">
                   <Link href={`/studio/${user._id}`}>
                      <a

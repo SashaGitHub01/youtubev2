@@ -32,5 +32,6 @@ export interface IUserInput {
    location?: string,
    banner?: string,
    avatar?: string,
-   name?: string
+   name?: string,
+   status?: string
 }

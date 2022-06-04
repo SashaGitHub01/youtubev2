@@ -20,8 +20,7 @@ const Videos: React.FC<PropsWithChildren<VideosProps>> = ({ id }) => {
                Videos
             </span>
          </div>
-         {data
-            && <VideosList videos={data} isFetching={isFetching} />}
+         {<VideosList videos={data} isFetching={isFetching} />}
       </section>
    )
 }

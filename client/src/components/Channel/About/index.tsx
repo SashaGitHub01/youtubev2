@@ -52,7 +52,7 @@ const About: React.FC<PropsWithChildren<AboutProps>> = ({ channel }) => {
                   </span>
                </div>
                <div className="line border-gray-300 typo_main leading-8">
-                  {channel.viewsCount
+                  {channel.viewsCount !== undefined
                      && <span className="">
                         {formatViewsWithSpace(channel.viewsCount)} views
                      </span>}

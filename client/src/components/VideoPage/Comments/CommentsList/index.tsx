@@ -6,7 +6,6 @@ import { IComment } from '../../../../types/comment.types';
 import { IUser } from '../../../../types/user.types';
 import Menu from '../../../UI/Menu';
 import CommentItem from '../CommentItem';
-import { useQueryClient } from 'react-query'
 
 interface CommentsListProps {
    comments: IComment[],

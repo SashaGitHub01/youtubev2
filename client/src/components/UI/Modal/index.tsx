@@ -16,7 +16,7 @@ interface ModalProps {
 const Modal: React.FC<PropsWithChildren<ModalProps>> = ({ children, title, height, onClose, isOpen, width }) => {
 
    useEffect(() => {
-      document.body.style.overflow = isOpen ? 'hidden' : 'auto'
+      document.body.style.overflow = isOpen ? 'hidden' : 'auto';
    }, [isOpen])
 
    return (
