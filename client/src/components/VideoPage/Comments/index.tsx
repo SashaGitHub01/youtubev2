@@ -6,6 +6,7 @@ import { IVideo } from '../../../types/video.types';
 import Loader from '../../Loader';
 import CommentItem from './CommentItem';
 import CommentsForm from './CommentsForm';
+import CommentsList from './CommentsList';
 
 interface CommentsProps {
    video: IVideo
@@ -18,9 +19,14 @@ const Comments: React.FC<PropsWithChildren<CommentsProps>> = ({ video }) => {
       return await CommentApi.fetchByVideo(video._id)
    })
 
-   const myRefetch = () => {
+   const myRefetch = async () => {
       setCommentsCount(prev => prev + 1)
-      refetch()
+      await refetch()
+   }
+
+   const myRefetchDel = async () => {
+      setCommentsCount(prev => prev - 1)
+      await refetch()
    }
 
    return (
@@ -31,18 +37,16 @@ const Comments: React.FC<PropsWithChildren<CommentsProps>> = ({ video }) => {
                   {commentsCount} Comments
                </p>
             </div>
-            <CommentsForm id={video._id} refetch={myRefetch} />
+            <CommentsForm id={video._id} refetch={myRefetchDel} />
          </div>
          {isLoading
             ? <Loader />
             : data && data?.length > 0
-            && <div className="flex flex-col gap-5">
-               {data.map(com => <CommentItem
-                  {...com}
-                  key={com._id}
-                  auth={user}
-               />)}
-            </div>}
+            && <CommentsList
+               comments={data}
+               user={user}
+               refetch={myRefetch}
+            />}
       </div>
    )
 }
