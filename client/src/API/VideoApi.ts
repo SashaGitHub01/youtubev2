@@ -1,8 +1,28 @@
 import { rootApi } from ".";
-import { Res } from "./types";
+import { PaginateRes, Res } from "./types";
 import { IVideo, VideoInput } from "../types/video.types";
 
 type SortTypes = 'date' | 'views'
+
+interface VideosPaginateParams {
+   search?: string,
+   sort?: SortTypes,
+   limit?: number,
+   page?: number
+}
+
+interface VideosByUserPaginateParams {
+   id: string,
+   sort?: SortTypes,
+   limit?: number,
+   page?: number
+}
+
+interface PaginateData {
+   data: IVideo[],
+   hasMore: boolean,
+   page: number
+}
 
 export class VideoApi {
    static fetchVideo = async (id: string): Promise<IVideo> => {
@@ -20,9 +40,9 @@ export class VideoApi {
       return data.data
    }
 
-   static fetchVideos = async (search?: string, sort: SortTypes = 'date'): Promise<IVideo[]> => {
-      const url = `/video?sort=${sort}${search ? `&search=${search}` : ''}`
-      const { data } = await rootApi.get<Res<IVideo[]>>(url)
+   static fetchVideos = async ({ search, sort = 'date', limit = 16, page = 1 }: VideosPaginateParams): Promise<PaginateData> => {
+      const url = `/video?sort=${sort}${search ? `&search=${search}` : ''}&limit=${limit}&page=${page}`
+      const { data } = await rootApi.get<PaginateRes<IVideo[]>>(url)
       return data.data
    }
 
@@ -56,9 +76,9 @@ export class VideoApi {
       return data.data
    }
 
-   static fetchVideosByUser = async (id: string, sort: SortTypes = 'date', limit: number = 10): Promise<IVideo[]> => {
-      const url = `/video/user/${id}?sort=${sort}&limit=${limit}`
-      const { data } = await rootApi.get<Res<IVideo[]>>(url)
+   static fetchVideosByUser = async ({ id, sort = 'date', limit = 16, page = 1 }: VideosByUserPaginateParams): Promise<PaginateData> => {
+      const url = `/video/user/${id}?sort=${sort}&limit=${limit}&page=${page}`
+      const { data } = await rootApi.get<PaginateRes<IVideo[]>>(url)
       return data.data
    }
 

@@ -2,16 +2,13 @@ import React, { PropsWithChildren } from 'react'
 import { useQuery } from 'react-query';
 import { VideoApi } from '../../../API/VideoApi';
 import VideosList from '../../VideosList';
+import ChannelVideos from './ChannelVideos';
 
 interface VideosProps {
    id: string
 }
 
 const Videos: React.FC<PropsWithChildren<VideosProps>> = ({ id }) => {
-   const { data, isFetching, isLoading } = useQuery(
-      ['user videos', id],
-      async () => await VideoApi.fetchVideosByUser(id, 'date', 20)
-   )
 
    return (
       <section className="">
@@ -20,7 +17,7 @@ const Videos: React.FC<PropsWithChildren<VideosProps>> = ({ id }) => {
                Videos
             </span>
          </div>
-         {<VideosList videos={data} isFetching={isFetching} />}
+         {<ChannelVideos id={id} />}
       </section>
    )
 }

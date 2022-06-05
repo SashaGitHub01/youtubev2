@@ -36,7 +36,7 @@ const Comments: React.FC<PropsWithChildren<CommentsProps>> = ({ video }) => {
                   {commentsCount} Comments
                </p>
             </div>
-            <CommentsForm id={video._id} refetch={myRefetchDel} />
+            <CommentsForm id={video._id} refetch={myRefetch} />
          </div>
          {isLoading
             ? <Loader />
@@ -44,7 +44,7 @@ const Comments: React.FC<PropsWithChildren<CommentsProps>> = ({ video }) => {
             && <CommentsList
                comments={data}
                user={user}
-               refetch={myRefetch}
+               refetch={myRefetchDel}
             />}
       </div>
    )

@@ -85,7 +85,7 @@ export const getStaticProps: GetStaticProps<any> = async ({ params }: GetStaticP
       const id = params?.slug?.[0]
       if (!id) throw Error('SSG Error')
 
-      const popVideos = await VideoApi.fetchVideosByUser(id as string, 'views')
+      const popVideos = (await VideoApi.fetchVideosByUser({ id, sort: 'views', limit: 12 })).data
       const channel = await UserApi.fetchUser(id as string)
 
       return {

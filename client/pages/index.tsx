@@ -7,6 +7,7 @@ import { UserApi } from '../src/API/UserApi';
 import TopChannels from '../src/components/Home/TopChannels';
 import RecommendVideos from '../src/components/Home/RecommendVideos';
 import Head from 'next/head';
+import VideosInfinite from '../src/components/VideosInfinite';
 
 interface HomeProps {
    popVideos: IVideo[],
@@ -29,7 +30,7 @@ const Home: NextPage<HomeProps> = ({ popVideos, latestVideos, topChannels }) => 
                      Latest videos
                   </span>
                </div>
-               <VideosList videos={latestVideos} />
+               <VideosInfinite videos={latestVideos} />
             </div>
             <div className="">
                <TopChannels topChannels={topChannels} />
@@ -50,7 +51,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
       popVideos = await VideoApi.fetchPopVideos()
       popVideos.sort(() => Math.random() * 10 - 5)
 
-      latestVideos = await VideoApi.fetchVideos()
+      latestVideos = (await VideoApi.fetchVideos({ limit: 12 })).data
 
       topChannels = await UserApi.fetchPopUsers()
    } catch (err) {

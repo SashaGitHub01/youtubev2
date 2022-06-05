@@ -9,11 +9,18 @@ type SortTypes = 'date' | 'views'
 
 const userSelect = 'avatar _id name subscribersCount isVerified'
 
+interface PaginateI {
+   search?: string,
+   sort?: SortTypes,
+   limit?: number,
+   page?: number
+}
+
 class VideoCtrl {
    allVideos = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
       try {
          let sortOpt = {};
-         const { search, sort }: { search?: string, sort?: SortTypes } = req.query
+         const { search, sort, limit = 16, page = 1 }: PaginateI = req.query
 
          if (sort) {
             sortOpt = sort === 'date' ? { createdAt: '-1' } : sort === 'views' ? { views: '-1' } : {}
@@ -21,17 +28,27 @@ class VideoCtrl {
 
          const videos = await Video.find(
             { $and: [search ? { name: new RegExp(search, 'i') } : {}, { isPublic: true }] },
-            {},
+            { description: 0, likes: 0, dislikes: 0 },
             {
                sort: sortOpt,
+               skip: (page * limit) - limit,
+               limit: 1 + Number(limit),
                populate: {
-                  path: 'user', select: userSelect
+                  path: 'user',
+                  select: userSelect
                }
             }
          )
 
+         const hasMore = videos.length === Number(limit) + 1;
+         videos.pop()
+
          return res.json({
-            data: videos
+            data: {
+               data: videos,
+               hasMore,
+               page
+            }
          })
       } catch (err: any) {
          return next(ApiError.internal(err.message))
@@ -145,7 +162,7 @@ class VideoCtrl {
       try {
          const authUser = req.user
          const { userId } = req.params
-         const { limit, sort } = req.query
+         const { limit = 16, sort, page = 1 }: PaginateI = req.query
 
          const sortOptions = {
             createdAt: { createdAt: '-1' },
@@ -154,20 +171,33 @@ class VideoCtrl {
 
          const options = {
             $and: [
-               { isPublic: authUser === userId ? { $or: [{ isPublic: true }, { isPublic: false }] } : true },
+               { isPublic: authUser === userId ? { $or: [{ isPublic: true },] } : true },
                { user: userId }
             ]
          }
 
-         const videos = await Video.find(options)
-            .sort((sort === 'views' ? sortOptions.views : sortOptions.createdAt))
-            .limit((limit as unknown as number) || 10)
-            .populate({
-               path: 'user', select: userSelect
+         const videos = await Video.find(
+            options,
+            { description: 0, likes: 0, dislikes: 0 },
+            {
+               sort: sort === 'views' ? sortOptions.views : sortOptions.createdAt,
+               skip: (page * limit) - limit,
+               limit: 1 + Number(limit),
+               populate: {
+                  path: 'user',
+                  select: userSelect
+               }
             })
 
+         const hasMore = videos.length === Number(limit) + 1;
+         videos.pop()
+
          return res.json({
-            data: videos
+            data: {
+               data: videos,
+               hasMore,
+               page
+            }
          })
       } catch (err: any) {
          return next(ApiError.internal(err.message))
