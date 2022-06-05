@@ -2,7 +2,7 @@ import Link from 'next/link';
 import React, { PropsWithChildren, useEffect, useRef, useState } from 'react'
 import { UserApi } from '../../../../../API/UserApi';
 import s from './UserData.module.scss'
-import { ExitIcon, StudioIcon } from '../../../../../assets/icons';
+import { ExitIcon, StudioIcon, UserIcon } from '../../../../../assets/icons';
 import { useAuth } from '../../../../../context/authCtx';
 import { IUser } from '../../../../../types/user.types';
 import Menu from '../../../../UI/Menu';
@@ -58,10 +58,22 @@ const UserData: React.FC<PropsWithChildren<UserDataProps>> = ({ user }) => {
                <li
                   className="bg-white cursor-pointer hover:bg-slate-50 border-y border-solid border-gray_light"
                >
+                  <Link href={`/channel/${user._id}`}>
+                     <a className="flex gap-2 py-2 px-3">
+                        <UserIcon className='text-lg' />
+                        <span className="">
+                           Channel
+                        </span>
+                     </a>
+                  </Link>
+               </li>
+               <li
+                  className="bg-white cursor-pointer hover:bg-slate-50 border-y border-solid border-gray_light"
+               >
                   <Link href={`/studio/${user._id}`}>
                      <a className="flex gap-2 py-2 px-3">
                         <StudioIcon className='text-lg' />
-                        <span className="g">
+                        <span className="">
                            Studio
                         </span>
                      </a>

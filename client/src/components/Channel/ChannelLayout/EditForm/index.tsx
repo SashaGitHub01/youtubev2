@@ -11,6 +11,7 @@ import { useMutation } from 'react-query';
 import { MediaApi } from '../../../../API/MediaApi';
 import { UserApi } from '../../../../API/UserApi';
 import { IMediaRes } from '../../../../API/types';
+import CountriesSelector from '../../../CountriesSelector';
 
 interface EditFormProps {
    channel: IUser
@@ -48,16 +49,17 @@ const EditForm: React.FC<PropsWithChildren<EditFormProps>> = ({ channel, onClose
    })
 
    const onSubmit = async (values: IUserInput) => {
-      try {
-         if (newAva) {
-            const avatar = await uploadAvatar(newAva)
-            await mutateAsync({ ...values, avatar: avatar.url })
-         } else {
-            await mutateAsync({ ...values })
-         }
-      } catch (err: any) {
-         setError('form', { message: err.message })
-      }
+      console.log(values);
+      // try {
+      //    if (newAva) {
+      //       const avatar = await uploadAvatar(newAva)
+      //       await mutateAsync({ ...values, avatar: avatar.url })
+      //    } else {
+      //       await mutateAsync({ ...values })
+      //    }
+      // } catch (err: any) {
+      //    setError('form', { message: err.message })
+      // }
    }
 
    const onImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -105,6 +107,17 @@ const EditForm: React.FC<PropsWithChildren<EditFormProps>> = ({ channel, onClose
                   name='status'
                   control={control}
                   defaultValue={channel.status || ''}
+               />
+               <Controller
+                  render={({ field }) => {
+                     return <CountriesSelector
+                        placeholder={'Your country'}
+                        {...field}
+                     />
+                  }}
+                  name='location'
+                  control={control}
+                  defaultValue={channel.location || ''}
                />
             </div>
             <UploadAvatar
