@@ -7,7 +7,7 @@ import TextArea from '../../../UI/TextArea';
 import Input from '../../../UI/Input';
 import Button from '../../../UI/Button';
 import UploadAvatar from './UploadAvatar';
-import { useMutation } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { MediaApi } from '../../../../API/MediaApi';
 import { UserApi } from '../../../../API/UserApi';
 import { IMediaRes } from '../../../../API/types';
@@ -19,7 +19,14 @@ interface EditFormProps {
 }
 
 const EditForm: React.FC<PropsWithChildren<EditFormProps>> = ({ channel, onClose }) => {
-   const [ava, setAva] = useState<string>(channel.avatar || '');
+   const { data, refetch } = useQuery(['channel', channel._id], async () => {
+      return await UserApi.fetchUser(channel._id)
+   }, {
+      initialData: channel,
+      enabled: !channel
+   })
+
+   const [ava, setAva] = useState<string>(data?.avatar || '');
    const [newAva, setNewAva] = useState<null | FormData>(null)
 
    const { mutateAsync: uploadAvatar } = useMutation<IMediaRes, Error, FormData>(async (img: FormData) => {
@@ -28,7 +35,10 @@ const EditForm: React.FC<PropsWithChildren<EditFormProps>> = ({ channel, onClose
    const { mutateAsync, isLoading } = useMutation(async (input: IUserInput) => {
       await UserApi.updateUser(input)
    }, {
-      onSuccess: () => onClose()
+      onSuccess: () => {
+         onClose()
+         refetch()
+      }
    })
 
    const schema = Yup.object().shape({
@@ -49,17 +59,16 @@ const EditForm: React.FC<PropsWithChildren<EditFormProps>> = ({ channel, onClose
    })
 
    const onSubmit = async (values: IUserInput) => {
-      console.log(values);
-      // try {
-      //    if (newAva) {
-      //       const avatar = await uploadAvatar(newAva)
-      //       await mutateAsync({ ...values, avatar: avatar.url })
-      //    } else {
-      //       await mutateAsync({ ...values })
-      //    }
-      // } catch (err: any) {
-      //    setError('form', { message: err.message })
-      // }
+      try {
+         if (newAva) {
+            const avatar = await uploadAvatar(newAva)
+            await mutateAsync({ ...values, avatar: avatar.url })
+         } else {
+            await mutateAsync({ ...values })
+         }
+      } catch (err: any) {
+         setError('form', { message: err.message })
+      }
    }
 
    const onImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -90,7 +99,7 @@ const EditForm: React.FC<PropsWithChildren<EditFormProps>> = ({ channel, onClose
                   }}
                   name='name'
                   control={control}
-                  defaultValue={channel.name}
+                  defaultValue={data?.name}
                />
                <Controller
                   render={({ field }) => {
@@ -106,18 +115,19 @@ const EditForm: React.FC<PropsWithChildren<EditFormProps>> = ({ channel, onClose
                   }}
                   name='status'
                   control={control}
-                  defaultValue={channel.status || ''}
+                  defaultValue={data?.status || ''}
                />
                <Controller
-                  render={({ field }) => {
+                  render={({ field: { onChange, ...fields } }) => {
                      return <CountriesSelector
                         placeholder={'Your country'}
-                        {...field}
+                        onChange={onChange}
+                        {...fields}
                      />
                   }}
                   name='location'
                   control={control}
-                  defaultValue={channel.location || ''}
+                  defaultValue={data?.location || ''}
                />
             </div>
             <UploadAvatar
