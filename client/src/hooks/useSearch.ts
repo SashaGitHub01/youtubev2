@@ -8,7 +8,7 @@ export const useSearch = () => {
    const query = useDebounce(search, 600)
    const [isVisible, setIsVisible] = useState(!!query)
    const { data, isFetching } = useQuery(['videos search', query], async () => {
-      return await VideoApi.fetchVideos(search)
+      return await VideoApi.fetchVideos({ search })
    },
       {
          enabled: !!search,
