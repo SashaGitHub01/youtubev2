@@ -23,7 +23,6 @@ const ioredis_1 = __importDefault(require("ioredis"));
 const connect_redis_1 = __importDefault(require("connect-redis"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const mongoose_1 = __importDefault(require("mongoose"));
-const morgan_1 = __importDefault(require("morgan"));
 const path_1 = __importDefault(require("path"));
 const cors_1 = __importDefault(require("cors"));
 const routes_1 = require("./routes");
@@ -57,7 +56,6 @@ app.use((0, express_session_1.default)({
     })
 }));
 app.use(express_1.default.static(path_1.default.resolve(__dirname, 'uploads')));
-app.use((0, morgan_1.default)(':method :url :status :res[content-length] - :response-time ms'));
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
 app.use(passport_1.default.initialize());

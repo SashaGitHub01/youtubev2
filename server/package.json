@@ -8,7 +8,8 @@
       "dev": "nodemon --exec ts-node ./src/index.ts",
       "dev2": "nodemon ./dist/index.js",
       "start": "node ./dist/index.js",
-      "watch": "tsc -w"
+      "watch": "tsc -w",
+      "logs": "heroku logs --tail --app quiet-refuge-94798"
    },
    "author": "",
    "license": "ISC",
