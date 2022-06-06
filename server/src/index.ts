@@ -39,9 +39,9 @@ app.use(session({
    store: new RedisStore({
       client: redis,
       disableTouch: true,
-      pass: process.env.REDIS_PASSWORD,
-      host: process.env.REDIS_HOST,
-      port: Number(process.env.REDIS_PORT),
+      pass: process.env.NODE_ENV === 'production' ? process.env.REDIS_PASSWORD : '',
+      host: process.env.NODE_ENV === 'production' ? process.env.REDIS_HOST : 'localhost',
+      port: process.env.NODE_ENV === 'production' ? Number(process.env.REDIS_PORT) : 6379,
    })
 }))
 
