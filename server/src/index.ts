@@ -40,7 +40,7 @@ app.use(session({
    store: new RedisStore({
       client: redis,
       disableTouch: true,
-      host: process.env.NODE_ENV === 'production' ? 'https://quiet-refuge-94798.herokuapp.com/api/video' : 'localhost',
+      host: process.env.NODE_ENV === 'production' ? 'https://quiet-refuge-94798.herokuapp.com' : 'localhost',
       port: 6379,
    })
 }))
