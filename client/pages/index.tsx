@@ -59,7 +59,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
    }
 
    return {
-      revalidate: 60,
+      revalidate: 30,
       props: {
          popVideos,
          topChannels,

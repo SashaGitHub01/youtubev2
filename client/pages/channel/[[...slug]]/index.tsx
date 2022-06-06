@@ -94,7 +94,7 @@ export const getStaticProps: GetStaticProps<any> = async ({ params }: GetStaticP
             popVideos
          },
 
-         revalidate: 60
+         revalidate: 30
       }
    } catch (err) {
       return {
