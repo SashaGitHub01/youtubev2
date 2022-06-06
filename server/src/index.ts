@@ -44,7 +44,7 @@ app.use(session({
       port: process.env.NODE_ENV === 'production' ? Number(process.env.REDIS_PORT) || 0 : 6379,
    })
 }))
-
+console.log(process.env.NODE_ENV)
 app.use(express.static(path.resolve(__dirname, 'uploads')))
 app.use(express.json());
 app.use(cookieParser())
