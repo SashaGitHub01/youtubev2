@@ -1,4 +1,4 @@
-import React, { MutableRefObject, PropsWithChildren, useEffect } from 'react'
+import React, { PropsWithChildren, useEffect } from 'react'
 import { CloseIcon } from '../../../assets/icons';
 import ReactModal from 'react-modal'
 import cn from 'classnames';
