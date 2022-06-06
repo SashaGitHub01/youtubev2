@@ -10,7 +10,7 @@ interface CountriesSelectorProps {
    onChange: (...event: any[]) => void
 }
 
-const CountriesSelector: React.FC<PropsWithChildren<CountriesSelectorProps>> = React.forwardRef(({ onChange, ...props }, ref: any) => {
+const CountriesSelector: React.FC<PropsWithChildren<CountriesSelectorProps>> = React.forwardRef(function CountriesSelector({ onChange, ...props }, ref: any) {
    const options = Object.entries(countries.getNames('en')).map(([code, name]) => ({
       value: name,
       label: <div className="flex items-center gap-2">
