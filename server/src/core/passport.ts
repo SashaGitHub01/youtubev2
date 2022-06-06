@@ -22,6 +22,7 @@ passport.use(new JwtStrategy({
 },
    async (payload, done) => {
       try {
+
          if (payload.id) {
             return done(null, payload.id);
          } else {
