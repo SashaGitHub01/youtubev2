@@ -9,8 +9,8 @@
    },
    "scripts": {
       "test": "echo \"Error: no test specified\" && exit 1",
-      "heroku-prebuild": "npm install --prefix server --production=false",
-      "start": "cd ./server && node ./dist/index.js --env=production"
+      "heroku-prebuild": "npm install --prefix server",
+      "start": "cd ./server && node ./dist/index.js"
    },
    "repository": {
       "type": "git",
