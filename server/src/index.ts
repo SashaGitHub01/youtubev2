@@ -24,7 +24,7 @@ app.use(cors({
    origin: ['http://localhost:3000', process.env.CLIENT as string],
    credentials: true
 }));
-console.log(process.env.NODE_ENV, process.env.REDIS_PASSWORD, process.env.REDIS_HOST, process.env.REDIS_PORT)
+
 app.use(session({
    name: 'userSession',
    secret: process.env.SECRET as string,
