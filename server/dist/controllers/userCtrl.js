@@ -82,7 +82,7 @@ class UserCtrl {
         });
         this.logout = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
             try {
-                req.session.destroy((err) => console.log(err));
+                res.clearCookie('mySession');
                 return res.json(true);
             }
             catch (err) {

@@ -14,13 +14,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.root = void 0;
 const express_1 = __importDefault(require("express"));
-const express_session_1 = __importDefault(require("express-session"));
 const dotenv_1 = require("dotenv");
 (0, dotenv_1.config)();
+const cookie_session_1 = __importDefault(require("cookie-session"));
 const passport_1 = __importDefault(require("passport"));
 require("./core/passport");
-const ioredis_1 = __importDefault(require("ioredis"));
-const connect_redis_1 = __importDefault(require("connect-redis"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const path_1 = __importDefault(require("path"));
@@ -28,8 +26,6 @@ const cors_1 = __importDefault(require("cors"));
 const routes_1 = require("./routes");
 const errorHandle_1 = require("./middlewares/errorHandle");
 const app = (0, express_1.default)();
-const redis = new ioredis_1.default();
-const RedisStore = (0, connect_redis_1.default)(express_session_1.default);
 exports.root = __dirname;
 const PORT = process.env.PORT || 3001;
 app.set('trust proxy', 1);
@@ -37,24 +33,13 @@ app.use((0, cors_1.default)({
     origin: ['http://localhost:3000', process.env.CLIENT],
     credentials: true
 }));
-app.use((0, express_session_1.default)({
-    name: 'userSession',
-    secret: process.env.SECRET,
-    cookie: {
-        maxAge: 24 * 60 * 60 * 1000,
-        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-        httpOnly: process.env.NODE_ENV === 'production' ? false : true,
-        secure: process.env.NODE_ENV === 'production' ? true : false
-    },
-    resave: false,
-    saveUninitialized: true,
-    store: new RedisStore({
-        client: redis,
-        disableTouch: true,
-        pass: '',
-        host: 'localhost',
-        port: 6379,
-    })
+app.use((0, cookie_session_1.default)({
+    name: 'mySession',
+    keys: ['key1'],
+    maxAge: 1000 * 60 * 60 * 24 * 7,
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+    httpOnly: process.env.NODE_ENV === 'production' ? false : true,
+    secure: process.env.NODE_ENV === 'production' ? true : false
 }));
 app.use(express_1.default.static(path_1.default.resolve(__dirname, 'uploads')));
 app.use(express_1.default.json());
