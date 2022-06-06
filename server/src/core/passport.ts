@@ -9,7 +9,6 @@ import { ApiError } from "../utils/ApiError";
 
 const extractJwt = (req: express.Request) => {
    const verify = jwt.verify((req.session as any)?.token, process.env.SECRET as string)
-
    if (verify) {
       return (req.session as any).token;
    }

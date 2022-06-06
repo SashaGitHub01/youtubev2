@@ -81,7 +81,7 @@ class UserCtrl {
 
    logout = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
       try {
-         req.session.destroy((err) => console.log(err))
+         res.clearCookie('mySession')
 
          return res.json(true)
       } catch (err: any) {

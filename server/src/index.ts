@@ -1,20 +1,17 @@
 import express from 'express';
-import session from 'express-session';
 import { config } from 'dotenv'
 config()
+import cookieSession from 'cookie-session'
 import passport from 'passport'
 import './core/passport'
-import Redis from 'ioredis'
-import connectRedis from 'connect-redis'
 import cookieParser from 'cookie-parser'
 import mongoose from 'mongoose'
 import path from 'path'
 import cors from 'cors'
 import { router } from './routes';
 import { errorHandle } from './middlewares/errorHandle';
+
 const app = express()
-const redis = new Redis()
-const RedisStore = connectRedis(session)
 export const root = __dirname;
 
 const PORT = process.env.PORT || 3001;
@@ -25,24 +22,13 @@ app.use(cors({
    credentials: true
 }));
 
-app.use(session({
-   name: 'userSession',
-   secret: process.env.SECRET as string,
-   cookie: {
-      maxAge: 24 * 60 * 60 * 1000,
-      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-      httpOnly: process.env.NODE_ENV === 'production' ? false : true,
-      secure: process.env.NODE_ENV === 'production' ? true : false
-   },
-   resave: false,
-   saveUninitialized: true,
-   store: new RedisStore({
-      client: redis,
-      disableTouch: true,
-      pass: process.env.NODE_ENV === 'production' ? process.env.REDIS_PASSWORD : '',
-      host: process.env.NODE_ENV === 'production' ? process.env.REDIS_HOST : 'localhost',
-      port: process.env.NODE_ENV === 'production' ? Number(process.env.REDIS_PORT) : 6379,
-   })
+app.use(cookieSession({
+   name: 'mySession',
+   keys: ['key1'],
+   maxAge: 1000 * 60 * 60 * 24 * 7,
+   sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+   httpOnly: process.env.NODE_ENV === 'production' ? false : true,
+   secure: process.env.NODE_ENV === 'production' ? true : false
 }))
 
 app.use(express.static(path.resolve(__dirname, 'uploads')))

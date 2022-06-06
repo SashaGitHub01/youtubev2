@@ -51,8 +51,8 @@ export default VideoPage;
 
 export const getStaticPaths: GetStaticPaths = async () => {
    try {
-      const videos = await VideoApi.fetchVideos()
-      const paths = videos.map(v => ({
+      const videos = await VideoApi.fetchVideos({})
+      const paths = videos.data.map(v => ({
          params: { videoId: v._id }
       }))
 

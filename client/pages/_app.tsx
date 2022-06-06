@@ -22,11 +22,11 @@ const client = new QueryClient({
    defaultOptions: {
       queries: {
          refetchOnWindowFocus: false,
-         retry: 2,
+         retry: 0,
       },
 
       mutations: {
-         retry: 2
+         retry: 0
       }
    },
 
