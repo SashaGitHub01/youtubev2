@@ -34,9 +34,15 @@ const UploadModal: React.FC<PropsWithChildren<UploadModalProps>> = ({ onClose, i
       setPreview(url)
    }
 
+   const handleClose = () => {
+      setVideo(undefined)
+      setPreview('')
+      onClose()
+   }
+
    return (
       <Modal
-         onClose={onClose}
+         onClose={handleClose}
          isOpen={isOpen}
          title={video?.name || 'Video upload'}
          width='lg'
