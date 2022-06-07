@@ -34,7 +34,8 @@ class UserCtrl {
 
          const user = await User.create({
             ...req.body,
-            password: hash
+            password: hash,
+            avatar: 'https://www.kindpng.com/picc/m/22-223910_circle-user-png-icon-transparent-png.png'
          })
 
          const token = user.generateToken(user._id);
@@ -81,7 +82,8 @@ class UserCtrl {
 
    logout = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
       try {
-         req.session.destroy((err) => console.log(err))
+         req.logOut();
+         (req.session as any) = null;
 
          return res.json(true)
       } catch (err: any) {

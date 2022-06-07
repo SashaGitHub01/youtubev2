@@ -1,52 +1,42 @@
 import express from 'express';
-import session from 'express-session';
 import { config } from 'dotenv'
 config()
+import cookieSession from 'cookie-session'
 import passport from 'passport'
 import './core/passport'
-import Redis from 'ioredis'
-import connectRedis from 'connect-redis'
 import cookieParser from 'cookie-parser'
 import mongoose from 'mongoose'
-import morgan from 'morgan'
 import path from 'path'
 import cors from 'cors'
 import { router } from './routes';
 import { errorHandle } from './middlewares/errorHandle';
+
 const app = express()
-const redis = new Redis()
-const RedisStore = connectRedis(session)
 export const root = __dirname;
 
 const PORT = process.env.PORT || 3001;
 
 app.set('trust proxy', 1);
 app.use(cors({
-   origin: ['http://localhost:3000', process.env.CLIENT as string],
+   origin: [
+      'http://localhost:3000',
+      'https://youtubev2022.vercel.app',
+      'https://youtubev2022-git-deploy-sashagithub01.vercel.app',
+      process.env.CLIENT as string
+   ],
    credentials: true
 }));
 
-app.use(session({
-   name: 'userSession',
-   secret: process.env.SECRET as string,
-   cookie: {
-      maxAge: 24 * 60 * 60 * 1000,
-      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-      httpOnly: process.env.NODE_ENV === 'production' ? false : true,
-      secure: process.env.NODE_ENV === 'production' ? true : false
-   },
-   resave: false,
-   saveUninitialized: true,
-   store: new RedisStore({
-      client: redis,
-      disableTouch: true,
-      host: 'localhost',
-      port: 6379,
-   })
+app.use(cookieSession({
+   name: 'mySession',
+   keys: ['key1'],
+   maxAge: 1000 * 60 * 60 * 24 * 7,
+   sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+   httpOnly: process.env.NODE_ENV === 'production' ? false : true,
+   secure: process.env.NODE_ENV === 'production' ? true : false
 }))
 
 app.use(express.static(path.resolve(__dirname, 'uploads')))
-app.use(morgan(':method :url :status :res[content-length] - :response-time ms'));
 app.use(express.json());
 app.use(cookieParser())
 

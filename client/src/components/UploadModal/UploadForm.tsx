@@ -33,7 +33,7 @@ const UploadForm: React.FC<PropsWithChildren<UploadFormProps>> = ({ video, setVi
 
    return (
       <>
-         <form className="shrink-0 flex-auto" onSubmit={handleSubmit(onSubmit)}>
+         <form className="shrink-0 flex-auto h-full" onSubmit={handleSubmit(onSubmit)}>
             {!!video?._id
                ? <>
                   {!!update.error

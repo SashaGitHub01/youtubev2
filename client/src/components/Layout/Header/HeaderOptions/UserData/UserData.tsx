@@ -43,7 +43,7 @@ const UserData: React.FC<PropsWithChildren<UserDataProps>> = ({ user }) => {
             disabled={isOpen}
             onClick={handleOpen}
             ref={triggerRef}
-            className="rounded-[50%] block bg-pink-300 w-[36px] h-[36px] overflow-hidden cursor-pointer"
+            className="rounded-[50%] block w-[36px] h-[36px] overflow-hidden cursor-pointer"
          >
             <img src={user.avatar} alt={user.name} />
          </button>

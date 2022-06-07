@@ -1,0 +1,5 @@
+@import "../../../styles/vars";
+
+.scrollbar {
+   @include scroll_bar;
+}

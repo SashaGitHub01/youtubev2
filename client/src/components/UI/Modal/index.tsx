@@ -1,7 +1,8 @@
-import React, { MutableRefObject, PropsWithChildren, useEffect } from 'react'
+import React, { PropsWithChildren, useEffect } from 'react'
 import { CloseIcon } from '../../../assets/icons';
 import ReactModal from 'react-modal'
 import cn from 'classnames';
+import s from './Modal.module.scss'
 
 ReactModal.setAppElement('#__next')
 
@@ -29,7 +30,7 @@ const Modal: React.FC<PropsWithChildren<ModalProps>> = ({ children, title, heigh
             'max-w-[840px]': width === 'lg',
             'max-h-[75%] h-full': height === 'full'
          })}`}
-         overlayClassName={`z-[100] bg-[#00000089] fixed left-0 top-0 w-screen h-screen flex items-center
+         overlayClassName={`z-[800] bg-[#00000089] fixed left-0 top-0 w-screen h-screen flex items-center
       justify-center`}
       >
          <button className=' absolute right-2 top-2' onClick={onClose}>
@@ -41,7 +42,7 @@ const Modal: React.FC<PropsWithChildren<ModalProps>> = ({ children, title, heigh
                   {title}
                </span>
             </div>}
-         <div className="pt-7 pb-4 px-5 flex-auto">
+         <div className={`pt-7 pb-4 px-5 flex-auto h-full ${s.scrollbar}`}>
             {children}
          </div>
       </ReactModal>

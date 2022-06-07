@@ -10,4 +10,4 @@ export const errorHandle = (err: MyError, req: express.Request, res: express.Res
    }
 
    return res.status(500).json({ message: 'Ошибка сервера' })
-}
+} 

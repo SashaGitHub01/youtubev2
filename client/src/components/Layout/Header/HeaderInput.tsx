@@ -21,7 +21,7 @@ const HeaderInput: React.FC<PropsWithChildren<HeaderInputProps>> = ({ }) => {
                onBlur={onBlur}
             />
             {isVisible
-               && <HeaderList videos={data} />}
+               && <HeaderList videos={data?.data} />}
          </div>
          <button className="bg-blue1 px-2 hover:bg-blue-600">
             <SearchIcon className='text-xl text-white' />

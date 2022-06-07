@@ -1,4 +1,4 @@
-import { GetStaticPaths, GetStaticProps, GetStaticPropsContext, NextPage } from 'next';
+import { GetServerSideProps, GetServerSidePropsContext, GetStaticPaths, GetStaticProps, GetStaticPropsContext, NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react'
@@ -61,29 +61,10 @@ const Channel: NextPage<ChannelProps> = ({ channel, popVideos, }) => {
 export default Channel;
 
 
-export const getStaticPaths: GetStaticPaths = async () => {
-   try {
-      const users = await UserApi.fetchUsers()
-      const paths = users.map(u => ({
-         params: { slug: [u._id] }
-      }))
-
-      return {
-         paths: paths,
-         fallback: 'blocking'
-      }
-   } catch (err) {
-      return {
-         paths: [],
-         fallback: false
-      }
-   }
-}
-
-export const getStaticProps: GetStaticProps<any> = async ({ params }: GetStaticPropsContext) => {
+export const getServerSideProps: GetServerSideProps<any> = async ({ params }: GetServerSidePropsContext) => {
    try {
       const id = params?.slug?.[0]
-      if (!id) throw Error('SSG Error')
+      if (!id) throw Error('Error')
 
       const popVideos = (await VideoApi.fetchVideosByUser({ id, sort: 'views', limit: 12 })).data
       const channel = await UserApi.fetchUser(id as string)
@@ -93,8 +74,6 @@ export const getStaticProps: GetStaticProps<any> = async ({ params }: GetStaticP
             channel,
             popVideos
          },
-
-         revalidate: 60
       }
    } catch (err) {
       return {
@@ -107,3 +86,50 @@ export const getStaticProps: GetStaticProps<any> = async ({ params }: GetStaticP
       }
    }
 }
+
+// export const getStaticPaths: GetStaticPaths = async () => {
+//    try {
+//       const users = await UserApi.fetchUsers()
+//       const paths = users.map(u => ({
+//          params: { slug: [u._id] }
+//       }))
+
+//       return {
+//          paths: paths,
+//          fallback: 'blocking'
+//       }
+//    } catch (err) {
+//       return {
+//          paths: [],
+//          fallback: false
+//       }
+//    }
+// }
+
+// export const getStaticProps: GetStaticProps<any> = async ({ params }: GetStaticPropsContext) => {
+//    try {
+//       const id = params?.slug?.[0]
+//       if (!id) throw Error('SSG Error')
+
+//       const popVideos = (await VideoApi.fetchVideosByUser({ id, sort: 'views', limit: 12 })).data
+//       const channel = await UserApi.fetchUser(id as string)
+
+//       return {
+//          props: {
+//             channel,
+//             popVideos
+//          },
+
+//          revalidate: 30
+//       }
+//    } catch (err) {
+//       return {
+//          props: {
+//             channel: {},
+//             popVideos: []
+//          },
+
+//          notFound: true
+//       }
+//    }
+// }

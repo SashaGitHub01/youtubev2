@@ -13,7 +13,7 @@ interface TextAreaProps {
    [k: string]: any,
 }
 
-const TextArea: React.FC<PropsWithChildren<TextAreaProps>> = React.forwardRef(({ error, type, label, placeholder, minRows, maxRows, ...props }, ref: any) => {
+const TextArea: React.FC<PropsWithChildren<TextAreaProps>> = React.forwardRef(function TextArea({ error, type, label, placeholder, minRows, maxRows, ...props }, ref: any) {
 
    return (
       <div className="relative w-full">

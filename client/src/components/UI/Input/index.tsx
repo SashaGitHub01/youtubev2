@@ -9,7 +9,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
    [k: string]: any
 }
 
-const Input: React.FC<PropsWithChildren<InputProps>> = React.forwardRef(({ error, label, variant, ...props }, ref: any) => {
+const Input: React.FC<PropsWithChildren<InputProps>> = React.forwardRef(function Input({ error, label, variant, ...props }, ref: any) {
 
    return (
       <div className="w-full relative">

@@ -58,10 +58,10 @@ const HeaderOptions: React.FC<PropsWithChildren<HeaderOptionsProps>> = ({ }) => 
                      </div>
                   </Popper>
                   <UserData user={user} />
-                  <UploadModal
+                  {isOpen1 && <UploadModal
                      onClose={handleClose1}
                      isOpen={isOpen1}
-                  />
+                  />}
                </div>
                : <>
                   <Button color='blue' Icon={UserIcon} onClick={handleClick}>

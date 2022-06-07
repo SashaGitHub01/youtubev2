@@ -12,7 +12,9 @@ interface UploadFooterProps {
 
 const UploadFooter: React.FC<PropsWithChildren<UploadFooterProps>> = ({ disabled, progress, haveVideo }) => {
    return (
-      <div className="flex items-center justify-between pt-7 w-full absolute bottom-0 left-0">
+      <div
+         className="flex items-center px-5 border-solid border-t border-t-gray-200 justify-between bg-white h-14 w-full absolute bottom-0 left-0"
+      >
          <div className="flex items-center gap-3">
             <UploadIcon className={`${s.icon} ${cn({
                [s.icon_completed]: haveVideo
