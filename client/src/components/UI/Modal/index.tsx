@@ -2,6 +2,7 @@ import React, { PropsWithChildren, useEffect } from 'react'
 import { CloseIcon } from '../../../assets/icons';
 import ReactModal from 'react-modal'
 import cn from 'classnames';
+import s from './Modal.module.scss'
 
 ReactModal.setAppElement('#__next')
 
@@ -23,7 +24,7 @@ const Modal: React.FC<PropsWithChildren<ModalProps>> = ({ children, title, heigh
       <ReactModal
          isOpen={isOpen}
          onRequestClose={onClose}
-         className={`max-w-[440px] overflow-auto flex flex-col mx-4 z-40 w-full rounded-sm relative bg-white animate-scale ${cn({
+         className={`max-w-[440px] overflow-hidden flex flex-col mx-4 z-40 w-full rounded-sm relative bg-white animate-scale ${cn({
             'max-w-[440px]': width === 'sm' || !width,
             'max-w-[640px]': width === 'md',
             'max-w-[840px]': width === 'lg',
@@ -41,7 +42,7 @@ const Modal: React.FC<PropsWithChildren<ModalProps>> = ({ children, title, heigh
                   {title}
                </span>
             </div>}
-         <div className="pt-7 pb-4 px-5 flex-auto">
+         <div className={`pt-7 pb-4 px-5 flex-auto h-full ${s.scrollbar}`}>
             {children}
          </div>
       </ReactModal>

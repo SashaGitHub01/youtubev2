@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 @layer components {
+   .scroll_bar {
+      @apply bg-red-300;
+   }
+
    .typo_main {
       @apply font-normal text-primary text-black;
    }

@@ -7,6 +7,7 @@ import Loader from '../Loader';
 import Modal from '../UI/Modal';
 import UploadForm from './UploadForm';
 import VideoCol from './VideoCol';
+import s from './UploadModal.module.scss'
 
 interface UploadModalProps {
    onClose: () => void,
@@ -49,8 +50,8 @@ const UploadModal: React.FC<PropsWithChildren<UploadModalProps>> = ({ onClose, i
          width='lg'
          height='full'
       >
-         <div className="relative h-full flex-col flex">
-            <div className="flex-auto flex gap-5">
+         <div className={`h-full flex-col flex ${s.scrollbar}`}>
+            <div className="flex-auto flex gap-5 h-full overflow-auto mb-[6.5rem]">
                {isFetching
                   ? <Loader />
                   : <>
