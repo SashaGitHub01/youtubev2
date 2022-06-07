@@ -34,7 +34,6 @@ app.use((0, cors_1.default)({
         'http://localhost:3000',
         'https://youtubev2022.vercel.app',
         'https://youtubev2022-git-deploy-sashagithub01.vercel.app',
-        'https://youtubev2022-gq65vmwzy-sashagithub01.vercel.app',
         process.env.CLIENT
     ],
     credentials: true
