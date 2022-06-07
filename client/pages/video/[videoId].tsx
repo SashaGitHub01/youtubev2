@@ -1,4 +1,4 @@
-import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from 'next'
+import { GetServerSideProps, GetServerSidePropsContext, GetStaticPaths, GetStaticProps, GetStaticPropsContext } from 'next'
 import Head from 'next/head'
 import React, { PropsWithChildren, useEffect } from 'react'
 import { useMutation } from 'react-query'
@@ -49,26 +49,7 @@ const VideoPage: React.FC<PropsWithChildren<VideoPageProps>> = ({ video }) => {
 
 export default VideoPage;
 
-export const getStaticPaths: GetStaticPaths = async () => {
-   try {
-      const videos = await VideoApi.fetchVideos({})
-      const paths = videos.data.map(v => ({
-         params: { videoId: v._id }
-      }))
-
-      return {
-         paths: paths,
-         fallback: 'blocking'
-      }
-   } catch (err) {
-      return {
-         paths: [],
-         fallback: false
-      }
-   }
-}
-
-export const getStaticProps: GetStaticProps<any> = async ({ params }: GetStaticPropsContext) => {
+export const getServerSideProps: GetServerSideProps<any> = async ({ params }: GetServerSidePropsContext) => {
    try {
       const id = params?.videoId
       if (!id) throw Error('Error')
@@ -79,8 +60,6 @@ export const getStaticProps: GetStaticProps<any> = async ({ params }: GetStaticP
          props: {
             video
          },
-
-         revalidate: 60
       }
    } catch (err) {
       return {
@@ -92,3 +71,48 @@ export const getStaticProps: GetStaticProps<any> = async ({ params }: GetStaticP
       }
    }
 }
+
+
+// export const getStaticPaths: GetStaticPaths = async () => {
+//    try {
+//       const videos = await VideoApi.fetchVideos({})
+//       const paths = videos.data.map(v => ({
+//          params: { videoId: v._id }
+//       }))
+
+//       return {
+//          paths: paths,
+//          fallback: 'blocking'
+//       }
+//    } catch (err) {
+//       return {
+//          paths: [],
+//          fallback: false
+//       }
+//    }
+// }
+
+// export const getStaticProps: GetStaticProps<any> = async ({ params }: GetStaticPropsContext) => {
+//    try {
+//       const id = params?.videoId
+//       if (!id) throw Error('Error')
+
+//       const video = await VideoApi.fetchVideo(id as string)
+
+//       return {
+//          props: {
+//             video
+//          },
+
+//          revalidate: 60
+//       }
+//    } catch (err) {
+//       return {
+//          props: {
+//             video: null
+//          },
+
+//          notFound: true
+//       }
+//    }
+// }
