@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import React, { PropsWithChildren, useState } from 'react'
-import { useQuery, } from 'react-query';
+import { useQuery, QueryClient } from 'react-query';
 import { VideoApi } from '../../API/VideoApi';
 import { IVideo } from '../../types/video.types';
 import Loader from '../Loader';
@@ -17,7 +17,7 @@ const UploadModal: React.FC<PropsWithChildren<UploadModalProps>> = ({ onClose, i
    const { query } = useRouter()
    const [video, setVideo] = useState<IVideo | undefined>()
    const [preview, setPreview] = useState(video?.preview || '')
-
+   const queries = new QueryClient()
    const { isFetching } = useQuery(['video secure', query?.id], async () => {
       return await VideoApi.fetchSecureVideo(query?.id as string)
    }, {
@@ -36,6 +36,7 @@ const UploadModal: React.FC<PropsWithChildren<UploadModalProps>> = ({ onClose, i
 
    const handleClose = () => {
       setVideo(undefined)
+      queries.resetQueries({ queryKey: ['video secure', video?._id] })
       setPreview('')
       onClose()
    }

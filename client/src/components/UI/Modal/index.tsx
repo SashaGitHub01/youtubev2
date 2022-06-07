@@ -23,13 +23,13 @@ const Modal: React.FC<PropsWithChildren<ModalProps>> = ({ children, title, heigh
       <ReactModal
          isOpen={isOpen}
          onRequestClose={onClose}
-         className={`max-w-[440px] flex flex-col mx-4 z-40 w-full rounded-sm relative bg-white animate-scale ${cn({
+         className={`max-w-[440px] overflow-auto flex flex-col mx-4 z-40 w-full rounded-sm relative bg-white animate-scale ${cn({
             'max-w-[440px]': width === 'sm' || !width,
             'max-w-[640px]': width === 'md',
             'max-w-[840px]': width === 'lg',
             'max-h-[75%] h-full': height === 'full'
          })}`}
-         overlayClassName={`z-[100] bg-[#00000089] fixed left-0 top-0 w-screen h-screen flex items-center
+         overlayClassName={`z-[800] bg-[#00000089] fixed left-0 top-0 w-screen h-screen flex items-center
       justify-center`}
       >
          <button className=' absolute right-2 top-2' onClick={onClose}>
