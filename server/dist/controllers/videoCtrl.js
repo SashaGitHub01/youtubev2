@@ -49,7 +49,9 @@ class VideoCtrl {
                     }
                 });
                 const hasMore = videos.length === Number(limit) + 1;
-                videos.pop();
+                if (hasMore) {
+                    videos.pop();
+                }
                 return res.json({
                     data: {
                         data: videos,
@@ -182,7 +184,9 @@ class VideoCtrl {
                     }
                 });
                 const hasMore = videos.length === Number(limit) + 1;
-                videos.pop();
+                if (hasMore) {
+                    videos.pop();
+                }
                 return res.json({
                     data: {
                         data: videos,
