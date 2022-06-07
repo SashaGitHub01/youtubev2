@@ -12,7 +12,7 @@ const VideoPlayer: React.FC<PropsWithChildren<VideoPlayerProps>> = ({ video }) =
    const { videoRef, state, actions } = usePlayer()
 
    return (
-      <div className="relative overflow-hidden">
+      <div className="relative overflow-hidden bg-black">
          <div className="">
             {video.video
                ? <video
@@ -20,7 +20,7 @@ const VideoPlayer: React.FC<PropsWithChildren<VideoPlayerProps>> = ({ video }) =
                   ref={videoRef}
                   preload='metadata'
                   src={video.video}
-                  className='w-full'
+                  className='w-full max-h-[85vh]'
                />
                : <div className='font-medium text-center text-[26px] py-4'>
                   Sorry, but video doesn't exist

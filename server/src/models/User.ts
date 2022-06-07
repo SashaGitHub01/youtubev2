@@ -27,7 +27,7 @@ const userSchema = new Schema({
 
    status: {
       type: String,
-      maxlength: 250
+      maxlength: 700
    },
 
    email: {

@@ -13,7 +13,7 @@ const userSchema = new mongoose_1.Schema({
     },
     status: {
         type: String,
-        maxlength: 250
+        maxlength: 700
     },
     email: {
         type: String,

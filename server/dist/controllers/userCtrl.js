@@ -43,7 +43,7 @@ class UserCtrl {
                 }
                 const salt = yield bcryptjs_1.default.genSalt(7);
                 const hash = yield bcryptjs_1.default.hash(req.body.password, salt);
-                const user = yield User_1.User.create(Object.assign(Object.assign({}, req.body), { password: hash }));
+                const user = yield User_1.User.create(Object.assign(Object.assign({}, req.body), { password: hash, avatar: 'https://www.kindpng.com/picc/m/22-223910_circle-user-png-icon-transparent-png.png' }));
                 const token = user.generateToken(user._id);
                 req.session.token = token;
                 return res.json({
