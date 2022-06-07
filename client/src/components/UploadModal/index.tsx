@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import React, { PropsWithChildren, useState } from 'react'
-import { useQuery, useQueryClient } from 'react-query';
+import { useQuery } from 'react-query';
 import { VideoApi } from '../../API/VideoApi';
 import { IVideo } from '../../types/video.types';
 import Loader from '../Loader';
