@@ -68,14 +68,11 @@ const VideosTable: React.FC<PropsWithChildren<VideosTableProps>> = ({ user }) =>
                isRemoving={isRemoving}
                onOpen={onOpen}
             />)}
-         <UploadModal
-            isOpen={isOpen}
-            onClose={onClose}
-         >
-            <div className="g">
-
-            </div>
-         </UploadModal>
+         {isOpen
+            && <UploadModal
+               isOpen={isOpen}
+               onClose={onClose}
+            />}
       </div>
    )
 }
