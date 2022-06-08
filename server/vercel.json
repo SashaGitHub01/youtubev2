@@ -11,6 +11,12 @@
          }
       }
    ],
+   "redirects": [
+      {
+         "source": "/uploads/:folder*",
+         "destination": "/:folder*"
+      }
+   ],
    "rewrites": [
       {
          "source": "/uploads/:folder*",
