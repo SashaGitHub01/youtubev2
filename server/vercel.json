@@ -14,7 +14,7 @@
    "rewrites": [
       {
          "source": "/uploads/:folder*",
-         "destination": "/:folder*"
+         "destination": "/dist/index.js/:folder*"
       },
       {
          "source": "/(.*)",
