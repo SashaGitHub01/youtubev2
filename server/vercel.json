@@ -15,6 +15,10 @@
       {
          "src": "/(.*)",
          "dest": "dist/index.js"
+      },
+      {
+         "src": "/uploads/(.*)",
+         "dest": "dist/index.js"
       }
    ]
 }
