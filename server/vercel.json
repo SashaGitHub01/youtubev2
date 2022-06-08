@@ -16,11 +16,5 @@
          "source": "/uploads/:folder*",
          "destination": "/:folder*"
       }
-   ],
-   "redirects": [
-      {
-         "source": "/(.*)",
-         "destination": "dist/index.js"
-      }
    ]
 }
