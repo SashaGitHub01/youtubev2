@@ -13,12 +13,14 @@
    ],
    "routes": [
       {
-         "src": "/uploads/(.*)",
-         "dest": "dist/index.js"
-      },
-      {
          "src": "/(.*)",
          "dest": "dist/index.js"
+      }
+   ],
+   "rewrites": [
+      {
+         "source": "/uploads/**/*",
+         "destination": "dist/index.js"
       }
    ]
 }
