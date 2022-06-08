@@ -13,11 +13,13 @@
    ],
    "rewrites": [
       {
-         "source": "/uploads/**/*",
-         "destination": "dist/index.js"
-      },
+         "source": "/uploads/:folder*",
+         "destination": "/:folder*"
+      }
+   ],
+   "redirects": [
       {
-         "source": "/**/*",
+         "source": "/*",
          "destination": "dist/index.js"
       }
    ]
