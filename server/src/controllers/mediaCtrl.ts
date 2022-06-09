@@ -123,4 +123,4 @@ class MediaCtrl {
    }
 }
 
-export const mediaCtrl = new MediaCtrl()
+export const mediaCtrl = new MediaCtrl() 
