@@ -21,6 +21,7 @@ const passport_1 = __importDefault(require("passport"));
 require("./core/passport");
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const mongoose_1 = __importDefault(require("mongoose"));
+require("./core/cloudinary");
 const path_1 = __importDefault(require("path"));
 const cors_1 = __importDefault(require("cors"));
 const routes_1 = require("./routes");

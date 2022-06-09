@@ -6,6 +6,7 @@ import passport from 'passport'
 import './core/passport'
 import cookieParser from 'cookie-parser'
 import mongoose from 'mongoose'
+import './core/cloudinary'
 import path from 'path'
 import cors from 'cors'
 import { router } from './routes';

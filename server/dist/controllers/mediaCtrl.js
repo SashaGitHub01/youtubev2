@@ -17,6 +17,7 @@ const ApiError_1 = require("../utils/ApiError");
 const fs_extra_1 = __importDefault(require("fs-extra"));
 const md5_1 = __importDefault(require("md5"));
 const __1 = require("../");
+const cloudinary_1 = __importDefault(require("cloudinary"));
 class MediaCtrl {
     constructor() {
         this.media = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
@@ -36,6 +37,80 @@ class MediaCtrl {
                         name: req.body.name || uid
                     }
                 });
+            }
+            catch (err) {
+                return next(ApiError_1.ApiError.internal(err.message));
+            }
+        });
+        this.video = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                const file = req.file;
+                if (!file)
+                    return res.status(400).send();
+                cloudinary_1.default.v2.uploader.upload_stream({
+                    folder: 'youtube/videos',
+                    resource_type: "auto"
+                }, (error, result) => __awaiter(this, void 0, void 0, function* () {
+                    if (error || !result) {
+                        return next(ApiError_1.ApiError.badReq(error.message));
+                    }
+                    const url = result.secure_url;
+                    return res.json({
+                        data: {
+                            url,
+                            name: result === null || result === void 0 ? void 0 : result.original_filename
+                        }
+                    });
+                })).end(file.buffer);
+                return;
+            }
+            catch (err) {
+                return next(ApiError_1.ApiError.internal(err.message));
+            }
+        });
+        this.avatar = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                const file = req.file;
+                if (!file)
+                    return res.status(400).send();
+                cloudinary_1.default.v2.uploader.upload_stream({
+                    folder: 'youtube/images',
+                }, (error, result) => __awaiter(this, void 0, void 0, function* () {
+                    if (error || !result) {
+                        return next(ApiError_1.ApiError.badReq(error.message));
+                    }
+                    const url = result.secure_url;
+                    return res.json({
+                        data: {
+                            url
+                        }
+                    });
+                })).end(file.buffer);
+                return;
+            }
+            catch (err) {
+                return next(ApiError_1.ApiError.internal(err.message));
+            }
+        });
+        this.preview = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                const file = req.file;
+                if (!file)
+                    return res.status(400).send();
+                cloudinary_1.default.v2.uploader.upload_stream({
+                    folder: 'youtube/images',
+                }, (error, result) => __awaiter(this, void 0, void 0, function* () {
+                    if (error || !result) {
+                        return next(ApiError_1.ApiError.badReq(error.message));
+                    }
+                    const url = result.secure_url;
+                    return res.json({
+                        data: {
+                            url
+                        }
+                    });
+                })).end(file.buffer);
+                return;
             }
             catch (err) {
                 return next(ApiError_1.ApiError.internal(err.message));
