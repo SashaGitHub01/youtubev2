@@ -51,11 +51,11 @@ class MediaCtrl {
                     folder: 'youtube/videos',
                     resource_type: "auto"
                 }, (error, result) => __awaiter(this, void 0, void 0, function* () {
+                    console.log('ERROR', error);
                     if (error || !result) {
                         return next(ApiError_1.ApiError.badReq(error.message));
                     }
                     const url = result.secure_url;
-                    console.log(result);
                     return res.json({
                         data: {
                             url,
@@ -66,6 +66,7 @@ class MediaCtrl {
                 return;
             }
             catch (err) {
+                console.log('ERR', err);
                 return next(ApiError_1.ApiError.internal(err.message));
             }
         });

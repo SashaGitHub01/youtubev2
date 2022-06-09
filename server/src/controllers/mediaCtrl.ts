@@ -45,11 +45,12 @@ class MediaCtrl {
                resource_type: "auto"
             },
             async (error: any, result: any) => {
+               console.log('ERROR', error)
                if (error || !result) {
                   return next(ApiError.badReq(error.message))
                }
                const url = result.secure_url;
-               console.log(result)
+
                return res.json({
                   data: {
                      url,
@@ -60,6 +61,7 @@ class MediaCtrl {
             }).end(file.buffer)
          return;
       } catch (err) {
+         console.log('ERR', err)
          return next(ApiError.internal(err.message))
       }
    }
