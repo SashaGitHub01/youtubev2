@@ -9,5 +9,7 @@ const passport_1 = __importDefault(require("passport"));
 const mediaCtrl_1 = require("../controllers/mediaCtrl");
 const multer_1 = require("../core/multer");
 exports.mediaRouter = express_1.default.Router();
-exports.mediaRouter.post('/:folder', passport_1.default.authenticate('jwt'), multer_1.upload.single('media'), mediaCtrl_1.mediaCtrl.media);
+exports.mediaRouter.post('/video', passport_1.default.authenticate('jwt'), multer_1.upload.single('media'), mediaCtrl_1.mediaCtrl.video);
+exports.mediaRouter.post('/previews', passport_1.default.authenticate('jwt'), multer_1.upload.single('media'), mediaCtrl_1.mediaCtrl.preview);
+exports.mediaRouter.post('/avatars', passport_1.default.authenticate('jwt'), multer_1.upload.single('media'), mediaCtrl_1.mediaCtrl.avatar);
 //# sourceMappingURL=mediaRouter.js.map
