@@ -49,11 +49,11 @@ class MediaCtrl {
                   return next(ApiError.badReq(error.message))
                }
                const url = result.secure_url;
-
+               console.log(result)
                return res.json({
                   data: {
                      url,
-                     name: result?.original_filename
+                     name: req.body.name || 'noname'
                   }
                })
 

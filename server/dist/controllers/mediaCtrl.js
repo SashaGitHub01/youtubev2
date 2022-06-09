@@ -55,10 +55,11 @@ class MediaCtrl {
                         return next(ApiError_1.ApiError.badReq(error.message));
                     }
                     const url = result.secure_url;
+                    console.log(result);
                     return res.json({
                         data: {
                             url,
-                            name: result === null || result === void 0 ? void 0 : result.original_filename
+                            name: req.body.name || 'noname'
                         }
                     });
                 })).end(file.buffer);
