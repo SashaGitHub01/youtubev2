@@ -292,6 +292,7 @@ class VideoCtrl {
    like = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
       try {
          const user = await User.findById(req.user);
+
          if (!user) {
             return next(ApiError.unauthorized('You are not authorized'))
          }

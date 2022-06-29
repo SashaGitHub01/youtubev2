@@ -24,6 +24,10 @@ const VideoReactions: React.FC<PropsWithChildren<VideoReactionsProps>> = ({ vide
             if (prev === 'like') {
                setLikesCount(pr => pr - 1)
                return null
+            } else if (prev === 'dislike') {
+               setLikesCount(pr => pr + 1)
+               setDislikesCount(pr => pr - 1)
+               return 'like'
             } else {
                setLikesCount(pr => pr + 1)
                return 'like'
@@ -42,6 +46,10 @@ const VideoReactions: React.FC<PropsWithChildren<VideoReactionsProps>> = ({ vide
             if (prev === 'dislike') {
                setDislikesCount(pr => pr - 1)
                return null
+            } else if (prev === 'like') {
+               setDislikesCount(pr => pr + 1)
+               setLikesCount(pr => pr - 1)
+               return 'dislike'
             } else {
                setDislikesCount(pr => pr + 1)
                return 'dislike'
@@ -67,10 +75,12 @@ const VideoReactions: React.FC<PropsWithChildren<VideoReactionsProps>> = ({ vide
    }, [user?.likes, user?.dislikes])
 
    const like = async () => {
+      if (!user?._id) return;
       await mutateLike()
    }
 
    const dislike = async () => {
+      if (!user?._id) return;
       await mutateDislike()
    }
 
@@ -80,7 +90,7 @@ const VideoReactions: React.FC<PropsWithChildren<VideoReactionsProps>> = ({ vide
             <button
                className="cursor-pointer flex items-center gap-1"
                onClick={like}
-               disabled={likeProcessing}
+               disabled={dislikeProcessing || likeProcessing}
             >
                {isReacted === 'like'
                   ? <LikeIcon className='text-xl' />
@@ -92,7 +102,7 @@ const VideoReactions: React.FC<PropsWithChildren<VideoReactionsProps>> = ({ vide
             <button
                className="cursor-pointer flex items-center gap-1"
                onClick={dislike}
-               disabled={dislikeProcessing}
+               disabled={dislikeProcessing || likeProcessing}
             >
                {isReacted === 'dislike'
                   ? <DislikeIcon className='text-xl' />
